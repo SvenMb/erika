@@ -17,6 +17,10 @@ import time
 
 import threading,os,stat
 
+import evdev
+from evdev import ecodes as e
+
+from erika.erika2uinput import erika2uinput as e2i
 
 
 def signed_byte(value):
@@ -34,6 +38,8 @@ class Erika:
         self.alive           = None
         self.threads         = []
         self.verbose         = verbose
+        self.kbd_name        = 'Erika devel 0.1'
+        self.echo            = False
 
     def open(self):
         self.serial.open()
@@ -73,7 +79,7 @@ class Erika:
         """Start kbd thread"""
         # start serial->console thread
         thread=threading.Thread(target=self.kbd, name='kbd')
-        # thread gets kiled when programs exit 
+        # thread gets killed when programs exit 
         thread.daemon = True
         thread.start()
         self.threads.append(thread)
@@ -112,25 +118,40 @@ class Erika:
             
     def kbd(self):
         """loop and copy serial->uinput"""
-        try:
-            while self.alive:
-                # read all that is there or wait for one byte
-                if (self.serial.inWaiting() > 0):
-                    data = self.serial.read()
-                    if data:
-                        if data == b'q':
-                            if self.verbose:
-                                print("\nquit")
-                            self.alive=False
-                        elif data == b'a':
-                            self.serial.write("A gedrueckt!\r\n".encode('utf-8'))
-                        else:
-                            print(chr(data[0]),end='',flush=True)
-                else:
-                    time.sleep(0.2)
-                    if self.verbose:
-                        print('tick',end='',flush=True)
-        except serial.SerialException:
-            self.alive = False
-            raise       # XXX handle instead of re-raise?
-    
+        # open uinput
+        with evdev.UInput(name=self.kbd_name) as  ui:
+            time.sleep(1) # wait for evdev.UInput() to settle
+            try:
+                # switch echo print off when typing
+                if not self.echo:
+                    self.serial.write(b'\x91')
+                while self.alive:
+                    # read all that is there or wait for one byte
+                    if (self.serial.inWaiting() > 0):
+                        data = self.serial.read()
+                        if data:
+                            kbd_data=data[0]
+                            print(hex(kbd_data),end='')
+                            # realisiere Umschaltung durch Code bei einigen Tasten
+                            if kbd_data==0xbb:
+                                data = self.serial.read()
+                                kbd_data=data[0]
+                                print("+",hex(kbd_data),end='',sep='')
+                                kbd_data += 0x40
+                            if e2i[kbd_data]:
+                                # Jetzt ist die richtige Taste gefunden
+                                print(":",e2i[kbd_data][0],flush=True)
+                                if len(e2i[kbd_data])>1:
+                                    print(e2i[kbd_data][1])
+                                else:
+                                    print("NO KEYS")
+                            else:
+                                # Tastencode nicht bekannt, warne
+                                print(": Unbekannt!",flush=True)
+                    else:
+                        time.sleep(0.2)
+                        if self.verbose:
+                            print('tick',end='',flush=True)
+            except serial.SerialException:
+                self.alive = False
+                raise       # XXX handle instead of re-raise?

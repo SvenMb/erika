@@ -79,7 +79,7 @@ def main(argv):
     # initialise hardware parameter
     e = Erika(serdev, baudrate, rtscts,lpsetperm,verbose)
     with e:
-        e.write("Hallo, ich drucke!\r\n".encode('ascii'))
+        # e.write("Hallo, ich drucke!\r\n".encode('ascii'))
         e.alive=True
         if not (keyboard=='none'or keyboard==None):
             e.start_kbd()

@@ -431,7 +431,7 @@ erika2uinput = [
     None,
     None,
     ['MODE T+'],
-    ['MODE T-'],
+    ['MODE T-',[e.KEY_LEFTALT,1,e.KEY_TAB,1,e.KEY_TAB,0,e.KEY_LEFTALT,0]],
     None,
     ['CODE backspace',[e.KEY_LEFTSHIFT,1,e.KEY_DELETE,1,e.KEY_DELETE,0,e.KEY_LEFTSHIFT,0]],
     ['2 zeilig (key)'],

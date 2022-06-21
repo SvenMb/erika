@@ -168,7 +168,7 @@ from evdev import ecodes as e
  """
 
 erika2uinput = [
-    # 0
+    # 00
     None,
     ['_',[e.KEY_LEFTSHIFT,1,e.KEY_SLASH,1,e.KEY_SLASH,0,e.KEY_LEFTSHIFT,0]],
     ['&',[e.KEY_LEFTSHIFT,1,e.KEY_6,1,e.KEY_6,0,e.KEY_LEFTSHIFT,0]],
@@ -185,7 +185,7 @@ erika2uinput = [
     ['0',[e.KEY_0,1,e.KEY_0,0]],
     ['4',[e.KEY_4,1,e.KEY_4,0]],
     ['3',[e.KEY_3,1,e.KEY_3,0]],
-    # 1
+    # 10
     ['2',[e.KEY_2,1,e.KEY_2,0]],
     ['1',[e.KEY_1,1,e.KEY_1,0]],
     ['H',[e.KEY_LEFTSHIFT,1,e.KEY_H,1,e.KEY_H,0,e.KEY_LEFTSHIFT,0]],
@@ -202,7 +202,7 @@ erika2uinput = [
     ['(',[e.KEY_LEFTSHIFT,1,e.KEY_8,1,e.KEY_8,0,e.KEY_LEFTSHIFT,0]],
     ['O',[e.KEY_LEFTSHIFT,1,e.KEY_O,1,e.KEY_O,0,e.KEY_LEFTSHIFT,0]],
     [')',[e.KEY_LEFTSHIFT,1,e.KEY_9,1,e.KEY_9,0,e.KEY_LEFTSHIFT,0]],
-    # 2
+    # 20
     ['C',[e.KEY_LEFTSHIFT,1,e.KEY_C,1,e.KEY_C,0,e.KEY_LEFTSHIFT,0]],
     ['I',[e.KEY_LEFTSHIFT,1,e.KEY_I,1,e.KEY_I,0,e.KEY_LEFTSHIFT,0]],
     ['V',[e.KEY_LEFTSHIFT,1,e.KEY_V,1,e.KEY_V,0,e.KEY_LEFTSHIFT,0]],
@@ -219,7 +219,7 @@ erika2uinput = [
     ['W',[e.KEY_LEFTSHIFT,1,e.KEY_W,1,e.KEY_W,0,e.KEY_LEFTSHIFT,0]],
     ['=',[e.KEY_LEFTSHIFT,1,e.KEY_0,1,e.KEY_0,0,e.KEY_LEFTSHIFT,0]],
     ['P',[e.KEY_LEFTSHIFT,1,e.KEY_P,1,e.KEY_P,0,e.KEY_LEFTSHIFT,0]],
-    # 3
+    # 30
     ['A',[e.KEY_LEFTSHIFT,1,e.KEY_A,1,e.KEY_A,0,e.KEY_LEFTSHIFT,0]],
     ['Y',[e.KEY_LEFTSHIFT,1,e.KEY_Z,1,e.KEY_Z,0,e.KEY_LEFTSHIFT,0]],
     ['J',[e.KEY_LEFTSHIFT,1,e.KEY_J,1,e.KEY_J,0,e.KEY_LEFTSHIFT,0]],
@@ -236,14 +236,14 @@ erika2uinput = [
     ['§',[e.KEY_LEFTSHIFT,1,e.KEY_3,1,e.KEY_3,0,e.KEY_LEFTSHIFT,0]],
     ['F',[e.KEY_LEFTSHIFT,1,e.KEY_F,1,e.KEY_F,0,e.KEY_LEFTSHIFT,0]],
     ['Ä',[e.KEY_LEFTSHIFT,1,e.KEY_APOSTROPHE,1,e.KEY_APOSTROPHE,0,e.KEY_LEFTSHIFT,0]],
-    # 4
+    # 40
     ['/',[e.KEY_LEFTSHIFT,1,e.KEY_7,1,e.KEY_7,0,e.KEY_LEFTSHIFT,0]],
     ['#',[e.KEY_BACKSLASH,1,e.KEY_BACKSLASH,0]],
     ['!',[e.KEY_LEFTSHIFT,1,e.KEY_1,1,e.KEY_1,0,e.KEY_LEFTSHIFT,0]],
     ['"',[e.KEY_LEFTSHIFT,1,e.KEY_2,1,e.KEY_2,0,e.KEY_LEFTSHIFT,0]],
-    ['é'],
-    ['ç'],
-    ['è'],
+    ['é',[e.KEY_EQUAL,1,e.KEY_EQUAL,0,e.KEY_E,1,e.KEY_E,0]],
+    ['ç',[e.KEY_RIGHTALT,1,e.KEY_EQUAL,1,e.KEY_EQUAL,0,e.KEY_RIGHTALT,0,e.KEY_C,1,e.KEY_C,0]],
+    ['è',[e.KEY_LEFTSHIFT,1,e.KEY_EQUAL,1,e.KEY_EQUAL,0,e.KEY_LEFTSHIFT,0,e.KEY_E,1,e.KEY_E,0]],
     ['ß',[e.KEY_MINUS,1,e.KEY_MINUS,0]],
     ['$',[e.KEY_LEFTSHIFT,1,e.KEY_4,1,e.KEY_4,0,e.KEY_LEFTSHIFT,0]],
     ['f',[e.KEY_F,1,e.KEY_F,0]],
@@ -253,7 +253,7 @@ erika2uinput = [
     ['l',[e.KEY_L,1,e.KEY_L,0]],
     ['b',[e.KEY_B,1,e.KEY_B,0]],
     ['v',[e.KEY_V,1,e.KEY_V,0]],
-    # 5
+    # 50
     ['k',[e.KEY_K,1,e.KEY_K,0]],
     ['y',[e.KEY_Z,1,e.KEY_Z,0]],
     ['q',[e.KEY_Q,1,e.KEY_Q,0]],
@@ -270,7 +270,7 @@ erika2uinput = [
     ['u',[e.KEY_U,1,e.KEY_U,0]],
     ['o',[e.KEY_O,1,e.KEY_O,0]],
     ['x',[e.KEY_X,1,e.KEY_X,0]],
-    # 6
+    # 60
     ['g',[e.KEY_G,1,e.KEY_G,0]],
     ['a',[e.KEY_A,1,e.KEY_A,0]],
     ['-',[e.KEY_SLASH,1,e.KEY_SLASH,0]],
@@ -287,24 +287,24 @@ erika2uinput = [
     None,
     None,
     None,
-    # 7
+    # 70
     None,
     ['Space',[e.KEY_SPACE,1,e.KEY_SPACE,0]],                 # 1 Zeichen rechts
-    ['backstep'],       # 1 Zeichen links
+    ['backstep',[e.KEY_INSERT,1,e.KEY_INSERT,0]],       # 1 Zeichen links
     None,               # 1/2 Zeichen rechts 
-    ['CODE backstep'],  # 1/2 Zeichen links
+    ['CODE backstep',[e.KEY_LEFTSHIFT,1,e.KEY_INSERT,1,e.KEY_INSERT,0,e.KEY_LEFTSHIFT,0]],  # 1/2 Zeichen links
     ['step down',[e.KEY_DOWN,1,e.KEY_DOWN,0]],      # 1/2 Zeile nach unten
     ['step up',[e.KEY_UP,1,e.KEY_UP,0]],        # 1/2 Zeile nach oben
     ['Return',[e.KEY_ENTER,1,e.KEY_ENTER,0]],         # CR+LF
     None,               # CR
     ['Tab',[e.KEY_TAB,1,e.KEY_TAB,0]],            # next Tab
-    ['T+'],             # Tab setzen
-    ['T-'],             # Tab löschen
-    ['CODE T-'],        # alle Tab löschen 
+    ['T+',[e.KEY_PAGEUP,1,e.KEY_PAGEUP,0]],             # Tab setzen
+    ['T-',[e.KEY_PAGEDOWN,1,e.KEY_PAGEDOWN,0]],             # Tab löschen
+    ['CODE T-',[e.KEY_LEFTSHIFT,1,e.KEY_TAB,1,e.KEY_TAB,0,e.KEY_LEFTSHIFT,0]],        # alle Tab löschen 
     ['CODE T+'],        # Standardtabs setzen
     ['Set Rand links',[e.KEY_ESC,1,e.KEY_ESC,0]], # Rand links setzen
-    ['Set Rand rechts'],# Rand rechts setzen
-    # 8
+    ['Set Rand rechts',[e.KEY_LEFTCTRL,1,e.KEY_ESC,1,e.KEY_ESC,0,e.KEY_LEFTCTRL,0]],# Rand rechts setzen
+    # 80
     ['Rand lösen'],     # Rand lösen
     ['CODE step down',[e.KEY_LEFT,1,e.KEY_LEFT,0]], # 1/20 Zeile nach unten
     ['CODE step up',[e.KEY_RIGHT,1,e.KEY_RIGHT,0]],   # 1/20 Zeile nach oben
@@ -321,7 +321,7 @@ erika2uinput = [
     None,               # Rückwärtsdruck aus
     None,               # Rückwärtsdruck an
     None,               # Randlösen dauerhaft an
-    # 9
+    # 90
     None,               # Randlösen dauerhaft aus 
     None,               # echo off
     None,               # echo on
@@ -338,7 +338,7 @@ erika2uinput = [
     None,
     ['CODE S',[e.KEY_LEFTCTRL,1,e.KEY_S,1,e.KEY_S,0,e.KEY_LEFTCTRL,0]],
     None,
-    # A
+    # A0
     None,
     None,
     None,
@@ -355,7 +355,7 @@ erika2uinput = [
     None,
     None,
     None,
-    # B
+    # B0
     None,
     None,
     None,
@@ -372,58 +372,58 @@ erika2uinput = [
     None,
     None,
     None,
-    # C
-    ['MODE 1'],
-    ['MODE Q'], # @
+    # C0
+    ['MODE 1',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F1,1,e.KEY_F1,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
+    ['MODE Q',[e.KEY_RIGHTALT,1,e.KEY_Q,1,e.KEY_Q,0,e.KEY_RIGHTALT,0]], # @
     ['MODE A'],
     ['MODE Y'],
-    ['MODE 2'],
+    ['MODE 2',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F2,1,e.KEY_F2,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
     ['MODE W'],
     ['MODE S'],
     ['MODE X'],
-    ['MODE 3'],
-    ['MODE E'], # €
+    ['MODE 3',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F3,1,e.KEY_F3,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
+    ['MODE E',[e.KEY_RIGHTALT,1,e.KEY_E,1,e.KEY_E,0,e.KEY_RIGHTALT,0]], # €
     ['MODE D'], 
     ['MODE C'],
-    ['MODE 4'],
+    ['MODE 4',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F4,1,e.KEY_F4,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
     ['MODE R'],
     ['MODE F'],
     ['MODE V'],
-    # D
-    ['MODE 5'],
+    # D0
+    ['MODE 5',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F5,1,e.KEY_F5,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
     ['MODE T'],
     ['MODE G'],
     ['MODE B'],
-    ['MODE 6'],
+    ['MODE 6',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F6,1,e.KEY_F6,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
     ['MODE Z'],
     ['MODE H'],
     ['MODE N'],
-    ['MODE 7'],
+    ['MODE 7',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F7,1,e.KEY_F7,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
     ['MODE U'],
     ['MODE J'],
     ['MODE M'],
-    ['MODE 8'],
+    ['MODE 8',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F8,1,e.KEY_F8,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
     ['MODE I'],
     ['MODE K'],
-    ['MODE ,'],
-    # E
-    ['MODE 9'],
+    ['MODE ,',[e.KEY_102ND,1,e.KEY_102ND,0]],
+    # E0
+    ['MODE 9',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F9,1,e.KEY_F9,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
     ['MODE O'],
     ['MODE L'],
-    ['MODE .'],
-    ['MODE 0'],
-    ['MODE P'],
-    ['MODE Ö'],
-    ['MODE -'],
-    ['MODE ß'],
-    ['MODE Ü'],
-    ['MODE Ä'],
-    ['REL'],
-    ['MODE acutes'],
-    [13],
-    ['CODE REL'],
-    [15],
-    # F
+    ['MODE .',[e.KEY_LEFTSHIFT,1,e.KEY_102ND,1,e.KEY_102ND,0,e.KEY_LEFTSHIFT,0]],
+    ['MODE 0',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F10,1,e.KEY_F10,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
+    ['MODE P',[e.KEY_RIGHTALT,1,e.KEY_7,1,e.KEY_7,0,e.KEY_RIGHTALT,0]],
+    ['MODE Ö',[e.KEY_RIGHTALT,1,e.KEY_8,1,e.KEY_8,0,e.KEY_RIGHTALT,0]],
+    ['MODE -',[e.KEY_LEFTCTRL,1,e.KEY_LEFTSHIFT,1,e.KEY_SLASH,1,e.KEY_SLASH,0,e.KEY_LEFTSHIFT,0,e.KEY_LEFTCTRL,0]],
+    ['MODE ß',[e.KEY_RIGHTALT,1,e.KEY_MINUS,1,e.KEY_MINUS,0,e.KEY_RIGHTALT,0]],
+    ['MODE Ü',[e.KEY_RIGHTALT,1,e.KEY_0,1,e.KEY_0,0,e.KEY_RIGHTALT,0]],
+    ['MODE Ä',[e.KEY_RIGHTALT,1,e.KEY_9,1,e.KEY_9,0,e.KEY_RIGHTALT,0]],
+    ['REL',[e.KEY_HOME,1,e.KEY_HOME,0]],
+    ['MODE acutes',[e.KEY_RIGHTALT,1,e.KEY_RIGHTBRACE,1,e.KEY_RIGHTBRACE,0,e.KEY_RIGHTALT,0]],
+    None,
+    ['CODE REL',[e.KEY_END,1,e.KEY_END,0]],
+    None,
+    # F0
     None,
     None,
     None,
@@ -431,16 +431,16 @@ erika2uinput = [
     ['MODE T+'],
     ['MODE T-'],
     None,
-    ['CODE backspace',[e.KEY_DELETE,1,e.KEY_DELETE,0]],
+    ['CODE backspace',[e.KEY_LEFTSHIFT,1,e.KEY_DELETE,1,e.KEY_DELETE,0,e.KEY_LEFTSHIFT,0]],
     ['2 zeilig (key)'],
     ['1 zeilig (key)'],
     ['10 CPI'],
-    ['MODE backspace'],
+    ['MODE backspace',[e.KEY_DELETE,1,e.KEY_DELETE,0]],
     ['backspace',[e.KEY_BACKSPACE,1,e.KEY_BACKSPACE,0]],
     ['MODE form feed'],
     ['1,5 zeilig (key)'],
     ['12 CPI'],
-    # 10
+    # 100
     None,
     ['CODE Q',[e.KEY_LEFTCTRL,1,e.KEY_Q,1,e.KEY_Q,0,e.KEY_LEFTCTRL,0]],
     ['CODE A',[e.KEY_LEFTCTRL,1,e.KEY_A,1,e.KEY_A,0,e.KEY_LEFTCTRL,0]],
@@ -457,7 +457,7 @@ erika2uinput = [
     ['CODE R',[e.KEY_LEFTCTRL,1,e.KEY_R,1,e.KEY_R,0,e.KEY_LEFTCTRL,0]],
     ['CODE F',[e.KEY_LEFTCTRL,1,e.KEY_F,1,e.KEY_F,0,e.KEY_LEFTCTRL,0]],
     ['CODE V',[e.KEY_LEFTCTRL,1,e.KEY_V,1,e.KEY_V,0,e.KEY_LEFTCTRL,0]],
-    # 11
+    # 110
     None,
     ['CODE T',[e.KEY_LEFTCTRL,1,e.KEY_T,1,e.KEY_T,0,e.KEY_LEFTCTRL,0]],
     ['CODE G',[e.KEY_LEFTCTRL,1,e.KEY_G,1,e.KEY_G,0,e.KEY_LEFTCTRL,0]],
@@ -473,17 +473,17 @@ erika2uinput = [
     None,
     ['CODE I',[e.KEY_LEFTCTRL,1,e.KEY_I,1,e.KEY_I,0,e.KEY_LEFTCTRL,0]],
     ['CODE K',[e.KEY_LEFTCTRL,1,e.KEY_K,1,e.KEY_K,0,e.KEY_LEFTCTRL,0]],
-    ['CODE ,'],
-    # 12
+    None,
+    # 120
     None,
     ['CODE O',[e.KEY_LEFTCTRL,1,e.KEY_O,1,e.KEY_O,0,e.KEY_LEFTCTRL,0]],
     ['CODE L',[e.KEY_LEFTCTRL,1,e.KEY_L,1,e.KEY_L,0,e.KEY_LEFTCTRL,0]],
-    ['CODE .'],
+    None,
     None,
     ['CODE P',[e.KEY_LEFTCTRL,1,e.KEY_P,1,e.KEY_P,0,e.KEY_LEFTCTRL,0]],
-    ['CODE Ö'],
+    ['CODE Ö',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_8,1,e.KEY_8,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]],
     None,
     None,
-    ['CODE Ü'],
-    ['CODE Ä']
+    ['CODE Ü',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_MINUS,1,e.KEY_MINUS,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]],
+    ['CODE Ä',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_9,1,e.KEY_9,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]]
 ]

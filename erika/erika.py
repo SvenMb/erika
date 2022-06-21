@@ -165,6 +165,19 @@ class Erika:
                                 else:
                                     if self.verbose:
                                         print("NO KEYS",flush=True)
+                                    if kbd_data == 0x83:
+                                        if self.verbose:
+                                            print("Form Feed")
+                                        self.serial.write(b'\x83')
+                                    elif kbd_data == 0xf4:
+                                        if self.echo:
+                                            self.echo = False
+                                            self.serial.write(b'\x91')
+                                        else:
+                                            self.echo = True
+                                            self.serial.write(b'\x92')
+                                        if self.verbose:
+                                            print("Echo",self.echo)
                             else:
                                 # erika code not defined
                                 print("Error",kbd_data,"unknown!",flush=True)

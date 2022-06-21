@@ -65,7 +65,7 @@ def main(argv):
             wheel = arg
         elif opt in ('-s', '--setperm'):
             lpsetperm = arg
-        elif opt == '-v':
+        elif opt in ('-v', '--verbose'):
             verbose=True
             
     # info about current options         

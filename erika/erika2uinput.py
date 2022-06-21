@@ -1,6 +1,8 @@
 from evdev import ecodes as e
 
 """
+
+ecodes:
  Event type 1 (EV_KEY)
     Event code 1 (KEY_ESC)
     Event code 2 (KEY_1)
@@ -396,20 +398,20 @@ erika2uinput = [
     ['MODE B'],
     ['MODE 6',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F6,1,e.KEY_F6,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
     ['MODE Z'],
-    ['MODE H'],
+    ['MODE H',[e.KEY_LEFTSHIFT,1,e.KEY_LEFT,1,e.KEY_LEFT,0,e.KEY_LEFTSHIFT,0]],
     ['MODE N'],
     ['MODE 7',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F7,1,e.KEY_F7,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
     ['MODE U'],
-    ['MODE J'],
+    ['MODE J',[e.KEY_LEFTSHIFT,1,e.KEY_DOWN,1,e.KEY_DOWN,0,e.KEY_LEFTSHIFT,0]],
     ['MODE M'],
     ['MODE 8',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F8,1,e.KEY_F8,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
     ['MODE I'],
-    ['MODE K'],
+    ['MODE K',[e.KEY_LEFTSHIFT,1,e.KEY_UP,1,e.KEY_UP,0,e.KEY_LEFTSHIFT,0]],
     ['MODE ,',[e.KEY_102ND,1,e.KEY_102ND,0]],
     # E0
     ['MODE 9',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F9,1,e.KEY_F9,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
     ['MODE O'],
-    ['MODE L'],
+    ['MODE L',[e.KEY_LEFTSHIFT,1,e.KEY_RIGHT,1,e.KEY_RIGHT,0,e.KEY_LEFTSHIFT,0]],
     ['MODE .',[e.KEY_LEFTSHIFT,1,e.KEY_102ND,1,e.KEY_102ND,0,e.KEY_LEFTSHIFT,0]],
     ['MODE 0',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F10,1,e.KEY_F10,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
     ['MODE P',[e.KEY_RIGHTALT,1,e.KEY_7,1,e.KEY_7,0,e.KEY_RIGHTALT,0]],

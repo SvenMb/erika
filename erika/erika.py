@@ -142,7 +142,14 @@ class Erika:
                                 # Jetzt ist die richtige Taste gefunden
                                 print(":",e2i[kbd_data][0],flush=True)
                                 if len(e2i[kbd_data])>1:
-                                    print(e2i[kbd_data][1])
+                                    key_lst=e2i[kbd_data][1]
+                                    lenght=len(key_lst)
+                                    i=0
+                                    while i < lenght:
+                                        print(key_lst[i],key_lst[i+1],sep='=>')
+                                        ui.write(e.EV_KEY,key_lst[i],key_lst[i+1])
+                                        i += 2
+                                    ui.syn()
                                 else:
                                     print("NO KEYS")
                             else:

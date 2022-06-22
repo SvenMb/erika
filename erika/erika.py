@@ -167,7 +167,7 @@ class Erika:
                 self.alive = False
                 raise       # maybe serial device is removed
 
-    def xkey(kbd_data):
+    def xkey(self, kbd_data):
         """decode special keys"""
         if kbd_data == 0x83:
             # Form Feed

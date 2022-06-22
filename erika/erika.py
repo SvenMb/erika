@@ -94,6 +94,7 @@ class Erika:
                         #    print('lp-tick',end='',flush=True)
                         time.sleep(1)
                     else:
+                        self.alive = False
                         break
         except serial.SerialException:
             self.alive = False
@@ -110,7 +111,9 @@ class Erika:
             time.sleep(1) # wait for evdev.UInput() to settle
             try:
                 # switch echo print off when typing
-                if not self.echo:
+                if self.echo:
+                    self.serial.write(b'\x92')
+                else:
                     self.serial.write(b'\x91')
                 while self.alive:
                     # read all that is there or wait for one byte
@@ -148,21 +151,10 @@ class Erika:
                                     if self.verbose:
                                         print(flush=True)
                                 else:
+                                    # no keycodes defined, maybe a special key
                                     if self.verbose:
                                         print("NO KEYS",flush=True)
-                                    if kbd_data == 0x83:
-                                        if self.verbose:
-                                            print("Form Feed")
-                                        self.serial.write(b'\x83')
-                                    elif kbd_data == 0xf4:
-                                        if self.echo:
-                                            self.echo = False
-                                            self.serial.write(b'\x91')
-                                        else:
-                                            self.echo = True
-                                            self.serial.write(b'\x92')
-                                        if self.verbose:
-                                            print("Echo",self.echo)
+                                    self.xkey(kbd_data)
                             else:
                                 # erika code not defined
                                 print("Error",kbd_data,"unknown!",flush=True)
@@ -174,3 +166,61 @@ class Erika:
             except serial.SerialException:
                 self.alive = False
                 raise       # maybe serial device is removed
+
+    def xkey(kbd_data):
+        """decode special keys"""
+        if kbd_data == 0x83:
+            # Form Feed
+            if self.verbose:
+                print("Form Feed")
+            self.serial.write(b'\x83')
+        elif kbd_data == 0xf4:
+            # Mode T+
+            if self.echo:
+                self.echo = False
+                self.serial.write(b'\x91')
+            else:
+                self.echo = True
+                self.serial.write(b'\x92')
+            if self.verbose:
+                print("Echo",self.echo)
+        # Mouse movement
+        elif kbd_data == 0xc5:
+            # Mode W - Mouse up
+            if self.verbose:
+                print("Mouse up")
+        elif kbd_data == 0xc6:
+            # Mode S - Mouse down
+            if self.verbose:
+                print("Mouse down")
+        elif kbd_data == 0xc2:
+            # Mode A - Mouse left
+            if self.verbose:
+                print("Mouse left")
+        elif kbd_data == 0xca:
+            # Mode D - Mouse right
+            if self.verbose:
+                print("Mouse right")
+        elif kbd_data == 0xc3:
+            # Mode Y - Mouse BTN left
+            if self.verbose:
+                print("Mouse BTN left")
+        elif kbd_data == 0xc5:
+            # Mode X - Mouse BTN left - Switch
+            if self.m_btn_left:
+                self.m_btn_left=False
+            else:
+                self.m_btn_left=True
+            if self.verbose:
+                print("Mouse BTN left", self.m_btn_left)
+        elif kbd_data == 0xcB:
+            # Mode C - Mouse BTN right
+            print("Mouse BTN right")
+        elif kbd_data == 0xcF:
+            # Mode V - Mouse BTN right - Switch
+            if self.m_btn_right:
+                self.m_btn_right=False
+            else:
+                self.m_btn_right=True
+            if self.verbose:
+                print("Mouse BTN right", self.m_btn_right)

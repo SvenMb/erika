@@ -72,12 +72,12 @@ class Erika:
         # create pts and print name (later link it"""
         master,vserial = os.openpty()
         vs_name = os.ttyname(vserial)
-        if not not self.lpsetperm: # not empty string
-            os.system(self.lpsetperm + " " + vs_name)
-            if self.verbose:
-                print("starte",self.lpsetperm)
         if self.verbose:
-            print("erika-device :",vs_name)
+            print("lp-device    :",vs_name)
+        if not not self.lpsetperm: # not empty string
+            if self.verbose:
+                print("start setperm:",self.lpsetperm,vs_name)
+            os.system(self.lpsetperm + " " + vs_name)
         try:
             os.set_blocking(master,False)
             while self.alive:

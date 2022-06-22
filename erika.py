@@ -82,6 +82,8 @@ def main(argv):
         print('Keyboard     :', keyboard)
         print('Daisy wheel  :', wheel)
         print('lpsetperm prg:', lpsetperm)
+        print('echo         :', echo)
+        
         
     # initialise hardware parameter
     e = Erika(serdev, baudrate, rtscts,lpsetperm,verbose,echo)

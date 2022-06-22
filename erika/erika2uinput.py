@@ -1,8 +1,7 @@
 from evdev import ecodes as e
 
 """
-
-ecodes:
+possible ecodes:
  Event type 1 (EV_KEY)
     Event code 1 (KEY_ESC)
     Event code 2 (KEY_1)
@@ -169,6 +168,9 @@ ecodes:
     Event code 240 (KEY_UNKNOWN)
  """
 
+# array for erika code to label and list of keycodes 0x00-0xFF) are for native erika codes
+# from 256 (0x100-0x12A) is for 0xbb excaped codes -0xC0, these are done with code key on
+# that typewriter  
 erika2uinput = [
     # 00
     None,

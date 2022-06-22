@@ -110,8 +110,14 @@ class Erika:
         """loop and copy serial->uinput"""
         # for versoe output
         keystat=['UP','DOWN']
+        # define mouse capabilities
+        # # have to use two input device, since I could not get a merged one going 
+        cap = {
+         e.EV_REL : (e.REL_X, e.REL_Y),
+         e.EV_KEY : (e.BTN_LEFT, e.BTN_MIDDLE, e.BTN_RIGHT),
+        }
         # open uinput
-        with evdev.UInput(name=self.kbd_name) as  ui:
+        with evdev.UInput(name=self.kbd_name) as  ui, evdev.UInput(name=self.kbd_name+' mouse') as mui:
             time.sleep(1) # wait for evdev.UInput() to settle
             try:
                 # switch echo print off when typing
@@ -160,7 +166,7 @@ class Erika:
                                     # no keycodes defined, maybe a special key
                                     if self.verbose:
                                         print("NO KEYS",flush=True)
-                                    self.xkey(kbd_data)
+                                    self.xkey(kbd_data,mui)
                             else:
                                 # erika code not defined
                                 print("Error",kbd_data,"unknown!",flush=True)
@@ -173,7 +179,7 @@ class Erika:
                 self.alive = False
                 raise       # maybe serial device is removed
 
-    def xkey(self, kbd_data):
+    def xkey(self, kbd_data,mui):
         """decode special keys"""
         if kbd_data == 0xf4:
             # Mode T+
@@ -198,38 +204,51 @@ class Erika:
             # Mode W - Mouse up
             if self.verbose:
                 print("Mouse up")
+            mui.write(e.EV_REL,e.REL_Y,-1)
         elif kbd_data == 0xc6:
             # Mode S - Mouse down
             if self.verbose:
                 print("Mouse down")
+            mui.write(e.EV_REL,e.REL_Y,1)
         elif kbd_data == 0xc2:
             # Mode A - Mouse left
             if self.verbose:
                 print("Mouse left")
+            mui.write(e.EV_REL,e.REL_X,-1)
         elif kbd_data == 0xca:
             # Mode D - Mouse right
             if self.verbose:
                 print("Mouse right")
+            mui.write(e.EV_REL,e.REL_X,1)
         elif kbd_data == 0xc3:
             # Mode Y - Mouse BTN left
             if self.verbose:
                 print("Mouse BTN left")
+            mui.write(e.EV_KEY,e.BTN_LEFT,1)
+            mui.write(e.EV_KEY,e.BTN_LEFT,0)
         elif kbd_data == 0xc7:
             # Mode X - Mouse BTN left - Switch
             if self.m_btn_left:
                 self.m_btn_left=False
+                mui.write(e.EV_KEY,e.BTN_LEFT,0)
             else:
                 self.m_btn_left=True
+                mui.write(e.EV_KEY,e.BTN_LEFT,1)
             if self.verbose:
                 print("Mouse BTN left", self.m_btn_left)
         elif kbd_data == 0xcB:
             # Mode C - Mouse BTN right
-            print("Mouse BTN right")
+            if self.verbose:
+                print("Mouse BTN right")
+            mui.write(e.EV_KEY,e.BTN_RIGHT,1)
+            mui.write(e.EV_KEY,e.BTN_RIGHT,0)
         elif kbd_data == 0xcF:
             # Mode V - Mouse BTN right - Switch
             if self.m_btn_right:
                 self.m_btn_right=False
+                mui.write(e.EV_KEY,e.BTN_RIGHT,0)
             else:
                 self.m_btn_right=True
+                mui.write(e.EV_KEY,e.BTN_RIGHT,1)
             if self.verbose:
                 print("Mouse BTN right", self.m_btn_right)

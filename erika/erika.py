@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 
@@ -8,10 +7,6 @@
 #  
 #  
 
-import struct
-from typing import Optional
-
-# import sys
 import serial
 import time
 
@@ -23,12 +18,8 @@ from evdev import ecodes as e
 from erika.erika2uinput import erika2uinput as e2i
 
 
-def signed_byte(value):
-    return struct.pack("b", value)
-
-
 class Erika:
-    def __init__(self, serdev, baudrate, rtscts, setperm, verbose):
+    def __init__(self, serdev, baudrate, rtscts, setperm, verbose, echo):
         self.serial          = serial.Serial()
         self.serial.port     = serdev
         self.serial.baudrate = baudrate
@@ -38,9 +29,8 @@ class Erika:
         self.alive           = None
         self.threads         = []
         self.verbose         = verbose
-        self.kbd_name        = 'Erika devel 0.1'
-        self.echo            = False
-        # debug
+        self.kbd_name        = 'Erika kbd 0.1'
+        self.echo            = echo
 
     def open(self):
         self.serial.open()
@@ -57,17 +47,7 @@ class Erika:
     def __exit__(self, *args):
         self.close()
 
-    ##########################
-
-    def read(self) -> bytes:
-        """read bytes[0] (one byte) from serial"""
-        return self.serial.read()
-
-    def write(self, data: bytes) -> Optional[int]:
-        """write byte array to serial"""
-        return self.serial.write(data)
-    
-    ##########################
+    ###########################
     
     def start_lp(self):
         """Start lp thread"""
@@ -84,6 +64,8 @@ class Erika:
         thread.daemon = True
         thread.start()
         self.threads.append(thread)
+
+    ###########################
         
     def lp(self):
         """loop and copy pts->serial"""
@@ -109,14 +91,16 @@ class Erika:
                 except OSError as e:
                     if e.errno == 11:
                         #if self.verbose:
-                        #    print('tack',end='',flush=True)
-                        time.sleep(0.5)
+                        #    print('lp-tick',end='',flush=True)
+                        time.sleep(1)
                     else:
                         break
         except serial.SerialException:
             self.alive = False
-            raise       # XXX handle instead of re-raise?
-            
+            raise       # maybe serial device is removed
+
+    ###########################
+
     def kbd(self):
         """loop and copy serial->uinput"""
         # for versoe output
@@ -138,6 +122,7 @@ class Erika:
                             if self.verbose:
                                 print("erika:",hex(kbd_data),end='')
                             # realisiere Umschaltung durch Code bei einigen Tasten
+                            # warning this might block if there is no serial byte anymore
                             if kbd_data==0xbb:
                                 data = self.serial.read()
                                 kbd_data=data[0]
@@ -185,7 +170,7 @@ class Erika:
                         # no serial data, just wait a bit
                         time.sleep(0.2)
                         # if self.verbose:
-                        #    print('tick',end='',flush=True)
+                        #    print('kbd-tick',end='',flush=True)
             except serial.SerialException:
                 self.alive = False
-                raise       # XXX handle instead of re-raise?
+                raise       # maybe serial device is removed

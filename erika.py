@@ -7,6 +7,7 @@
 #  
 #  
 
+from telnetlib import ECHO
 from erika.erika import Erika
 import sys, getopt
 
@@ -20,28 +21,32 @@ def main(argv):
     wheel='german_courier'
     lpsetperm='sudo ./setperm.sh'
     verbose=False
+    echo=False
     
     # load from config file... not implemented yet
     
     # comand line args
     try:
-        opts, args = getopt.getopt(argv,"hvd:b:k:w:p:s:",["help=","verbose=","device=","baudrate=","keyboard=",'wheel=','paper=','setperm='])
+        opts, args = getopt.getopt(argv,"hved:b:k:w:p:s:",
+            ["help","verbose","echo","device=","baudrate=","keyboard=",'wheel=','paper=','setperm='])
     except getopt.GetoptError:
         print('erika.py argument error')
         print('use erika.py -h for help')
         sys.exit(2)
     for opt, arg in opts:
-        if opt == '-h':
+        if opt in ('-h', '--help'):
             print('erika.py\n')
             print('USAGE:')
             print('\terika.py [OPTIONS]\n')
             print('OPTIONS:')
             print('\t-h, --help\t\tprint help information')
             print('\t-v, --verbose\t\tbe more verbose')
+            print('\t-e, --echo\t\tconnect keyboard to typewriter')
             print('\t-d, --device <device>\tserial device to use')
             print('\t\tExample device name: /dev/ttyAMA0 or /dev/ttyUSB0')
             print('\t\tdefault: ', serdev )
             print('\t-b, --baudrate <rate>\tbaudrate for erika')
+            print('\t\terika manual says don\'t change!')
             print('\t\tExample baudrate: 1200')
             print('\t\tdefault: ', baudrate )
             print('\t-k, --keyboard <map>\tkeyboard map to use')
@@ -55,6 +60,8 @@ def main(argv):
             print('\t\tExample: sudo lp_setperm')
             print('\t\tdefault: ', lpsetperm )
             sys.exit()
+        elif opt in ('-e','--echo'):
+            echo = True
         elif opt in ('-d', '--device'):
             serdev = arg
         elif opt in ('-b', '--baudrate'):
@@ -77,9 +84,8 @@ def main(argv):
         print('lpsetperm prg:', lpsetperm)
         
     # initialise hardware parameter
-    e = Erika(serdev, baudrate, rtscts,lpsetperm,verbose)
+    e = Erika(serdev, baudrate, rtscts,lpsetperm,verbose,echo)
     with e:
-        # e.write("Hallo, ich drucke!\r\n".encode('ascii'))
         e.alive=True
         if not (keyboard=='none'or keyboard==None):
             e.start_kbd()

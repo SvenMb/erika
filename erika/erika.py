@@ -33,8 +33,8 @@ class Erika:
         self.echo            = echo
 
         # button state
-        m_btn_left          = False
-        m_btn_right         = False
+        self.m_btn_left          = False
+        self.m_btn_right         = False
 
     def open(self):
         self.serial.open()

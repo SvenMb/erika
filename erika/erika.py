@@ -32,6 +32,10 @@ class Erika:
         self.kbd_name        = 'Erika kbd 0.1'
         self.echo            = echo
 
+        # button state
+        m_btn_left          = False
+        m_btn_right         = False
+
     def open(self):
         self.serial.open()
 
@@ -138,6 +142,8 @@ class Erika:
                                     print(" =>",e2i[kbd_data][0],flush=True)
                                 if len(e2i[kbd_data])>1:
                                     # there are keycodes defined
+                                    if self.echo:
+                                        continue
                                     key_lst=e2i[kbd_data][1]
                                     lenght=len(key_lst)
                                     i=0
@@ -205,7 +211,7 @@ class Erika:
             # Mode Y - Mouse BTN left
             if self.verbose:
                 print("Mouse BTN left")
-        elif kbd_data == 0xc5:
+        elif kbd_data == 0xc7:
             # Mode X - Mouse BTN left - Switch
             if self.m_btn_left:
                 self.m_btn_left=False

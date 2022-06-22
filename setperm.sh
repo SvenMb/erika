@@ -8,4 +8,5 @@ if ! [ -d /dev/erika ]; then
   chgrp lp /dev/erika
 fi
 ln -fs $1 /dev/erika/erika
+echo "lp sym-name  : /dev/erika/erika"
 

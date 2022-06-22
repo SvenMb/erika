@@ -31,6 +31,7 @@ class Erika:
         self.verbose         = verbose
         self.kbd_name        = 'Erika kbd 0.1'
         self.echo            = echo
+        self.step            = 1
 
         # button state
         self.m_btn_left          = False
@@ -117,8 +118,10 @@ class Erika:
          e.EV_KEY : (e.BTN_LEFT, e.BTN_MIDDLE, e.BTN_RIGHT),
         }
         # open uinput
-        with evdev.UInput(name=self.kbd_name) as  ui, evdev.UInput(name=self.kbd_name+' mouse') as mui:
+        with evdev.UInput(name=self.kbd_name) as  ui, evdev.UInput(cap,name=self.kbd_name+' mouse') as mui:
             time.sleep(1) # wait for evdev.UInput() to settle
+            if self.verbose:
+                print(mui.capabilities())
             try:
                 # switch echo print off when typing
                 if self.echo:
@@ -165,7 +168,7 @@ class Erika:
                                 else:
                                     # no keycodes defined, maybe a special key
                                     if self.verbose:
-                                        print("NO KEYS",flush=True)
+                                        print("NO KEYS - start xkey",flush=True)
                                     self.xkey(kbd_data,mui)
                             else:
                                 # erika code not defined
@@ -200,26 +203,36 @@ class Erika:
                 print("Form Feed")
             self.serial.write(b'\x83')
         # Mouse movement
+        elif kbd_data ==0x7d:
+            # Code T+ - adjust step
+            if self.step == 1:
+                self.step=8
+            elif self.step == 8:
+                self.step=32
+            else:
+                self.step=1
+            if self.verbose:
+                print("Mouse step:",self.step)
         elif kbd_data == 0xc5:
             # Mode W - Mouse up
             if self.verbose:
                 print("Mouse up")
-            mui.write(e.EV_REL,e.REL_Y,-1)
+            mui.write(e.EV_REL,e.REL_Y,-1*self.step)
         elif kbd_data == 0xc6:
             # Mode S - Mouse down
             if self.verbose:
                 print("Mouse down")
-            mui.write(e.EV_REL,e.REL_Y,1)
+            mui.write(e.EV_REL,e.REL_Y,self.step)
         elif kbd_data == 0xc2:
             # Mode A - Mouse left
             if self.verbose:
                 print("Mouse left")
-            mui.write(e.EV_REL,e.REL_X,-1)
+            mui.write(e.EV_REL,e.REL_X,-1*self.step)
         elif kbd_data == 0xca:
             # Mode D - Mouse right
             if self.verbose:
                 print("Mouse right")
-            mui.write(e.EV_REL,e.REL_X,1)
+            mui.write(e.EV_REL,e.REL_X,self.step)
         elif kbd_data == 0xc3:
             # Mode Y - Mouse BTN left
             if self.verbose:

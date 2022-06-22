@@ -175,12 +175,7 @@ class Erika:
 
     def xkey(self, kbd_data):
         """decode special keys"""
-        if kbd_data == 0x83:
-            # Form Feed
-            if self.verbose:
-                print("Form Feed")
-            self.serial.write(b'\x83')
-        elif kbd_data == 0xf4:
+        if kbd_data == 0xf4:
             # Mode T+
             if self.echo:
                 self.echo = False
@@ -190,6 +185,14 @@ class Erika:
                 self.serial.write(b'\x92')
             if self.verbose:
                 print("Echo",self.echo)
+            return
+        if self.echo:
+            return
+        if kbd_data == 0x83:
+            # Form Feed
+            if self.verbose:
+                print("Form Feed")
+            self.serial.write(b'\x83')
         # Mouse movement
         elif kbd_data == 0xc5:
             # Mode W - Mouse up

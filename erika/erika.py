@@ -224,6 +224,7 @@ class Erika:
             # Mode Y - Mouse BTN left
             if self.verbose:
                 print("Mouse BTN left")
+            self.m_btn_left=False
             mui.write(e.EV_KEY,e.BTN_LEFT,1)
             mui.write(e.EV_KEY,e.BTN_LEFT,0)
         elif kbd_data == 0xc7:
@@ -252,3 +253,4 @@ class Erika:
                 mui.write(e.EV_KEY,e.BTN_RIGHT,1)
             if self.verbose:
                 print("Mouse BTN right", self.m_btn_right)
+        mui.syn()

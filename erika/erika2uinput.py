@@ -390,8 +390,8 @@ erika2uinput = [
     ['MODE D'], 
     ['MODE C'],
     ['MODE 4',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F4,1,e.KEY_F4,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
-    ['MODE R'],
-    ['MODE F'],
+    ['MODE R',[e.KEY_F5,1,e.KEY_F5,0]],
+    ['MODE F',[e.KEY_F3,1,e.KEY_F3,0]],
     ['MODE V'],
     # D0
     ['MODE 5',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F5,1,e.KEY_F5,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],

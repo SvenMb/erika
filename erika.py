@@ -70,8 +70,8 @@ def main(argv):
             baudrate = arg
         elif opt in ('-k', '--keyboard'):
             keyboard = arg
-        elif opt in ('-w', '--wheel'):
-            wheel = arg
+        # elif opt in ('-w', '--wheel'):
+        #     wheel = arg
         elif opt in ('-s', '--setperm'):
             lpsetperm = arg
         elif opt in ('-v', '--verbose'):
@@ -82,7 +82,7 @@ def main(argv):
         print('Serial device:', serdev)
         print('Baudrate     :', baudrate)
         print('Keyboard     :', keyboard)
-        print('Daisy wheel  :', wheel)
+    #    print('Daisy wheel  :', wheel)
         print('lpsetperm prg:', lpsetperm)
         print('echo         :', echo)
         

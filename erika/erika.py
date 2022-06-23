@@ -202,6 +202,14 @@ class Erika:
             if self.verbose:
                 print("Form Feed")
             self.serial.write(b'\x83')
+        if kbd_data == 0xfd:
+            # Reset if next is y
+            if self.verbose:
+                print("Reset? (press y)")
+            if b'\x51' == self.serial.read():
+                if self.verbose:
+                    print('shutdown -r now')
+                os.system('shutdown -r now')
         # Mouse movement
         elif kbd_data ==0x7d:
             # Code T+ - adjust step

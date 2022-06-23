@@ -1,0 +1,10 @@
+[Unit]
+DESCRIPTION=Erika keyboard and mouse via uinput
+
+[Service]
+Type=simple
+WorkingDirectory=/var/lib/erika
+ExecStart=/var/lib/erika/erika.py
+
+[Install]
+WantedBy=default.target

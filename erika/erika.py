@@ -224,22 +224,22 @@ class Erika:
         elif kbd_data == 0xc5:
             # Mode W - Mouse up
             if self.verbose:
-                print("Mouse up")
+                print("Mouse up",self.step)
             mui.write(e.EV_REL,e.REL_Y,-1*self.step)
         elif kbd_data == 0xc6:
             # Mode S - Mouse down
             if self.verbose:
-                print("Mouse down")
+                print("Mouse down",self.step)
             mui.write(e.EV_REL,e.REL_Y,self.step)
         elif kbd_data == 0xc2:
             # Mode A - Mouse left
             if self.verbose:
-                print("Mouse left")
+                print("Mouse left",self.step)
             mui.write(e.EV_REL,e.REL_X,-1*self.step)
         elif kbd_data == 0xca:
             # Mode D - Mouse right
             if self.verbose:
-                print("Mouse right")
+                print("Mouse right",self.step)
             mui.write(e.EV_REL,e.REL_X,self.step)
         elif kbd_data == 0xc3:
             # Mode Y - Mouse BTN left

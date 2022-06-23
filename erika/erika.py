@@ -203,7 +203,7 @@ class Erika:
                 print("Form Feed")
             self.serial.write(b'\x83')
         if kbd_data == 0xfd:
-            # Reset if next is y
+            # MODE+Form Feed - Reset if next is y
             if self.verbose:
                 print("Reset? (press y)")
             if b'\x51' == self.serial.read():

@@ -14,14 +14,16 @@ import sys, getopt
 
 def main(argv):
     # Defaults for raspberry and erika 3004
-    serdev='/dev/ttyAMA0'
-    baudrate=1200
-    rtscts=True
-    keyboard='erika3004_de'
-    wheel='german_courier'
-    lpsetperm='sudo ./setperm.sh'
-    verbose=False
-    echo=False
+    serdev    = '/dev/ttyAMA0'
+    baudrate  = 1200
+    rtscts    = True
+    keyboard  = 'erika3004_de'
+    # wheel     = 'german_courier'
+    # lpsetperm = 'sudo ./setperm.sh'
+    lpsetperm = './setperm.sh'
+    verbose   = False
+    echo      = False
+    name      = 'Erika 0.1'
     
     # load from config file... not implemented yet
     
@@ -53,9 +55,9 @@ def main(argv):
             print('\t\tpossible keyboards: erika3004_de, erika3006_de, erika3015_de, none')
             print('\t\tuse \'none\' if you don\'t want to use the erika keyboard for input')
             print('\t\tdefault: ', keyboard )
-            print('\t-w, --wheel <wheel>\ttypewriter daisy (font) wheel to use')
-            print('\t\tpossible wheels: german_courier')
-            print('\t\tdefault: ', wheel )
+            # print('\t-w, --wheel <wheel>\ttypewriter daisy (font) wheel to use')
+            # print('\t\tpossible wheels: german_courier')
+            # print('\t\tdefault: ', wheel )
             print('\t-s, --setperm <script>\tscript to create link and set permission for virtual lp-device')
             print('\t\tExample: sudo lp_setperm')
             print('\t\tdefault: ', lpsetperm )
@@ -86,7 +88,7 @@ def main(argv):
         
         
     # initialise hardware parameter
-    e = Erika(serdev, baudrate, rtscts,lpsetperm,verbose,echo)
+    e = Erika(name, serdev, baudrate, rtscts,lpsetperm,verbose,echo)
     with e:
         e.alive=True
         if not (keyboard=='none'or keyboard==None):

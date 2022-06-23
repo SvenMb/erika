@@ -19,7 +19,7 @@ from erika.erika2uinput import erika2uinput as e2i
 
 
 class Erika:
-    def __init__(self, serdev, baudrate, rtscts, setperm, verbose, echo):
+    def __init__(self, name, serdev, baudrate, rtscts, setperm, verbose, echo):
         self.serial          = serial.Serial()
         self.serial.port     = serdev
         self.serial.baudrate = baudrate
@@ -29,7 +29,7 @@ class Erika:
         self.alive           = None
         self.threads         = []
         self.verbose         = verbose
-        self.kbd_name        = 'Erika kbd 0.1'
+        self.name            = name
         self.echo            = echo
         self.step            = 1
 
@@ -118,7 +118,7 @@ class Erika:
          e.EV_KEY : (e.BTN_LEFT, e.BTN_MIDDLE, e.BTN_RIGHT),
         }
         # open uinput
-        with evdev.UInput(name=self.kbd_name) as  ui, evdev.UInput(cap,name=self.kbd_name+' mouse') as mui:
+        with evdev.UInput(name=self.name+' kbd') as  ui, evdev.UInput(cap,name=self.name+' mouse') as mui:
             time.sleep(1) # wait for evdev.UInput() to settle
             if self.verbose:
                 print(mui.capabilities())

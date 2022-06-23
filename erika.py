@@ -55,6 +55,7 @@ def main(argv):
             print('\t\tpossible keyboards: erika3004_de, erika3006_de, erika3015_de, none')
             print('\t\tuse \'none\' if you don\'t want to use the erika keyboard for input')
             print('\t\tdefault: ', keyboard )
+            print('\t\tcurrently only keyboard with MODE-key implemented (3005/3006/3015/3016)')
             # print('\t-w, --wheel <wheel>\ttypewriter daisy (font) wheel to use')
             # print('\t\tpossible wheels: german_courier')
             # print('\t\tdefault: ', wheel )

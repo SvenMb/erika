@@ -144,7 +144,7 @@ class Erika:
                             # realisiere Umschaltung durch Code bei einigen Tasten
                             # warning this might block if there is no serial byte anymore
                             ######################
-                            kbd.key(kbd_data,self.echo)
+                            kbd.key(kbd_data)
                             ######################
                             # if kbd_data==0xbb:
                             #     data = self.serial.read()

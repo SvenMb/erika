@@ -30,7 +30,6 @@ class Erika:
         self.verbose         = verbose
         self.name            = name
         self.echo            = echo
-        self.step            = 1
 
         # button state
         self.m_btn_left          = False

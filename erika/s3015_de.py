@@ -12,11 +12,12 @@ from evdev import ecodes as e
 
 class s3015_de:
     def init(self, ui, mui, serial, verbose, echo):
-        self.ui      =ui
-        self.mui     =mui
-        self.serial  =serial
-        self.verbose =verbose
-        self.echo    =echo
+        self.ui      = ui
+        self.mui     = mui
+        self.serial  = serial
+        self.verbose = verbose
+        self.echo    = echo
+        self.step    = 1
 
     # array for erika code to label and list of keycodes 0x00-0xFF) are for native erika codes
     # from 256 (0x100-0x12A) is for 0xbb excaped codes -0xC0, these are done with code key on

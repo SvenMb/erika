@@ -145,31 +145,31 @@ class s3004_de:
         # 70
         None,
         ['Space',[e.KEY_SPACE,1,e.KEY_SPACE,0]],          # Space
-        ['>backstep',[e.KEY_INSERT,1,e.KEY_INSERT,0]],     # Insert
+        ['backstep',[e.KEY_INSERT,1,e.KEY_INSERT,0]],     # Insert
         None, 
-        ['>CODE backstep',[e.KEY_LEFTSHIFT,1,e.KEY_INSERT,1,e.KEY_INSERT,0,e.KEY_LEFTSHIFT,0]],  # shift-insert
-        ['>step down',[e.KEY_DOWN,1,e.KEY_DOWN,0]],        # cursor down
-        ['>step up',[e.KEY_UP,1,e.KEY_UP,0]],              # cursor up
-        ['>Return',[e.KEY_ENTER,1,e.KEY_ENTER,0]],         # Enter
-        None,
-        ['>Tab',[e.KEY_TAB,1,e.KEY_TAB,0]],                 # tab
-        ['>T+',[e.KEY_PAGEUP,1,e.KEY_PAGEUP,0]],            # page-up
-        ['>T-',[e.KEY_PAGEDOWN,1,e.KEY_PAGEDOWN,0]],        # page-down
-        ['>CODE T-',[e.KEY_LEFTSHIFT,1,e.KEY_TAB,1,e.KEY_TAB,0,e.KEY_LEFTSHIFT,0]],        # shift-tab 
-        ['>CODE T+'],                                       # special: adjust step width for mouse
-        ['>Set Rand links',[e.KEY_ESC,1,e.KEY_ESC,0]],      # ESC
-        ['>Set Rand rechts',[e.KEY_LEFTCTRL,1,e.KEY_ESC,1,e.KEY_ESC,0,e.KEY_LEFTCTRL,0]],# CTRL-ESC (CODE+Rand links)
+        ['CODE backstep',[e.KEY_LEFTSHIFT,1,e.KEY_INSERT,1,e.KEY_INSERT,0,e.KEY_LEFTSHIFT,0]],  # shift-insert
+        ['step down',[e.KEY_DOWN,1,e.KEY_DOWN,0]],        # cursor down
+        ['step up',[e.KEY_UP,1,e.KEY_UP,0]],              # cursor up
+        ['Return',[e.KEY_ENTER,1,e.KEY_ENTER,0]],         # Enter
+        ['Extra Backstep'],
+        ['Tab',[e.KEY_TAB,1,e.KEY_TAB,0]],                 # tab
+        ['T+',[e.KEY_PAGEUP,1,e.KEY_PAGEUP,0]],            # page-up
+        ['T-',[e.KEY_PAGEDOWN,1,e.KEY_PAGEDOWN,0]],        # page-down
+        ['CODE T-',[e.KEY_LEFTSHIFT,1,e.KEY_TAB,1,e.KEY_TAB,0,e.KEY_LEFTSHIFT,0]],        # shift-tab 
+        ['CODE T+'],                                       # special: adjust step width for mouse
+        ['Set Rand links',[e.KEY_ESC,1,e.KEY_ESC,0]],      # ESC
+        ['Set Rand rechts',[e.KEY_LEFTCTRL,1,e.KEY_ESC,1,e.KEY_ESC,0,e.KEY_LEFTCTRL,0]],# CTRL-ESC (CODE+Rand links)
         # 80
-        ['>Rand lösen'],                                    # !!!!! still free
-        ['>CODE step down',[e.KEY_LEFT,1,e.KEY_LEFT,0]],    # cursor left
-        ['>CODE step up',[e.KEY_RIGHT,1,e.KEY_RIGHT,0]],    # cursor right
-        ['>form feed'],                                     # special form-feed (Papiereinzug)
-        ['>1 zeilig (stat)'],                               # 
-        ['>1,5 zeilig (stat)'],                             #
-        ['>2 zeilig (stat)'],                               #
-        ['>10 cpi (stat)'],                                 #
-        ['>12 cpi (stat)'],                                 #
-        ['>15 cpi (stat)'],                                 #
+        ['Rand lösen'],                                    # !!!!! still free
+        ['CODE step down',[e.KEY_LEFT,1,e.KEY_LEFT,0]],   # cursor left
+        ['CODE step up',[e.KEY_RIGHT,1,e.KEY_RIGHT,0]],   # cursor right
+        ['form feed'],                                     # special form-feed (Papiereinzug)
+        ['1 zeilig (stat)'],                               # 
+        ['1,5 zeilig (stat)'],                             #
+        ['2 zeilig (stat)'],                               #
+        ['10 cpi (stat)'],                                 #
+        ['12 cpi (stat)'],                                 #
+        None,
         None,
         None,
         None,
@@ -191,7 +191,7 @@ class s3004_de:
         None,
         None,
         None,
-        ['>CODE S',[e.KEY_LEFTCTRL,1,e.KEY_S,1,e.KEY_S,0,e.KEY_LEFTCTRL,0]], # CTRL-S
+        None,
         None,
         # A0
         None,
@@ -207,9 +207,9 @@ class s3004_de:
         None,
         None,
         None,
-        None,
-        None,
-        None,
+        ['CODE REL',[e.KEY_END,1,e.KEY_END,0]],
+        ['backspace',[e.KEY_BACKSPACE,1,e.KEY_BACKSPACE,0]],
+        ['REL',[e.KEY_HOME,1,e.KEY_HOME,0]],
         # B0
         None,
         None,
@@ -222,125 +222,79 @@ class s3004_de:
         None,
         None,
         None,
-        ['>CODE switch!'],                                  # escape sequence for CODE key
+        None,
         None,
         None,
         None,
         None,
         # C0
-        ['>MODE 1',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F1,1,e.KEY_F1,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-ALT-F1
-        ['>MODE Q',[e.KEY_RIGHTALT,1,e.KEY_Q,1,e.KEY_Q,0,e.KEY_RIGHTALT,0]],                                   # @
-        ['>MODE A'],                                                                                   # special mouse left
-        ['>MODE Y'],                                                                                           # special mouse btn left 
-        ['>MODE 2',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F2,1,e.KEY_F2,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-ALT-F2
-        ['>MODE W'],                                                                                   # special mouse up
-        ['>MODE S'],                                                                                   # special mouse down
-        ['>MODE X'],                                                                                   # special mouse btn left hold
-        ['>MODE 3',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F3,1,e.KEY_F3,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-ALT-F3
-        ['>MODE E',[e.KEY_RIGHTALT,1,e.KEY_E,1,e.KEY_E,0,e.KEY_RIGHTALT,0]],                                   # €
-        ['>MODE D'],                                                                                   # special mouse right
-        ['>MODE C'],                                                                                   # special mouse btn right
-        ['>MODE 4',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F4,1,e.KEY_F4,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-ALT-F4
-        ['>MODE R',[e.KEY_F5,1,e.KEY_F5,0]],                                                                   # F5 (Refresh)
-        ['>MODE F',[e.KEY_F3,1,e.KEY_F3,0]],                                                                   # F3 (Find)
-        ['>MODE V'],                                                                                   # special mouse btn right hold
-        # D0
-        ['>MODE 5',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F5,1,e.KEY_F5,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-ALT-F5
-        ['>MODE T',[e.KEY_LEFTSHIFT,1,e.KEY_PAGEUP,1,e.KEY_PAGEUP,0,e.KEY_LEFTSHIFT,0]],                       # shift-pageup (scrolling in lxterm)
-        ['>MODE G',[e.KEY_LEFTSHIFT,1,e.KEY_PAGEDOWN,1,e.KEY_PAGEDOWN,0,e.KEY_LEFTSHIFT,0]],                   # shift-pagedown (scrolldown in lxterm)
-        ['>MODE B'],                                                                                           # !!!!!!! free
-        ['>MODE 6',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F6,1,e.KEY_F6,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-ALT-F6
-        ['>MODE Z'],                                                                                           # !!!!!!! free
-        ['>MODE H',[e.KEY_LEFTSHIFT,1,e.KEY_LEFT,1,e.KEY_LEFT,0,e.KEY_LEFTSHIFT,0]],                           # shift-cursor-left (for marking)
-        ['>MODE N'],                                                                                           # !!!!!!! free
-        ['>MODE 7',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F7,1,e.KEY_F7,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-ALT-F7
-        ['>MODE U'],                                                                                           # !!!!!!! free
-        ['>MODE J',[e.KEY_LEFTSHIFT,1,e.KEY_DOWN,1,e.KEY_DOWN,0,e.KEY_LEFTSHIFT,0]],                           # shift-cursor-down (for marking)
-        ['>MODE M'],                                                                                           # !!!!!!! free
-        ['>MODE 8'],                                                                                           # !!!!!!! free
-        ['>MODE I'],                                                                                           # !!!!!!! free
-        ['>MODE K',[e.KEY_LEFTSHIFT,1,e.KEY_UP,1,e.KEY_UP,0,e.KEY_LEFTSHIFT,0]],                               # shift-cursor-up (for marking)
-        ['>MODE ,',[e.KEY_102ND,1,e.KEY_102ND,0]],                                                             # <
-        # E0
-        ['>MODE 9'],                                                                                           # !!!!!!! free
-        ['>MODE O'],                                                                                           # !!!!!!! free
-        ['>MODE L',[e.KEY_LEFTSHIFT,1,e.KEY_RIGHT,1,e.KEY_RIGHT,0,e.KEY_LEFTSHIFT,0]],                         # shift-cursor-right (for marking)
-        ['>MODE .',[e.KEY_LEFTSHIFT,1,e.KEY_102ND,1,e.KEY_102ND,0,e.KEY_LEFTSHIFT,0]],                         # >
-        ['>MODE 0',[e.KEY_F11,1,e.KEY_F11,0]],                                                                 # F11 (fullscreen)
-        ['>MODE P',[e.KEY_RIGHTALT,1,e.KEY_7,1,e.KEY_7,0,e.KEY_RIGHTALT,0]],                                   # {
-        ['>MODE Ö',[e.KEY_RIGHTALT,1,e.KEY_8,1,e.KEY_8,0,e.KEY_RIGHTALT,0]],                                   # [
-        ['>MODE -',[e.KEY_LEFTCTRL,1,e.KEY_LEFTSHIFT,1,e.KEY_SLASH,1,e.KEY_SLASH,0,e.KEY_LEFTSHIFT,0,e.KEY_LEFTCTRL,0]], # CTRL-_
-        ['>MODE ß',[e.KEY_RIGHTALT,1,e.KEY_MINUS,1,e.KEY_MINUS,0,e.KEY_RIGHTALT,0]],                           # \
-        ['>MODE Ü',[e.KEY_RIGHTALT,1,e.KEY_0,1,e.KEY_0,0,e.KEY_RIGHTALT,0]],                                   # }
-        ['>MODE Ä',[e.KEY_RIGHTALT,1,e.KEY_9,1,e.KEY_9,0,e.KEY_RIGHTALT,0]],                                   # ]
-        ['>REL',[e.KEY_HOME,1,e.KEY_HOME,0]],                                                                  # Home
-        ['>MODE acutes',[e.KEY_RIGHTALT,1,e.KEY_RIGHTBRACE,1,e.KEY_RIGHTBRACE,0,e.KEY_RIGHTALT,0]],            # ~
         None,
-        ['>CODE REL',[e.KEY_END,1,e.KEY_END,0]],                                                               # End
+        ['CODE Q',[e.KEY_LEFTCTRL,1,e.KEY_Q,1,e.KEY_Q,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-Q
+        ['CODE A',[e.KEY_LEFTCTRL,1,e.KEY_A,1,e.KEY_A,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-A
+        ['CODE Y',[e.KEY_LEFTCTRL,1,e.KEY_Z,1,e.KEY_Z,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-Y
+        None,
+        ['CODE W',[e.KEY_LEFTCTRL,1,e.KEY_W,1,e.KEY_W,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-W
+        ['CODE S',[e.KEY_LEFTCTRL,1,e.KEY_S,1,e.KEY_S,0,e.KEY_LEFTCTRL,0]],                                    # CTRL-S
+        ['CODE X',[e.KEY_LEFTCTRL,1,e.KEY_X,1,e.KEY_X,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-X
+        None,
+        ['CODE E',[e.KEY_LEFTCTRL,1,e.KEY_E,1,e.KEY_E,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-E
+        ['CODE D',[e.KEY_LEFTCTRL,1,e.KEY_D,1,e.KEY_D,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-D
+        ['CODE C',[e.KEY_LEFTCTRL,1,e.KEY_C,1,e.KEY_C,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-C
+        None,
+        ['CODE R',[e.KEY_LEFTCTRL,1,e.KEY_R,1,e.KEY_R,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-R
+        ['CODE F',[e.KEY_LEFTCTRL,1,e.KEY_F,1,e.KEY_F,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-F
+        ['CODE V',[e.KEY_LEFTCTRL,1,e.KEY_V,1,e.KEY_V,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-V
+        # D0
+        None,
+        ['CODE T',[e.KEY_LEFTCTRL,1,e.KEY_T,1,e.KEY_T,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-T
+        ['CODE G',[e.KEY_LEFTCTRL,1,e.KEY_G,1,e.KEY_G,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-G
+        ['CODE B',[e.KEY_LEFTCTRL,1,e.KEY_B,1,e.KEY_B,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-B
+        None,
+        ['CODE Z',[e.KEY_LEFTCTRL,1,e.KEY_Y,1,e.KEY_Y,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-Y
+        ['CODE H',[e.KEY_LEFTCTRL,1,e.KEY_H,1,e.KEY_H,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-H
+        ['CODE N',[e.KEY_LEFTCTRL,1,e.KEY_N,1,e.KEY_N,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-N
+        None,
+        ['CODE U',[e.KEY_LEFTCTRL,1,e.KEY_U,1,e.KEY_U,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-U
+        ['CODE J',[e.KEY_LEFTCTRL,1,e.KEY_J,1,e.KEY_J,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-J
+        ['CODE M',[e.KEY_LEFTCTRL,1,e.KEY_M,1,e.KEY_M,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-M
+        None,                                                                                           # !!!!!!! free
+        ['CODE I',[e.KEY_LEFTCTRL,1,e.KEY_I,1,e.KEY_I,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-I
+        ['CODE K',[e.KEY_LEFTCTRL,1,e.KEY_K,1,e.KEY_K,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-K
+        None,
+        # E0
+        None,                                                                                           # !!!!!!! free
+        ['CODE O',[e.KEY_LEFTCTRL,1,e.KEY_O,1,e.KEY_O,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-O
+        ['CODE L',[e.KEY_LEFTCTRL,1,e.KEY_L,1,e.KEY_L,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-L
+        None,
+        None,
+        ['CODE P',[e.KEY_LEFTCTRL,1,e.KEY_P,1,e.KEY_P,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-P
+        ['CODE Ö',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_8,1,e.KEY_8,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-[
+        None,
+        None,
+        ['CODE Ü',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_MINUS,1,e.KEY_MINUS,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-\
+        ['CODE Ä',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_9,1,e.KEY_9,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]]  # CTRL-]
+        None,
+        None,
+        None,
+        None,
         None,
         # F0
         None,
         None,
         None,
         None,
-        ['>MODE T+'],                                                                                # special switch typewriter/computer
-        ['>MODE T-',[e.KEY_LEFTALT,1,e.KEY_TAB,1,e.KEY_TAB,0,e.KEY_LEFTALT,0]],                                # ALT-Tab
-        None,
-        ['>CODE backspace',[e.KEY_LEFTSHIFT,1,e.KEY_DELETE,1,e.KEY_DELETE,0,e.KEY_LEFTSHIFT,0]],               # shift-Delete
-        ['>2 zeilig (key)'],
-        ['>1 zeilig (key)'],
-        ['>10 CPI'],
-        ['>MODE backspace',[e.KEY_DELETE,1,e.KEY_DELETE,0]],                                                   # Delete
-        ['>backspace',[e.KEY_BACKSPACE,1,e.KEY_BACKSPACE,0]],                                                  # Backspace
-        ['>MODE form feed'],                                                                         # special shutdown -r now if next key is 'y'
-        ['>1,5 zeilig (key)'],
-        ['>12 CPI'],
-        # 100
-        None,
-        ['>CODE Q',[e.KEY_LEFTCTRL,1,e.KEY_Q,1,e.KEY_Q,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-Q
-        ['>CODE A',[e.KEY_LEFTCTRL,1,e.KEY_A,1,e.KEY_A,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-A
-        ['>CODE Y',[e.KEY_LEFTCTRL,1,e.KEY_Z,1,e.KEY_Z,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-Y
-        None,
-        ['>CODE W',[e.KEY_LEFTCTRL,1,e.KEY_W,1,e.KEY_W,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-W
-        None, # ['CODE S',[e.KEY_LEFTCTRL,1,e.KEY_S,1,e.KEY_S,0,e.KEY_LEFTCTRL,0]],
-        ['>CODE X',[e.KEY_LEFTCTRL,1,e.KEY_X,1,e.KEY_X,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-X
-        None,
-        ['>CODE E',[e.KEY_LEFTCTRL,1,e.KEY_E,1,e.KEY_E,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-E
-        ['>CODE D',[e.KEY_LEFTCTRL,1,e.KEY_D,1,e.KEY_D,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-D
-        ['>CODE C',[e.KEY_LEFTCTRL,1,e.KEY_C,1,e.KEY_C,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-C
-        None,
-        ['>CODE R',[e.KEY_LEFTCTRL,1,e.KEY_R,1,e.KEY_R,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-R
-        ['>CODE F',[e.KEY_LEFTCTRL,1,e.KEY_F,1,e.KEY_F,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-F
-        ['>CODE V',[e.KEY_LEFTCTRL,1,e.KEY_V,1,e.KEY_V,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-V
-        # 110
-        None,
-        ['>CODE T',[e.KEY_LEFTCTRL,1,e.KEY_T,1,e.KEY_T,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-T
-        ['>CODE G',[e.KEY_LEFTCTRL,1,e.KEY_G,1,e.KEY_G,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-G
-        ['>CODE B',[e.KEY_LEFTCTRL,1,e.KEY_B,1,e.KEY_B,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-B
-        None,
-        ['>CODE Z',[e.KEY_LEFTCTRL,1,e.KEY_Y,1,e.KEY_Y,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-Y
-        ['>CODE H',[e.KEY_LEFTCTRL,1,e.KEY_H,1,e.KEY_H,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-H
-        ['>CODE N',[e.KEY_LEFTCTRL,1,e.KEY_N,1,e.KEY_N,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-N
-        None,
-        ['>CODE U',[e.KEY_LEFTCTRL,1,e.KEY_U,1,e.KEY_U,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-U
-        ['>CODE J',[e.KEY_LEFTCTRL,1,e.KEY_J,1,e.KEY_J,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-J
-        ['>CODE M',[e.KEY_LEFTCTRL,1,e.KEY_M,1,e.KEY_M,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-M
-        None,
-        ['>CODE I',[e.KEY_LEFTCTRL,1,e.KEY_I,1,e.KEY_I,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-I
-        ['>CODE K',[e.KEY_LEFTCTRL,1,e.KEY_K,1,e.KEY_K,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-K
-        None,
-        # 120
-        None,
-        ['>CODE O',[e.KEY_LEFTCTRL,1,e.KEY_O,1,e.KEY_O,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-O
-        ['>CODE L',[e.KEY_LEFTCTRL,1,e.KEY_L,1,e.KEY_L,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-L
         None,
         None,
-        ['>CODE P',[e.KEY_LEFTCTRL,1,e.KEY_P,1,e.KEY_P,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-P
-        ['>CODE Ö',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_8,1,e.KEY_8,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-[
         None,
         None,
-        ['>CODE Ü',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_MINUS,1,e.KEY_MINUS,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-\
-        ['>CODE Ä',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_9,1,e.KEY_9,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]]  # CTRL-]
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
     ]
 
     def key(self, kbd_data):

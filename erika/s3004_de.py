@@ -154,7 +154,7 @@ class s3004_de:
         ['Return',[e.KEY_ENTER,1,e.KEY_ENTER,0]],         # Enter
         ['Extra Backstep'],                                # special switch to 2nd layer
         ['Tab',[e.KEY_TAB,1,e.KEY_TAB,0]],                 # tab
-        ['T+'],            
+        ['T+',[e.KEY_LEFTCTRL,1,e.KEY_LEFTSHIFT,1,e.KEY_SLASH,1,e.KEY_SLASH,0,e.KEY_LEFTSHIFT,0,e.KEY_LEFTCTRL,0]], # CTRL+_]            
         ['T-',[e.KEY_LEFTSHIFT,1,e.KEY_TAB,1,e.KEY_TAB,0,e.KEY_LEFTSHIFT,0]],               # shift-Tab
         ['CODE T-',[e.KEY_LEFTALT,1,e.KEY_TAB,1,e.KEY_TAB,0,e.KEY_LEFTALT,0]],        # alt-tab 
         ['CODE T+'],                                       # special: switch computer/typewriter
@@ -604,7 +604,7 @@ class s3004_de:
         if self.erika2uinput[kbd_data]:
             # Jetzt ist die richtige Taste gefunden
             if self.verbose:
-                print(" =>",self.erika2uinput[kbd_data][0],flush=True)
+                print('keyname   :',self.erika2uinput[kbd_data][0],flush=True)
             if len(self.erika2uinput[kbd_data])>1:
                 # there are ecodes defined
                 key_lst=self.erika2uinput[kbd_data][1]
@@ -636,67 +636,97 @@ class s3004_de:
             if self.verbose:
                 print("Form Feed")
             self.serial.write(b'\x83')
-        
-        elif kbd_data == 0x7a:
-            # MODE+Form Feed - Reset if next is y
+            return
+        elif kbd_data == 0x17d:
+            # T+ - Reset if next is y
             if self.verbose:
                 print("Reset? (press y)")
             if b'\x51' == self.serial.read():
                 if self.verbose:
                     print('shutdown -r now')
                 os.system('shutdown -r now')
+            return
         # Mouse movement
-        #elif kbd_data ==0x7d:
-        #    # Code T+ - adjust step
-        #    if self.step == 1:
-        #        self.step=8
-        #    elif self.step == 8:
-        #        self.step=32
-        #    else:
-        #        self.step=1
-        #    if self.verbose:
-        #        print("Mouse step:",self.step)
-        #elif kbd_data == 0xc5:
-        #    # Mode W - Mouse up
-        #    if self.verbose:
-        #        print("Mouse up",self.step)
-        #    self.mui.write(e.EV_REL,e.REL_Y,-1*self.step)
-        #elif kbd_data == 0xc6:
-        #    # Mode S - Mouse down
-        #    if self.verbose:
-        #       print("Mouse down",self.step)
-        #    self.mui.write(e.EV_REL,e.REL_Y,self.step)
-        #elif kbd_data == 0xc2:
-        #    # Mode A - Mouse left
-        #    if self.verbose:
-        #        print("Mouse left",self.step)
-        #    self.mui.write(e.EV_REL,e.REL_X,-1*self.step)
-        #elif kbd_data == 0xca:
-        #    # Mode D - Mouse right
-        #    if self.verbose:
-        #        print("Mouse right",self.step)
-        #    self.mui.write(e.EV_REL,e.REL_X,self.step)
-        #elif kbd_data == 0xc3:
-        #    # Mode Y - Mouse BTN left
-        #    if self.verbose:
-        #        print("Mouse BTN left")
-        #    self.m_btn_left=False
-        #    self.mui.write(e.EV_KEY,e.BTN_LEFT,1)
-        #    self.mui.write(e.EV_KEY,e.BTN_LEFT,0)
-        #elif kbd_data == 0xc7:
-        #    # Mode X - Mouse BTN left - Switch
-        #    self.mui.write(e.EV_KEY,e.BTN_LEFT,1)
-        #    if self.verbose:
-        #        print("Mouse BTN left On")
-        #elif kbd_data == 0xcB:
-        #    # Mode C - Mouse BTN right
-        #    if self.verbose:
-        #        print("Mouse BTN right")
-        #    self.mui.write(e.EV_KEY,e.BTN_RIGHT,1)
-        #    self.mui.write(e.EV_KEY,e.BTN_RIGHT,0)
-        #elif kbd_data == 0xcF:
-        #    # Mode V - Mouse BTN right - Switch
-        #    self.mui.write(e.EV_KEY,e.BTN_RIGHT,1)
-        #    if self.verbose:
-        #        print("Mouse BTN right On")
-        #self.mui.syn()
+        elif kbd_data ==0x17a:
+            # Code T+ - adjust step
+            if self.step == 1:
+                self.step = 4
+            elif self.step == 4:
+                self.step = 8
+            elif self.step == 8:
+                self.step = 16
+            else:
+                self.step=1
+            if self.verbose:
+                print("Mouse step:",self.step)
+            return
+        elif kbd_data == 0x1c9:
+            # Mode E - Mouse up
+            if self.verbose:
+                print("Mouse up",self.step)
+            self.mui.write(e.EV_REL,e.REL_Y,-1*self.step)
+        elif kbd_data == 0x1c7:
+            # Mode X - Mouse down
+            if self.verbose:
+               print("Mouse down",self.step)
+            self.mui.write(e.EV_REL,e.REL_Y,self.step)
+        elif kbd_data == 0x1c6:
+            # Mode S - Mouse left
+            if self.verbose:
+                print("Mouse left",self.step)
+            self.mui.write(e.EV_REL,e.REL_X,-1*self.step)
+        elif kbd_data == 0x1ca:
+            # Mode D - Mouse right
+            if self.verbose:
+                print("Mouse right",self.step)
+            self.mui.write(e.EV_REL,e.REL_X,self.step)
+        elif kbd_data == 0x1cb:
+            # Mode C - Mouse down right
+            if self.verbose:
+                print("Mouse down right",self.step)
+            self.mui.write(e.EV_REL,e.REL_X,self.step)
+            self.mui.write(e.EV_REL,e.REL_Y,self.step)
+        elif kbd_data == 0x1c3:
+            # Mode Y - Mouse down left
+            if self.verbose:
+                print("Mouse down left",self.step)
+            self.mui.write(e.EV_REL,e.REL_X,-1*self.step)
+            self.mui.write(e.EV_REL,e.REL_Y,self.step)
+        elif kbd_data == 0x1c5:
+            # Mode W - Mouse up left
+            if self.verbose:
+                print("Mouse up left",self.step)
+            self.mui.write(e.EV_REL,e.REL_X,-1*self.step)
+            self.mui.write(e.EV_REL,e.REL_Y,-1*self.step)
+        elif kbd_data == 0x1cd:
+            # Mode R - Mouse up right
+            if self.verbose:
+                print("Mouse up left",self.step)
+            self.mui.write(e.EV_REL,e.REL_X,self.step)
+            self.mui.write(e.EV_REL,e.REL_Y,-1*self.step)
+        elif kbd_data == 0x175:
+            # Mode Y - Mouse BTN left
+            if self.verbose:
+                print("Mouse BTN left")
+            self.m_btn_left=False
+            self.mui.write(e.EV_KEY,e.BTN_LEFT,1)
+            self.mui.write(e.EV_KEY,e.BTN_LEFT,0)
+        elif kbd_data == 0x181:
+            # Mode X - Mouse BTN left - Switch
+            self.mui.write(e.EV_KEY,e.BTN_LEFT,1)
+            if self.verbose:
+                print("Mouse BTN left On")
+        elif kbd_data == 0x176:
+            # Mode C - Mouse BTN right
+            if self.verbose:
+                print("Mouse BTN right")
+            self.mui.write(e.EV_KEY,e.BTN_RIGHT,1)
+            self.mui.write(e.EV_KEY,e.BTN_RIGHT,0)
+        elif kbd_data == 0x182:
+            # Mode V - Mouse BTN right - Switch
+            self.mui.write(e.EV_KEY,e.BTN_RIGHT,1)
+            if self.verbose:
+                print("Mouse BTN right On")
+        else:
+            return
+        self.mui.syn()

@@ -46,7 +46,7 @@ key code | key                  | char generated
 0x76  | half line backward	| cursor up
 0x77  | Carriage return 	| Enter
 0x79  | Tab			| Tab
-0x7a  | T+			|  "shutdown -h now" if next key is y
+0x7a  | T+			|  CTRL-_ (undo in emacs)
 0x7b  | T-			| shift Tab
 0x7e  | Margin setting left 	| ESC
 0x80  | Margin release 		| } (that char!)
@@ -107,7 +107,7 @@ key code | key | function
 ---------|-----|----------
 0x75 | half line forward	| mouse btn left
 0x76 | half line backward  	| mouse btn right 
-0x7d | CODE T+			| step width for mouse (1,4,8,16)
+0x7a | T+			| step width for mouse (1,4,8,16)
 0x81 | CODE micro line forward	| mouse btn left on (tap step down for off)
 0x82 | CODE micro line backward | mouse btn right on (tap step up for off)
 0xc3 | CODE Y 			| mouse down+left
@@ -158,3 +158,4 @@ key code | key | function/char
 0x27 | CODE _ 			| ^_, (CTRL-_, 0x1f)
 0x3d | shift 3			| ç, (that char)
 0x35 | shift ß			| ", to generate composed char
+0x7d | CODE T+    | "shutdown -h now" if next key is y

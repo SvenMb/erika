@@ -1,116 +1,160 @@
----- 1st layer
-- nearly all char keys just generate that char
+# Keyboard layout for Erika 3004
+*(and compatible)*
+
+To use the typewriter keyboard as computer keyboard some keys are
+mapped to different chars, since these are needed for computer use.
+(see changed chars)
+
+Especialy for terminal use, you will need control keys, most of them
+are mapped to CODE+A - CODE-Z, see below for more details.
+
+Also you will need special keys like cursor and I also liked to
+emulate a mouse. This is realized in second layer of the keyboard
+you have to switch between them. The cursor keys are arranged like
+the wordstar diamond. See below for details.
+
+## 1st layer
+- nearly all char keys just generate that char pictured on the key
 - acute key is used to generate composed chars (like é,è,ê)
 - 2nd layer shift-ß is also used to generate composed chars (like ë)
 
--- changed chars:
-0x46 - code+1 (è)		- @
-0x44 - code+2 (é)		- ~
-0x45 - code+3 (ç)		- €
-0x06 - code+5 (£)		- <
-0x07 - code+7 (µ)		- >
-0x03 - code+ß (")		- \
-0xe9 - code+ü			- {
-0x80 - Rand lösen		- } (works with code too)
-0xe6 - code+ö			- [
-0xea - code+ä			- ]
+### switch to 2nd layer
+key code | key | function
+---------|-----|----------
+0x78 | backstep left to enter	| switch to 2nd layer
 
+### changed chars
+key code | key                  | char generated
+-----|--------------------------|------------
+0x46 | CODE+1 (è)		| @
+0x44 | CODE+2 (é)		| ~
+0x45 | CODE+3 (ç)		| €
+0x06 | CODE+5 (£)		| <
+0x07 | CODE+7 (µ)		| >
+0x03 | CODE+ß (")		| \
+0xe9 | CODE+Ü			| {
+0x80 | Margin release		| } (works with CODE too)
+0xe6 | CODE+Ö			| [
+0xea | CODE+Ä			| ]
 
--- special chars:
-0x78 - backstep neben enter	- switch to 2nd layer
+### special functions
 
-0x80 - Rand lösen 		- } (that char!)
-0x72 - backstep			- Insert
-0x75 - step down		- cursor down
-0x76 - step up			- cursor up
-0x77 - Enter 			- Enter
-0x79 - Tab			- Tab
-0x7a - T+			- 
-0x7b - T-			- shift Tab
-0x7e - Rand setzen links 	- ESC
-0x83 - Form feed		- forward form feed
-0x84 - 1 zeilig			-
-0x85 - 1,5 zeilig		-
-0x86 - 2 zeilig			-
-0x87 - 10 cpi			-
-0x88 - 12 cpi			-
-0xae - backspace		- Backspace
-0xaf - REL			- Delete
+ key code | key | function
+------|-----|----------
+0x72  | backstep/backspacer	| insert
+0x75  | half line forward	| cursor down
+0x76  | half line backward	| cursor up
+0x77  | Carriage return 	| Enter
+0x79  | Tab			| Tab
+0x7a  | T+			|  "shutdown -h now" if next key is y
+0x7b  | T-			| shift Tab
+0x7e  | Margin setting left 	| ESC
+0x80  | Margin release 		| } (that char!)
+0x83  | Form feed/paper insert	| forward form feed
+0x84  | 1 line spacing		|
+0x85  | 1,5 line spacing	|
+0x86  | 2 lines spacing		|
+0x87  | 10 cpi/ type spacing	|
+0x88  | 12 cpi/ type spacing	|
+0xae  | backspace/correction	| Backspace
+0xaf  | REL			| Delete
 
--- special chars with CODE
-0x7f - Rand setzen rechts	- CTRL-ESC
-0x74 - CODE backstep		- shift backstep
-0xad - CODE REL			- shift Delete
-0x81 - CODE step down		- cursor left
-0x82 - CODE step up		- cursor right
-0x7d - CODE T+			- switch computer/typewriter
-0x7c - CODE T-			- ALT-Tab
+#### special chars with CODE
 
-from code a until code z - generate corespondending CTRL-A until CTRL-Z
+ key code | key | function
+------|-----|----------
+0x74  | CODE backstep/backspace	| shift insert
+0x7f  | Margin setting right	| CTRL-ESC
+0x7c  | CODE T-			| ALT-Tab
+0x7d  | CODE T+			| switch computer/typewriter
+0x81  | CODE micro line forward	| cursor left
+0x82  | CODE micro line backward| cursor right
+0xad  | CODE REL		| shift Delete
 
+**from CODE A until CODE Z - generate corespondending CTRL-A until CTRL-Z**
 
----- 2nd layer ---- 
-0x77 - Enter 			- switch back to 1st layer
+## 2nd layer
 
--- cursor keys
-0x5a - e 			- cursor up
-0x58 - s 			- cursor left
-0x53 - d 			- cursor right
-0x5f - x 			- cursor down
-0x59 - r 			- page up
-0x57 - c 			- page down
-0x4c - w 			- Home
-0x51 - y 			- End
-0x34 - shift e 			- shift cursor up
-0x33 - shift s 			- shift cursor left
-0x14 - shift d 			- shift cursor rigth
-0x26 - shift x 			- shift cursor down
-0x36 - shift r 			- shift page up
-0x20 - shift c 			- shift page down
+Cursor and mouse keys stay in 2nd-layer so you can move around easiliy.
 
--- mouse keys
-0xc9 - code e 			- mouse up
-0xc6 - code s 			- mouse left
-0xca - code d 			- mouse right
-0xc7 - code x 			- mouse down
-0xc5 - code w 			- mouse up+left
-0xc3 - code y 			- mouse down+left
-0xcb - code c 			- mouse down+right
-0xcd - code r 			- mouse up+right
-0x75 - step-down 		- mouse btn left
-0x76 - step-up 			- mouse btn right 
-0x81 - code step-down 		- mouse btn left on (tap step-down for off)
-0x82 - code step-up 		- mouse btn right on (tap step-up for off)
-0x7d - code-T+			- step width for mouse (1,4,8,16)
+### switch back to 1st layer
+key code | key | function
+---------|-----|----------
+0x77     | Carriage return	| switch back to 1st layer
 
--- starting from here all keys switch back to 1st layer after using
-0x11 - 1 			- F1
-0x10 - 2 			- F2
-0x0f - 3 			- F3
-0x0e - 4 			- F4
-0x0c - 5 			- F5
-0x0b - 6 			- F6
-0x0a - 7 			- F7
-0x09 - 8 			- F8
-0x08 - 9 			- F9
-0x0d - 0 			- F10
-0x47 - ß 			- F11
-0x29 - ` 			- F12
-0x46 - code 1 			- CTRL-ALT-F1
-0x44 - code 2 			- CTRL-ALT-F2
-0x45 - code 3 			- CTRL-ALT-F3
-0x48 - code 4 			- CTRL-ALT-F4
-0x06 - code 5 			- CTRL-ALT-F5
-0x41 - code 6 			- CTRL-ALT-F6
-0x07 - code 7 			- CTRL-ALT-F7
-0x39 - code 8 			- CTRL-ALT-F8
-0x23 - code 9 			- CTRL-ALT-F9
-0x23 - code 0 			- CTRL-ALT-F10
-0xe6 - code ö 			- ^[ (CTRL-[, 0x1b - ESC)
-0x03 - code ß 			- ^\ (CTRL-\, 0x1c)
-0xea - code ä 			- ^] (CTRL-], 0x1d)
-0x19 - code ` 			- ^^ (CTRL-^, 0x1e)
-0x27 - code _ 			- ^_ (CTRL-_, 0x1f)
-0x3d - shift 3			- ç
-0x35 - shift ß			- " to generate composed char
+*and all other keys not mentioned here as cursor or mouse key*
 
+### Cursor keys
+key code | key | function
+---------|-----|----------
+0x14 | shift D 			| shift cursor rigth
+0x20 | shift C 			| shift page down
+0x26 | shift X 			| shift cursor down
+0x33 | shift S 			| shift cursor left
+0x34 | shift E 			| shift cursor up
+0x36 | shift R 			| shift page up
+0x4c | W 		| Home
+0x51 | Y 			| End
+0x53 | D 			| cursor right
+0x57 | C 			| page down
+0x58 | S 			| cursor left
+0x59 | R 			| page up
+0x5a | E 			| cursor up
+0x5f  | X 			| cursor down
+
+### Mouse keys
+key code | key | function
+---------|-----|----------
+0x75 | half line forward	| mouse btn left
+0x76 | half line backward  	| mouse btn right 
+0x7d | CODE T+			| step width for mouse (1,4,8,16)
+0x81 | CODE micro line forward	| mouse btn left on (tap step down for off)
+0x82 | CODE micro line backward | mouse btn right on (tap step up for off)
+0xc3 | CODE Y 			| mouse down+left
+0xc5 | CODE W 			| mouse up+left
+0xc6 | CODE S 			| mouse left
+0xc7 | CODE X 			| mouse down
+0xc9 | CODE E 			| mouse up
+0xca | CODE D 			| mouse right
+0xcb | CODE C 			| mouse down+right
+0xcd | CODE R 			| mouse up+right
+
+### Function keys
+**starting from here all keys switch back to 1st layer after using**
+
+key code | key | function
+---------|-----|----------
+0x11 | 1 			| F1
+0x10 | 2 			| F2
+0x0f | 3 			| F3
+0x0e | 4 			| F4
+0x0c | 5 			| F5
+0x0b | 6 			| F6
+0x0a | 7 			| F7
+0x09 | 8 			| F8
+0x08 | 9 			| F9
+0x0d | 0 			| F10
+0x47 | ß 			| F11
+0x29 | ` 			| F12
+0x46 | CODE 1 			| CTRL ALT F1
+0x44 | CODE 2 			| CTRL ALT F2
+0x45 | CODE 3 			| CTRL ALT F3
+0x48 | CODE 4 			| CTRL ALT F4
+0x06 | CODE 5 			| CTRL ALT F5
+0x41 | CODE 6 			| CTRL ALT F6
+0x07 | CODE 7 			| CTRL ALT F7
+0x39 | CODE 8 			| CTRL ALT F8
+0x23 | CODE 9 			| CTRL ALT F9
+0x23 | CODE 0 			| CTRL ALT F10
+
+### some more CTRl-keys and chars
+
+key code | key | function/char
+---------|-----|---------------
+0xe6 | CODE Ö 			| ^[, (CTRL-[, 0x1b | ESC)
+0x03 | CODE ß 			| ^\, (CTRL-\, 0x1c)
+0xea | CODE Ä 			| ^], (CTRL-], 0x1d)
+0x19 | CODE ` 			| ^^, (CTRL-^, 0x1e)
+0x27 | CODE _ 			| ^_, (CTRL-_, 0x1f)
+0x3d | shift 3			| ç, (that char)
+0x35 | shift ß			| ", to generate composed char

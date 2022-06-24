@@ -18,6 +18,7 @@ class s3004_de:
         self.verbose = verbose
         self.echo    = echo
         self.step    = 1
+        self.layer   = 0
 
     # array for erika code to label and list of keycodes 0x00-0xFF) are for native erika codes
     # from 256 (0x100-0x12A) is for 0xbb excaped codes -0xC0, these are done with code key on
@@ -300,20 +301,40 @@ class s3004_de:
     def key(self, kbd_data):
         keystat=['UP','DOWN']
 
-        #if kbd_data == 0xbb:
-        #    data = self.serial.read()
-        #    kbd_data=data[0]
-        #    if self.verbose:
-        #        print("+",hex(kbd_data),end='',sep='')
-        #    kbd_data += 0x40
+        if kbd_data == 0x7d:
+            # Code T+
+            if self.echo:
+                self.echo = False
+                self.serial.write(b'\x91')
+                if self.verbose:
+                    print("switch to computer mode")
+            else:
+                self.echo = True
+                self.serial.write(b'\x92')
+                if self.verbose:
+                    print("switch to typewriter mode")
+            return
+        if self.echo:
+            if self.verbose:
+                print('typewriter mode, ignoring code:',hex(kbd_data))
+            return
+        if kbd_data == 0x78:
+            if self.verbose:
+                print('switch to 2nd layer')
+            self.layer = 1 # we count from 0
+            return
+        if self.layer == 1:
+                if not kbd_data in (0x14,0x20,0x26,0x33,0x34,0x36,0x4c,0x51,0x53,0x57,0x58,0x59,0x5a,0x5f,
+                                    0x75,0x76,0x7d,0x81,0x82,0xc3,0xc5,0xc6,0xc7,0xc9,0xca,0xcb,0xcd)
+                    print('switch back to 1st layer')
+                    self.layer=0
+                kbd_data+=0x100
         if self.erika2uinput[kbd_data]:
             # Jetzt ist die richtige Taste gefunden
             if self.verbose:
                 print(" =>",self.erika2uinput[kbd_data][0],flush=True)
             if len(self.erika2uinput[kbd_data])>1:
                 # there are ecodes defined
-                if self.echo:
-                    return
                 key_lst=self.erika2uinput[kbd_data][1]
                 lenght=len(key_lst)
                 i=0
@@ -338,25 +359,13 @@ class s3004_de:
 
     def xkey(self, kbd_data):
         """decode special keys"""
-        if kbd_data == 0xf4:
-            # Mode T+
-            if self.echo:
-                self.echo = False
-                self.serial.write(b'\x91')
-            else:
-                self.echo = True
-                self.serial.write(b'\x92')
-            if self.verbose:
-                print("Echo",self.echo)
-            return
-        if self.echo:
-            return
         if kbd_data == 0x83:
             # Form Feed
             if self.verbose:
                 print("Form Feed")
             self.serial.write(b'\x83')
-        if kbd_data == 0xfd:
+        
+        elif kbd_data == 0x7a:
             # MODE+Form Feed - Reset if next is y
             if self.verbose:
                 print("Reset? (press y)")
@@ -365,57 +374,57 @@ class s3004_de:
                     print('shutdown -r now')
                 os.system('shutdown -r now')
         # Mouse movement
-        elif kbd_data ==0x7d:
-            # Code T+ - adjust step
-            if self.step == 1:
-                self.step=8
-            elif self.step == 8:
-                self.step=32
-            else:
-                self.step=1
-            if self.verbose:
-                print("Mouse step:",self.step)
-        elif kbd_data == 0xc5:
-            # Mode W - Mouse up
-            if self.verbose:
-                print("Mouse up",self.step)
-            self.mui.write(e.EV_REL,e.REL_Y,-1*self.step)
-        elif kbd_data == 0xc6:
-            # Mode S - Mouse down
-            if self.verbose:
-                print("Mouse down",self.step)
-            self.mui.write(e.EV_REL,e.REL_Y,self.step)
-        elif kbd_data == 0xc2:
-            # Mode A - Mouse left
-            if self.verbose:
-                print("Mouse left",self.step)
-            self.mui.write(e.EV_REL,e.REL_X,-1*self.step)
-        elif kbd_data == 0xca:
-            # Mode D - Mouse right
-            if self.verbose:
-                print("Mouse right",self.step)
-            self.mui.write(e.EV_REL,e.REL_X,self.step)
-        elif kbd_data == 0xc3:
-            # Mode Y - Mouse BTN left
-            if self.verbose:
-                print("Mouse BTN left")
-            self.m_btn_left=False
-            self.mui.write(e.EV_KEY,e.BTN_LEFT,1)
-            self.mui.write(e.EV_KEY,e.BTN_LEFT,0)
-        elif kbd_data == 0xc7:
-            # Mode X - Mouse BTN left - Switch
-            self.mui.write(e.EV_KEY,e.BTN_LEFT,1)
-            if self.verbose:
-                print("Mouse BTN left On")
-        elif kbd_data == 0xcB:
-            # Mode C - Mouse BTN right
-            if self.verbose:
-                print("Mouse BTN right")
-            self.mui.write(e.EV_KEY,e.BTN_RIGHT,1)
-            self.mui.write(e.EV_KEY,e.BTN_RIGHT,0)
-        elif kbd_data == 0xcF:
-            # Mode V - Mouse BTN right - Switch
-            self.mui.write(e.EV_KEY,e.BTN_RIGHT,1)
-            if self.verbose:
-                print("Mouse BTN right On")
-        self.mui.syn()
+        #elif kbd_data ==0x7d:
+        #    # Code T+ - adjust step
+        #    if self.step == 1:
+        #        self.step=8
+        #    elif self.step == 8:
+        #        self.step=32
+        #    else:
+        #        self.step=1
+        #    if self.verbose:
+        #        print("Mouse step:",self.step)
+        #elif kbd_data == 0xc5:
+        #    # Mode W - Mouse up
+        #    if self.verbose:
+        #        print("Mouse up",self.step)
+        #    self.mui.write(e.EV_REL,e.REL_Y,-1*self.step)
+        #elif kbd_data == 0xc6:
+        #    # Mode S - Mouse down
+        #    if self.verbose:
+        #       print("Mouse down",self.step)
+        #    self.mui.write(e.EV_REL,e.REL_Y,self.step)
+        #elif kbd_data == 0xc2:
+        #    # Mode A - Mouse left
+        #    if self.verbose:
+        #        print("Mouse left",self.step)
+        #    self.mui.write(e.EV_REL,e.REL_X,-1*self.step)
+        #elif kbd_data == 0xca:
+        #    # Mode D - Mouse right
+        #    if self.verbose:
+        #        print("Mouse right",self.step)
+        #    self.mui.write(e.EV_REL,e.REL_X,self.step)
+        #elif kbd_data == 0xc3:
+        #    # Mode Y - Mouse BTN left
+        #    if self.verbose:
+        #        print("Mouse BTN left")
+        #    self.m_btn_left=False
+        #    self.mui.write(e.EV_KEY,e.BTN_LEFT,1)
+        #    self.mui.write(e.EV_KEY,e.BTN_LEFT,0)
+        #elif kbd_data == 0xc7:
+        #    # Mode X - Mouse BTN left - Switch
+        #    self.mui.write(e.EV_KEY,e.BTN_LEFT,1)
+        #    if self.verbose:
+        #        print("Mouse BTN left On")
+        #elif kbd_data == 0xcB:
+        #    # Mode C - Mouse BTN right
+        #    if self.verbose:
+        #        print("Mouse BTN right")
+        #    self.mui.write(e.EV_KEY,e.BTN_RIGHT,1)
+        #    self.mui.write(e.EV_KEY,e.BTN_RIGHT,0)
+        #elif kbd_data == 0xcF:
+        #    # Mode V - Mouse BTN right - Switch
+        #    self.mui.write(e.EV_KEY,e.BTN_RIGHT,1)
+        #    if self.verbose:
+        #        print("Mouse BTN right On")
+        #self.mui.syn()

@@ -17,7 +17,7 @@ def main(argv):
     serdev    = '/dev/ttyAMA0'
     baudrate  = 1200
     rtscts    = True
-    keyboard  = 'erika3004_de'
+    keyboard  = '3015_de'
     # wheel     = 'german_courier'
     # lpsetperm = 'sudo ./setperm.sh'
     lpsetperm = './setperm.sh'
@@ -52,10 +52,10 @@ def main(argv):
             print('\t\tExample baudrate: 1200')
             print('\t\tdefault: ', baudrate )
             print('\t-k, --keyboard <map>\tkeyboard map to use')
-            print('\t\tpossible keyboards: erika3004_de, erika3006_de, erika3015_de, none')
+            print('\t\tpossible keyboards: 3004_de, 3006_de, 3015_de, none')
             print('\t\tuse \'none\' if you don\'t want to use the erika keyboard for input')
             print('\t\tdefault: ', keyboard )
-            print('\t\tcurrently only keyboard with MODE-key implemented (3005/3006/3015/3016)')
+            print('\t\tcurrently only one keyboard with MODE-key implemented (3015_de)')
             # print('\t-w, --wheel <wheel>\ttypewriter daisy (font) wheel to use')
             # print('\t\tpossible wheels: german_courier')
             # print('\t\tdefault: ', wheel )
@@ -89,7 +89,7 @@ def main(argv):
         
         
     # initialise hardware parameter
-    e = Erika(name, serdev, baudrate, rtscts,lpsetperm,verbose,echo)
+    e = Erika(name, serdev, baudrate, rtscts, keyboard, lpsetperm, verbose, echo)
     with e:
         e.alive=True
         if not (keyboard=='none'or keyboard==None):

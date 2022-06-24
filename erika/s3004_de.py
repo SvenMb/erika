@@ -27,11 +27,11 @@ class s3004_de:
         None,
         ['_',[e.KEY_LEFTSHIFT,1,e.KEY_SLASH,1,e.KEY_SLASH,0,e.KEY_LEFTSHIFT,0]],
         ['&',[e.KEY_LEFTSHIFT,1,e.KEY_6,1,e.KEY_6,0,e.KEY_LEFTSHIFT,0]],
-        ['" (no step)',[e.KEY_RIGHTALT,1,e.KEY_LEFTBRACE,1,e.KEY_LEFTBRACE,0,e.KEY_RIGHTALT,0]],
+        ['" (no step)',[e.KEY_RIGHTALT,1,e.KEY_MINUS,1,e.KEY_MINUS,0,e.KEY_RIGHTALT,0]], # \
         ['%',[e.KEY_LEFTSHIFT,1,e.KEY_5,1,e.KEY_5,0,e.KEY_LEFTSHIFT,0]],
         ['i',[e.KEY_I,1,e.KEY_I,0]],
-        ['£',[e.KEY_RIGHTALT,1,e.KEY_LEFTSHIFT,1,e.KEY_3,1,e.KEY_3,0,e.KEY_LEFTSHIFT,0,e.KEY_RIGHTALT,0]],
-        ['µ',[e.KEY_RIGHTALT,1,e.KEY_M,1,e.KEY_M,0,e.KEY_RIGHTALT,0]],
+        ['£',[e.KEY_102ND,1,e.KEY_102ND,0]], # <
+        ['µ',[e.KEY_LEFTSHIFT,1,e.KEY_102ND,1,e.KEY_102ND,0,e.KEY_LEFTSHIFT,0]], # >
         ['9',[e.KEY_9,1,e.KEY_9,0]],
         ['8',[e.KEY_8,1,e.KEY_8,0]],
         ['7',[e.KEY_7,1,e.KEY_7,0]],
@@ -96,9 +96,9 @@ class s3004_de:
         ['#',[e.KEY_BACKSLASH,1,e.KEY_BACKSLASH,0]],
         ['!',[e.KEY_LEFTSHIFT,1,e.KEY_1,1,e.KEY_1,0,e.KEY_LEFTSHIFT,0]],
         ['"',[e.KEY_LEFTSHIFT,1,e.KEY_2,1,e.KEY_2,0,e.KEY_LEFTSHIFT,0]],
-        ['é',[e.KEY_EQUAL,1,e.KEY_EQUAL,0,e.KEY_E,1,e.KEY_E,0]],
-        ['ç',[e.KEY_RIGHTALT,1,e.KEY_EQUAL,1,e.KEY_EQUAL,0,e.KEY_RIGHTALT,0,e.KEY_C,1,e.KEY_C,0]],
-        ['è',[e.KEY_LEFTSHIFT,1,e.KEY_EQUAL,1,e.KEY_EQUAL,0,e.KEY_LEFTSHIFT,0,e.KEY_E,1,e.KEY_E,0]],
+        ['é',[e.KEY_RIGHTALT,1,e.KEY_RIGHTBRACE,1,e.KEY_RIGHTBRACE,0,e.KEY_RIGHTALT,0]],            # ~
+        ['ç',[e.KEY_RIGHTALT,1,e.KEY_E,1,e.KEY_E,0,e.KEY_RIGHTALT,0]],                              # €
+        ['è',[e.KEY_RIGHTALT,1,e.KEY_Q,1,e.KEY_Q,0,e.KEY_RIGHTALT,0]],                              # @
         ['ß',[e.KEY_MINUS,1,e.KEY_MINUS,0]],
         ['$',[e.KEY_LEFTSHIFT,1,e.KEY_4,1,e.KEY_4,0,e.KEY_LEFTSHIFT,0]],
         ['f',[e.KEY_F,1,e.KEY_F,0]],
@@ -151,16 +151,16 @@ class s3004_de:
         ['step down',[e.KEY_DOWN,1,e.KEY_DOWN,0]],        # cursor down
         ['step up',[e.KEY_UP,1,e.KEY_UP,0]],              # cursor up
         ['Return',[e.KEY_ENTER,1,e.KEY_ENTER,0]],         # Enter
-        ['Extra Backstep'],
+        ['Extra Backstep'],                                # special switch to 2nd layer
         ['Tab',[e.KEY_TAB,1,e.KEY_TAB,0]],                 # tab
-        ['T+',[e.KEY_PAGEUP,1,e.KEY_PAGEUP,0]],            # page-up
-        ['T-',[e.KEY_PAGEDOWN,1,e.KEY_PAGEDOWN,0]],        # page-down
-        ['CODE T-',[e.KEY_LEFTSHIFT,1,e.KEY_TAB,1,e.KEY_TAB,0,e.KEY_LEFTSHIFT,0]],        # shift-tab 
-        ['CODE T+'],                                       # special: adjust step width for mouse
+        ['T+'],            
+        ['T-',[e.KEY_LEFTSHIFT,1,e.KEY_TAB,1,e.KEY_TAB,0,e.KEY_LEFTSHIFT,0]],               # shift-Tab
+        ['CODE T-',[e.KEY_LEFTALT,1,e.KEY_TAB,1,e.KEY_TAB,0,e.KEY_LEFTALT,0]],        # alt-tab 
+        ['CODE T+'],                                       # special: switch computer/typewriter
         ['Set Rand links',[e.KEY_ESC,1,e.KEY_ESC,0]],      # ESC
         ['Set Rand rechts',[e.KEY_LEFTCTRL,1,e.KEY_ESC,1,e.KEY_ESC,0,e.KEY_LEFTCTRL,0]],# CTRL-ESC (CODE+Rand links)
         # 80
-        ['Rand lösen'],                                    # !!!!! still free
+        ['Rand lösen',[e.KEY_RIGHTALT,1,e.KEY_0,1,e.KEY_0,0,e.KEY_RIGHTALT,0]], # }
         ['CODE step down',[e.KEY_LEFT,1,e.KEY_LEFT,0]],   # cursor left
         ['CODE step up',[e.KEY_RIGHT,1,e.KEY_RIGHT,0]],   # cursor right
         ['form feed'],                                     # special form-feed (Papiereinzug)
@@ -207,9 +207,9 @@ class s3004_de:
         None,
         None,
         None,
-        ['CODE REL',[e.KEY_END,1,e.KEY_END,0]],
+        ['CODE REL',[e.KEY_LEFTSHIFT,1,e.KEY_DELETE,1,e.KEY_DELETE,0,e.KEY_LEFTSHIFT,0]],
         ['backspace',[e.KEY_BACKSPACE,1,e.KEY_BACKSPACE,0]],
-        ['REL',[e.KEY_HOME,1,e.KEY_HOME,0]],
+        ['REL',[e.KEY_DELETE,1,e.KEY_DELETE,0]],
         # B0
         None,
         None,
@@ -234,7 +234,7 @@ class s3004_de:
         ['CODE Y',[e.KEY_LEFTCTRL,1,e.KEY_Z,1,e.KEY_Z,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-Y
         None,
         ['CODE W',[e.KEY_LEFTCTRL,1,e.KEY_W,1,e.KEY_W,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-W
-        ['CODE S',[e.KEY_LEFTCTRL,1,e.KEY_S,1,e.KEY_S,0,e.KEY_LEFTCTRL,0]],                                    # CTRL-S
+        ['CODE S',[e.KEY_LEFTCTRL,1,e.KEY_S,1,e.KEY_S,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-S
         ['CODE X',[e.KEY_LEFTCTRL,1,e.KEY_X,1,e.KEY_X,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-X
         None,
         ['CODE E',[e.KEY_LEFTCTRL,1,e.KEY_E,1,e.KEY_E,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-E
@@ -257,22 +257,22 @@ class s3004_de:
         ['CODE U',[e.KEY_LEFTCTRL,1,e.KEY_U,1,e.KEY_U,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-U
         ['CODE J',[e.KEY_LEFTCTRL,1,e.KEY_J,1,e.KEY_J,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-J
         ['CODE M',[e.KEY_LEFTCTRL,1,e.KEY_M,1,e.KEY_M,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-M
-        None,                                                                                           # !!!!!!! free
+        None,
         ['CODE I',[e.KEY_LEFTCTRL,1,e.KEY_I,1,e.KEY_I,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-I
         ['CODE K',[e.KEY_LEFTCTRL,1,e.KEY_K,1,e.KEY_K,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-K
         None,
         # E0
-        None,                                                                                           # !!!!!!! free
+        None,
         ['CODE O',[e.KEY_LEFTCTRL,1,e.KEY_O,1,e.KEY_O,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-O
         ['CODE L',[e.KEY_LEFTCTRL,1,e.KEY_L,1,e.KEY_L,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-L
         None,
         None,
         ['CODE P',[e.KEY_LEFTCTRL,1,e.KEY_P,1,e.KEY_P,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-P
-        ['CODE Ö',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_8,1,e.KEY_8,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-[
+        ['CODE Ö',[e.KEY_RIGHTALT,1,e.KEY_8,1,e.KEY_8,0,e.KEY_RIGHTALT,0]],                                   # [ 
         None,
         None,
-        ['CODE Ü',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_MINUS,1,e.KEY_MINUS,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-\
-        ['CODE Ä',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_9,1,e.KEY_9,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]]  # CTRL-]
+        ['CODE Ü',[e.KEY_RIGHTALT,1,e.KEY_7,1,e.KEY_7,0,e.KEY_RIGHTALT,0]],                                   # {
+        ['CODE Ä',[e.KEY_RIGHTALT,1,e.KEY_9,1,e.KEY_9,0,e.KEY_RIGHTALT,0]],                                   # ]
         None,
         None,
         None,

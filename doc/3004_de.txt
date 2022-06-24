@@ -1,0 +1,116 @@
+---- 1st layer
+- nearly all char keys just generate that char
+- acute key is used to generate composed chars (like é,è,ê)
+- 2nd layer shift-ß is also used to generate composed chars (like ë)
+
+-- changed chars:
+0x46 - code+1 (è)		- @
+0x44 - code+2 (é)		- ~
+0x45 - code+3 (ç)		- €
+0x06 - code+5 (£)		- <
+0x07 - code+7 (µ)		- >
+0x03 - code+ß (")		- \
+0xe9 - code+ü			- {
+0x80 - Rand lösen		- } (works with code too)
+0xe6 - code+ö			- [
+0xea - code+ä			- ]
+
+
+-- special chars:
+0x78 - backstep neben enter	- switch to 2nd layer
+
+0x80 - Rand lösen 		- } (that char!)
+0x72 - backstep			- Insert
+0x75 - step down		- cursor down
+0x76 - step up			- cursor up
+0x77 - Enter 			- Enter
+0x79 - Tab			- Tab
+0x7a - T+			- 
+0x7b - T-			- shift Tab
+0x7e - Rand setzen links 	- ESC
+0x83 - Form feed		- forward form feed
+0x84 - 1 zeilig			-
+0x85 - 1,5 zeilig		-
+0x86 - 2 zeilig			-
+0x87 - 10 cpi			-
+0x88 - 12 cpi			-
+0xae - backspace		- Backspace
+0xaf - REL			- Delete
+
+-- special chars with CODE
+0x7f - Rand setzen rechts	- CTRL-ESC
+0x74 - CODE backstep		- shift backstep
+0xad - CODE REL			- shift Delete
+0x81 - CODE step down		- cursor left
+0x82 - CODE step up		- cursor right
+0x7d - CODE T+			- switch computer/typewriter
+0x7c - CODE T-			- ALT-Tab
+
+from code a until code z - generate corespondending CTRL-A until CTRL-Z
+
+
+---- 2nd layer ---- 
+0x77 - Enter 			- switch back to 1st layer
+
+-- cursor keys
+0x5a - e 			- cursor up
+0x58 - s 			- cursor left
+0x53 - d 			- cursor right
+0x5f - x 			- cursor down
+0x59 - r 			- page up
+0x57 - c 			- page down
+0x4c - w 			- Home
+0x51 - y 			- End
+0x34 - shift e 			- shift cursor up
+0x33 - shift s 			- shift cursor left
+0x14 - shift d 			- shift cursor rigth
+0x26 - shift x 			- shift cursor down
+0x36 - shift r 			- shift page up
+0x20 - shift c 			- shift page down
+
+-- mouse keys
+0xc9 - code e 			- mouse up
+0xc6 - code s 			- mouse left
+0xca - code d 			- mouse right
+0xc7 - code x 			- mouse down
+0xc5 - code w 			- mouse up+left
+0xc3 - code y 			- mouse down+left
+0xcb - code c 			- mouse down+right
+0xcd - code r 			- mouse up+right
+0x75 - step-down 		- mouse btn left
+0x76 - step-up 			- mouse btn right 
+0x81 - code step-down 		- mouse btn left on (tap step-down for off)
+0x82 - code step-up 		- mouse btn right on (tap step-up for off)
+0x7d - code-T+			- step width for mouse (1,4,8,16)
+
+-- starting from here all keys switch back to 1st layer after using
+0x11 - 1 			- F1
+0x10 - 2 			- F2
+0x0f - 3 			- F3
+0x0e - 4 			- F4
+0x0c - 5 			- F5
+0x0b - 6 			- F6
+0x0a - 7 			- F7
+0x09 - 8 			- F8
+0x08 - 9 			- F9
+0x0d - 0 			- F10
+0x47 - ß 			- F11
+0x29 - ` 			- F12
+0x46 - code 1 			- CTRL-ALT-F1
+0x44 - code 2 			- CTRL-ALT-F2
+0x45 - code 3 			- CTRL-ALT-F3
+0x48 - code 4 			- CTRL-ALT-F4
+0x06 - code 5 			- CTRL-ALT-F5
+0x41 - code 6 			- CTRL-ALT-F6
+0x07 - code 7 			- CTRL-ALT-F7
+0x39 - code 8 			- CTRL-ALT-F8
+0x23 - code 9 			- CTRL-ALT-F9
+0x23 - code 0 			- CTRL-ALT-F10
+0xe6 - code ö 			- ^[ (CTRL-[, 0x1b - ESC)
+0x03 - code ß 			- ^\ (CTRL-\, 0x1c)
+0xea - code ä 			- ^] (CTRL-], 0x1d)
+0x19 - code ` 			- ^^ (CTRL-^, 0x1e)
+0x27 - code _ 			- ^_ (CTRL-_, 0x1f)
+0x3d - shift 3			- ç
+0x35 - shift ß			- " to generate composed char
+

@@ -357,14 +357,14 @@ class s3015_de:
             if self.verbose:
                 print(" =>",self.erika2uinput[kbd_data][0],flush=True)
             if len(self.erika2uinput[kbd_data])>1:
-                # there are keycodes defined
+                # there are ecodes defined
                 if self.echo:
                     return
                 key_lst=self.erika2uinput[kbd_data][1]
                 lenght=len(key_lst)
                 i=0
                 while i < lenght:
-                    # iterate over keycodes
+                    # iterate over ecodes
                     if self.verbose:
                         print(e.KEY[key_lst[i]],keystat[key_lst[i+1]],sep='.',end=', ')
                     self.ui.write(e.EV_KEY,key_lst[i],key_lst[i+1])
@@ -373,7 +373,7 @@ class s3015_de:
                 if self.verbose:
                     print(flush=True)
             else:
-                # no keycodes defined, maybe a special key
+                # no ecodes defined, maybe a special key
                 if self.verbose:
                     print("NO KEYS - start xkey",flush=True)
                 self.xkey(kbd_data)
@@ -450,14 +450,9 @@ class s3015_de:
             self.mui.write(e.EV_KEY,e.BTN_LEFT,0)
         elif kbd_data == 0xc7:
             # Mode X - Mouse BTN left - Switch
-            if self.m_btn_left:
-                self.m_btn_left=False
-                self.mui.write(e.EV_KEY,e.BTN_LEFT,0)
-            else:
-                self.m_btn_left=True
-                self.mui.write(e.EV_KEY,e.BTN_LEFT,1)
+            self.mui.write(e.EV_KEY,e.BTN_LEFT,1)
             if self.verbose:
-                print("Mouse BTN left", self.m_btn_left)
+                print("Mouse BTN left On")
         elif kbd_data == 0xcB:
             # Mode C - Mouse BTN right
             if self.verbose:
@@ -466,12 +461,7 @@ class s3015_de:
             self.mui.write(e.EV_KEY,e.BTN_RIGHT,0)
         elif kbd_data == 0xcF:
             # Mode V - Mouse BTN right - Switch
-            if self.m_btn_right:
-                self.m_btn_right=False
-                self.mui.write(e.EV_KEY,e.BTN_RIGHT,0)
-            else:
-                self.m_btn_right=True
-                self.mui.write(e.EV_KEY,e.BTN_RIGHT,1)
+            self.mui.write(e.EV_KEY,e.BTN_RIGHT,1)
             if self.verbose:
-                print("Mouse BTN right", self.m_btn_right)
+                print("Mouse BTN right On")
         self.mui.syn()

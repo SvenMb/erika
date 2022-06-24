@@ -31,10 +31,6 @@ class Erika:
         self.name            = name
         self.echo            = echo
 
-        # button state
-        self.m_btn_left          = False
-        self.m_btn_right         = False
-
         if keyboard in ('3004_de','3015_de'):
             self.kbdcl = getattr(importlib.import_module('erika.s'+keyboard),'s'+keyboard)
             # print(self.kbdcl.erika2uinput[0x4f])

@@ -340,7 +340,7 @@ class s3004_de:
         ['X',[e.KEY_LEFTSHIFT,1,e.KEY_DOWN,1,e.KEY_DOWN,0,e.KEY_LEFTSHIFT,0]], # shift cursor down
         ['|',[e.KEY_LEFTCTRL,1,e.KEY_LEFTSHIFT,1,e.KEY_SLASH,1,e.KEY_SLASH,0,e.KEY_LEFTSHIFT,0,e.KEY_LEFTCTRL,0]], # CTRL+_
         ['U'],
-        ['´ (no step)',[e.KEY_12,1,e.KEY_F12,0]], # F12
+        ['´ (no step)',[e.KEY_F12,1,e.KEY_F12,0]], # F12
         ['N'],
         ['`'],
         ['L'],

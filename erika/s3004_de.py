@@ -385,7 +385,7 @@ class s3004_de:
         ['k'],
         ['y',[e.KEY_END,1,e.KEY_END,0]], # End
         ['q'],
-        ['d',[e.KEY_LEFT,1,e.KEY_LEFT,0]], # cursor right
+        ['d',[e.KEY_RIGHT,1,e.KEY_RIGHT,0]], # cursor right
         ['z'],
         ['h'],
         ['t'],

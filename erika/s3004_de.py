@@ -301,29 +301,29 @@ class s3004_de:
         ['_'],
         ['&'],
         ['" (no step)'],
-        ['%'],
+        ['%',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_MINUS,1,e.KEY_MINUS,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-\
         ['i'],
-        ['£'],
-        ['µ'],
-        ['9'],
-        ['8'],
-        ['7'],
-        ['6'],
-        ['5'],
-        ['0'],
-        ['4'],
-        ['3'],
+        ['£',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F5,1,e.KEY_F5,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
+        ['µ',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F7,1,e.KEY_F7,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
+        ['9',[e.KEY_F9,1,e.KEY_F9,0]], # F9
+        ['8',[e.KEY_F8,1,e.KEY_F8,0]], # F8
+        ['7',[e.KEY_F7,1,e.KEY_F7,0]], # F7
+        ['6',[e.KEY_F6,1,e.KEY_F6,0]], # F6
+        ['5',[e.KEY_F5,1,e.KEY_F5,0]], # F5
+        ['0',[e.KEY_F10,1,e.KEY_F10,0]], # F10
+        ['4',[e.KEY_F4,1,e.KEY_F4,0]], # F4
+        ['3',[e.KEY_F3,1,e.KEY_F3,0]], # F3
         # 110
-        ['2'],
-        ['1'],
+        ['2',[e.KEY_F2,1,e.KEY_F2,0]], # F2
+        ['1',[e.KEY_F1,1,e.KEY_F1,0]], # F1
         ['H'],
         [':'],
-        ['D'],
-        ['²'],
+        ['D',[e.KEY_LEFTSHIFT,1,e.KEY_RIGHT,1,e.KEY_RIGHT,0,e.KEY_LEFTSHIFT,0]], # shift cursor right
+        ['²',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F,1,e.KEY_F9,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
         ['M'],
         ['\''],
         ['B'],
-        ['^ (no step)'],
+        ['^ (no step)',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_GRAVE,1,e.KEY_GRAVE,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-^
         ['Q'],
         ['*'],
         ['G'],
@@ -331,16 +331,16 @@ class s3004_de:
         ['O'],
         [')'],
         # 120
-        ['C'],
+        ['C',[e.KEY_LEFTSHIFT,1,e.KEY_PAGEDOWN,1,e.KEY_PAGEDOWN,0,e.KEY_LEFTSHIFT,0]], # shift page down
         ['I'],
         ['V'],
-        ['³'],
+        ['³',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F10,1,e.KEY_F10,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
         ['K'],
         ['+'],
-        ['X'],
-        ['|'],
+        ['X',[e.KEY_LEFTSHIFT,1,e.KEY_DOWN,1,e.KEY_DOWN,0,e.KEY_LEFTSHIFT,0]], # shift cursor down
+        ['|',[e.KEY_LEFTCTRL,1,e.KEY_LEFTSHIFT,1,e.KEY_SLASH,1,e.KEY_SLASH,0,e.KEY_LEFTSHIFT,0,e.KEY_LEFTCTRL,0]], # CTRL+_
         ['U'],
-        ['´ (no step)'],
+        ['´ (no step)',[e.KEY_12,1,e.KEY_F12,0]], # F12
         ['N'],
         ['`'],
         ['L'],
@@ -351,53 +351,53 @@ class s3004_de:
         ['A'],
         ['Y'],
         ['J'],
-        ['S'],
-        ['E'],
-        ['?'],
-        ['R'],
+        ['S',[e.KEY_LEFTSHIFT,1,e.KEY_LEFT,1,e.KEY_LEFT,0,e.KEY_LEFTSHIFT,0]], # shift cursor left
+        ['E',[e.KEY_LEFTSHIFT,1,e.KEY_UP,1,e.KEY_UP,0,e.KEY_LEFTSHIFT,0]], # shift cursor up
+        ['?',[e.KEY_RIGHTALT,1,e.KEY_LEFTBRACE,1,e.KEY_LEFTBRACE,0,e.KEY_RIGHTALT,0]], # " no step
+        ['R',[e.KEY_LEFTSHIFT,1,e.KEY_PAGEUP,1,e.KEY_PAGEUP,0,e.KEY_LEFTSHIFT,0]], # shift page up
         ['T'],
         ['Z'],
-        ['°'],
+        ['°',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F8,1,e.KEY_F8,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
         ['Ü'],
         [';'],
         ['Ö'],
-        ['§'],
+        ['§',[e.KEY_RIGHTALT,1,e.KEY_EQUAL,1,e.KEY_EQUAL,0,e.KEY_RIGHTALT,0,e.KEY_C,1,e.KEY_C,0]], # ç
         ['F'],
         ['Ä'],
         # 140
         ['/'],
-        ['#'],
+        ['#',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F6,1,e.KEY_F6,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
         ['!'],
         ['"'],
-        ['é'],
-        ['ç'],
-        ['è'],
-        ['ß'],
-        ['$'],
+        ['é',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F2,1,e.KEY_F2,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]], 
+        ['ç',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F3,1,e.KEY_F3,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]], 
+        ['è',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F1,1,e.KEY_F1,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
+        ['ß',[e.KEY_F11,1,e.KEY_F11,0]], # F11
+        ['$',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F4,1,e.KEY_F4,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]],
         ['f'],
         ['m'],
         ['j'],
-        ['w'],
+        ['w',[e.KEY_HOME,1,e.KEY_HOME,0]], # Home
         ['l'],
         ['b'],
         ['v'],
         # 150
         ['k'],
-        ['y'],
+        ['y',[e.KEY_END,1,e.KEY_END,0]], # End
         ['q'],
-        ['d'],
+        ['d',[e.KEY_LEFT,1,e.KEY_LEFT,0]], # cursor right
         ['z'],
         ['h'],
         ['t'],
-        ['c'],
-        ['s'],
-        ['r'],
-        ['e'],
+        ['c',[e.KEY_PAGEDOWN,1,e.KEY_PAGEDOWN,0]], # page down
+        ['s',[e.KEY_LEFT,1,e.KEY_LEFT,0]], # cursor left
+        ['r',[e.KEY_PAGEUP,1,e.KEY_PAGEUP,0]], # page up
+        ['e',[e.KEY_UP,1,e.KEY_UP,0]], # cursor up
         ['p'],
         ['n'],
         ['u'],
         ['o'],
-        ['x'],
+        ['x',[e.KEY_DOWN,1,e.KEY_DOWN,0]], # cursor down
         # 160
         ['g'],
         ['a'],
@@ -541,11 +541,11 @@ class s3004_de:
         None,
         None,
         ['CODE P'],
-        ['CODE Ö'],
+        ['CODE Ö',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_8,1,e.KEY_8,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]],
         None,
         None,
-        ['CODE Ü'],
-        ['CODE Ä'],
+        ['CODE Ü',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_MINUS,1,e.KEY_MINUS,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]],
+        ['CODE Ä',[e.KEY_LEFTCTRL,1,e.KEY_RIGHTALT,1,e.KEY_9,1,e.KEY_9,0,e.KEY_RIGHTALT,0,e.KEY_LEFTCTRL,0]],
         None,
         None,
         None,
@@ -596,11 +596,11 @@ class s3004_de:
             self.layer = 1 # we count from 0
             return
         if self.layer == 1:
-                if not kbd_data in (0x14,0x20,0x26,0x33,0x34,0x36,0x4c,0x51,0x53,0x57,0x58,0x59,0x5a,0x5f,
-                                    0x75,0x76,0x7d,0x81,0x82,0xc3,0xc5,0xc6,0xc7,0xc9,0xca,0xcb,0xcd):
-                    print('switch back to 1st layer')
-                    self.layer=0
-                kbd_data+=0x100
+            if not kbd_data in (0x14,0x20,0x26,0x33,0x34,0x36,0x4c,0x51,0x53,0x57,0x58,0x59,0x5a,0x5f,
+                                0x75,0x76,0x7d,0x81,0x82,0xc3,0xc5,0xc6,0xc7,0xc9,0xca,0xcb,0xcd):
+                print('switch back to 1st layer')
+                self.layer = 0
+            kbd_data += 0x100
         if self.erika2uinput[kbd_data]:
             # Jetzt ist die richtige Taste gefunden
             if self.verbose:

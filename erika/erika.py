@@ -139,7 +139,7 @@ class Erika:
                             # there is serial data
                             kbd_data=data[0]
                             if self.verbose:
-                                print("erika:",hex(kbd_data),end='')
+                                print("erika code:",hex(kbd_data))
                             kbd.key(kbd_data)
                     else:
                         # no serial data, just wait a bit

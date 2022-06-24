@@ -144,10 +144,10 @@ key code | key | function
 0x41 | CODE 6 			| CTRL ALT F6
 0x07 | CODE 7 			| CTRL ALT F7
 0x39 | CODE 8 			| CTRL ALT F8
-0x23 | CODE 9 			| CTRL ALT F9
+0x15 | CODE 9 			| CTRL ALT F9
 0x23 | CODE 0 			| CTRL ALT F10
 
-### some more CTRl-keys and chars
+### some more CTRL-keys and chars
 
 key code | key | function/char
 ---------|-----|---------------

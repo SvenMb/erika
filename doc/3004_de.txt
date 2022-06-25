@@ -8,7 +8,7 @@ mapped to different chars, since these are needed for computer use.
 Especialy for terminal use, you will need control keys, most of them
 are mapped to CODE+A - CODE-Z, see below for more details.
 
-Also you will need special keys like cursor and I also liked to
+You will probably need special keys like cursor and I liked to
 emulate a mouse. This is realized in second layer of the keyboard
 you have to switch between them. The cursor keys are arranged like
 the wordstar diamond. See below for details.
@@ -71,7 +71,7 @@ key code | key                  | char generated
 0x82  | CODE micro line backward| cursor right
 0xad  | CODE REL		| shift Delete
 
-**from CODE A until CODE Z - generate corespondending CTRL-A until CTRL-Z**
+**from CODE A until CODE Z - generate corresponding CTRL-A until CTRL-Z**
 
 ## 2nd layer
 

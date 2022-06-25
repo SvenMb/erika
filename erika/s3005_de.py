@@ -10,6 +10,7 @@
 import os
 from evdev import ecodes as e
 
+class s3005_de:
     def init(self, ui, mui, serial, verbose, echo):
         self.ui      = ui
         self.mui     = mui

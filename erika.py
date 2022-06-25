@@ -17,7 +17,7 @@ def main(argv):
     serdev    = '/dev/ttyAMA0'
     baudrate  = 1200
     rtscts    = True
-    keyboard  = '3015_de'
+    keyboard  = '3005_de'
     # wheel     = 'german_courier'
     # lpsetperm = 'sudo ./setperm.sh'
     lpsetperm = './setperm.sh'

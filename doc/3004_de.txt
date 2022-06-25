@@ -1,4 +1,4 @@
-# Keyboard layout for Erika 3004
+# German keyboard layout for Erika 3004
 *(and compatible)*
 
 To use the typewriter keyboard as computer keyboard some keys are

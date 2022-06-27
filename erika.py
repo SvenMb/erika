@@ -7,7 +7,6 @@
 #  
 #  
 
-from telnetlib import ECHO
 from erika.erika import Erika
 import sys, getopt
 

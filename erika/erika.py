@@ -24,19 +24,13 @@ class Erika:
         self.serial.baudrate = baudrate
         self.serial.rtscts   = rtscts
         self.lpsetperm       = setperm
+        self.keyboard        = keyboard
         # stats
         self.alive           = None
         self.threads         = []
         self.verbose         = verbose
         self.name            = name
         self.echo            = echo
-
-        if keyboard in ('3004_de','3005_de'):
-            self.kbdcl = getattr(importlib.import_module('erika.s'+keyboard),'s'+keyboard)
-            # print(self.kbdcl.erika2uinput[0x4f])
-        elif keyboard != 'none':
-            print('unknown keyboard!!!')
-            quit()
  
     def open(self):
         self.serial.open()
@@ -110,8 +104,22 @@ class Erika:
 
     def kbd(self):
         """loop and copy serial->uinput"""
-        
-        kbd=self.kbdcl()
+        # switch echo print off when typing
+
+        self.serial.write(b'\x91')
+
+        if self.echo:
+            self.serial.write(b'\x92')
+        # else:
+        #     self.serial.write(b'\x91')
+            
+        if self.keyboard in ('3004_de','3005_de'):
+            kbd = getattr(importlib.import_module('erika.s'+self.keyboard),'s'+self.keyboard)()
+            # print(self.kbdcl.erika2uinput[0x4f])
+        # elif self.keyboard != 'none':
+        else:
+            print('unknown keyboard!!!')
+            quit()
         # for verbose output
         # define mouse capabilities
         # have to use two input device, since I could not get a merged one going 
@@ -126,11 +134,6 @@ class Erika:
                 print('Mouse cap:',mui.capabilities())
             kbd.init(ui, mui, self.serial, self.verbose, self.echo)
             try:
-                # switch echo print off when typing
-                if self.echo:
-                    self.serial.write(b'\x92')
-                else:
-                    self.serial.write(b'\x91')
                 while self.alive:
                     # read all that is there or wait for one byte
                     if (self.serial.inWaiting() > 0):

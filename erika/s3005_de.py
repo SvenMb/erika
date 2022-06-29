@@ -287,14 +287,14 @@ class s3005_de:
         ['MODE T-',[e.KEY_LEFTALT,1,e.KEY_TAB,1,e.KEY_TAB,0,e.KEY_LEFTALT,0]],                                # ALT-Tab
         None,
         ['CODE backspace',[e.KEY_LEFTSHIFT,1,e.KEY_DELETE,1,e.KEY_DELETE,0,e.KEY_LEFTSHIFT,0]],               # shift-Delete
-        ['2 zeilig (key)'],
-        ['1 zeilig (key)'],
-        ['10 CPI'],
+        ['2 zeilig (stat)'],
+        ['1 zeilig (stat)'],
+        ['10 CPI (stat)'],
         ['MODE backspace',[e.KEY_DELETE,1,e.KEY_DELETE,0]],                                                   # Delete
         ['backspace',[e.KEY_BACKSPACE,1,e.KEY_BACKSPACE,0]],                                                  # Backspace
         ['MODE form feed'],                                                                         # special shutdown -r now if next key is 'y'
-        ['1,5 zeilig (key)'],
-        ['12 CPI'],
+        ['1,5 zeilig (stat)'],
+        ['12 cpi (stat)'],
         # 100
         None,
         ['CODE Q',[e.KEY_LEFTCTRL,1,e.KEY_Q,1,e.KEY_Q,0,e.KEY_LEFTCTRL,0]],                                   # CTRL-Q

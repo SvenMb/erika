@@ -105,21 +105,25 @@ class Erika:
     def kbd(self):
         """loop and copy serial->uinput"""
 
-        # switch echo print off, this also starts infos from erika about stat and keys  
-        self.serial.write(b'\x91')
-	# read max 5 bytes 
-        for i in range(0,4):
-            if (self.serial.inWaiting() >):
-                data = self.serial()
-                print("erikastart:",data[0])
-            else:
-                time.sleep(0.2)
+        # autodetect machine type
+        if self.keyboard in ('de'):
+            keyboard='3004_'
+            # switch echo print off, this also starts infos from erika about stat and keys
+            self.serial.write(b'\x91')
+	        # read max 6 bytes or 0,6s wait
+            for i in range(0,5):
+                if (self.serial.inWaiting() > 0):
+                    data = self.serial.read()
+                    if self.verbose:
+                        print("erikastart[",i,"]: ",hex(data[0]),sep='')
+                    if data[0] in (0xf8,0xf9,0xfa,0xfe,0xff):
+                        keyboard='3005_'
+                else:
+                    time.sleep(0.1)
+            self.keyboard=keyboard+self.keyboard
+            # if self.verbose:
+            print("Keyboard     :",self.keyboard)
 
-        if self.echo:
-            self.serial.write(b'\x92')
-        # else:
-        #     self.serial.write(b'\x91')
-            
         if self.keyboard in ('3004_de','3005_de'):
             kbd = getattr(importlib.import_module('erika.s'+self.keyboard),'s'+self.keyboard)()
             # print(self.kbdcl.erika2uinput[0x4f])
@@ -127,7 +131,13 @@ class Erika:
         else:
             print('unknown keyboard!!!')
             quit()
-        # for verbose output
+
+        # set echo on or off
+        if self.echo:
+            self.serial.write(b'\x92')
+        else:
+            self.serial.write(b'\x91')
+ 
         # define mouse capabilities
         # have to use two input device, since I could not get a merged one going 
         cap = {

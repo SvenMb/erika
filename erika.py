@@ -16,7 +16,7 @@ def main(argv):
     serdev    = '/dev/ttyAMA0'
     baudrate  = 1200
     rtscts    = True
-    keyboard  = '3005_de'
+    keyboard  = 'de'
     # wheel     = 'german_courier'
     # lpsetperm = 'sudo ./setperm.sh'
     lpsetperm = './setperm.sh'
@@ -51,10 +51,11 @@ def main(argv):
             print('\t\tExample baudrate: 1200')
             print('\t\tdefault: ', baudrate )
             print('\t-k, --keyboard <map>\tkeyboard map to use')
-            print('\t\tpossible keyboards: 3004_de, 3005_de, 3006_de none')
+            print('\t\tpossible keyboards: de, 3004_de, 3005_de, none')
             print('\t\tdefault: ', keyboard )
+            print('\t\tuse \'de\' for autodetect machine type (only implemented language currently)')
             print('\t\tuse \'none\' if you don\'t want to use the erika keyboard for input')
-            print('\t\tcurrently implemented 3004_de and 3005_de.\n\t\tUse 3005_de for 3006_de until release of 3006_de.')
+            print('\t\tcurrently implemented 3004_de and 3005_de. 3005, 3006, 3015, 3016 use the same keycodes')
             print('\t-s, --setperm <script>\tscript to create link and set permission for virtual lp-device')
             print('\t\tExample: sudo lp_setperm')
             print('\t\tdefault: ', lpsetperm )

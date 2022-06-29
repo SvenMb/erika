@@ -165,11 +165,11 @@ class s3004_de:
         ['CODE step down',[e.KEY_LEFT,1,e.KEY_LEFT,0]],   # cursor left
         ['CODE step up',[e.KEY_RIGHT,1,e.KEY_RIGHT,0]],   # cursor right
         ['form feed'],                                     # special form-feed (Papiereinzug)
-        ['1 zeilig (stat)'],                               # 
-        ['1,5 zeilig (stat)'],                             #
-        ['2 zeilig (stat)'],                               #
-        ['10 cpi (stat)'],                                 #
-        ['12 cpi (stat)'],                                 #
+        ['1 zeilig (switch)'],                               # 
+        ['1,5 zeilig (switch)'],                             #
+        ['2 zeilig (switch)'],                               #
+        ['10 cpi (switch)'],                                 #
+        ['12 cpi (switch)'],                                 #
         None,
         None,
         None,
@@ -437,11 +437,11 @@ class s3004_de:
         ['CODE step down'],
         ['CODE step up'],
         ['form feed'],
-        ['1 zeilig (stat)'], 
-        ['1,5 zeilig (stat)'],
-        ['2 zeilig (stat)'],
-        ['10 cpi (stat)'],
-        ['12 cpi (stat)'],
+        ['1 zeilig (switch)'], 
+        ['1,5 zeilig (switch)'],
+        ['2 zeilig (switch)'],
+        ['10 cpi (switch)'],
+        ['12 cpi (switch)'],
         None,
         None,
         None,

@@ -51,4 +51,5 @@ so from 3005 and up there is a special code for the switches, while 3004 send it
 
 ### Conclusion
 
-based on this it is possible to auto switch between 3004 and 3005 (and above with mode key)
+based on this it is possible to auto switch between 3004 and 3005 (and other models with mode key)
+

@@ -104,9 +104,16 @@ class Erika:
 
     def kbd(self):
         """loop and copy serial->uinput"""
-        # switch echo print off when typing
 
+        # switch echo print off, this also starts infos from erika about stat and keys  
         self.serial.write(b'\x91')
+	# read max 5 bytes 
+        for i in range(0,4):
+            if (self.serial.inWaiting() >):
+                data = self.serial()
+                print("erikastart:",data[0])
+            else:
+                time.sleep(0.2)
 
         if self.echo:
             self.serial.write(b'\x92')

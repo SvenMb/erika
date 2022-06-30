@@ -3,7 +3,7 @@
 #### manual install
 
 1. clone project directory  
-`git clone https://git.muehlberg.net/SvenMb/erika`
+`git clone https://git.muehlberg.net/SvenMb/erika.git`
 2. change to project directory  
 `cd erika`
 3.  install python-evdev  

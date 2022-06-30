@@ -2,14 +2,17 @@
 
 #### manual install
 
-1. change to project directory
-2.  install python-evdev  
+1. clone project directory  
+`git clone https://git.muehlberg.net/SvenMb/erika`
+2. change to project directory  
+`cd erika`
+3.  install python-evdev  
 `sudo pip3 install evdev`
-3.  copy src to /var/lib/erika  
+4.  copy src to /var/lib/erika  
 `sudo cp -R src /var/lib/erika`
-4. copy service/erika.service to /etc/systemd/system/erika.service  
+5. copy service/erika.service to /etc/systemd/system/erika.service  
 `sudo cp service/erika.service /etc/systemd/system/erika.service`
-5. copy default/erika.service to /etc/default/erika  
+6. copy default/erika.service to /etc/default/erika  
 `sudo cp default/erika.service /etc/default/erika`
 
 ### adapt to local system

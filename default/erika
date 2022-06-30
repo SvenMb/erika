@@ -1,0 +1,9 @@
+# Default settings for erika daemon. This file is sourced by /bin/sh from
+# /etc/init.d/ssh.
+
+# Options to pass to erika.py
+# ECHO=--echo
+# VERBOSE=--verbose
+# PORT=--device=/dev/ttyAMA0
+# KEYBOARD=--keyboard=de
+# SETPERM=--setperm=./setperm.sh

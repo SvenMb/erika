@@ -24,9 +24,17 @@ dtoverlay=miniuart-bt
 dtoverlay=uart-cts
 ```
 This makes sure that uart is enabled, the right uart is assigned to gpio port (and bluetooth get the simpler one and will also work).
-It activates CTS on GPIO16 (pin 36 on gpio header)  
+It activates CTS on GPIO16 (pin 36 on gpio header)
 
+#### known problems with ch34x serial-usb adapter
 
+In case you like to use a ch340 USB-Serial adapter, then this info is for you.
+
+The ch34x has a CTS pin but even when CTS pin is avaiable on your adapter hardware flow controll probably won't work, since default linux kernel driver ignores CTS and sends data even when it should stop.
+
+A working driver for current linux kernel can be found here:
+
+[https://github.com/juliagoda/CH341SER](https://github.com/juliagoda/CH341SER)
 
 ### manual installation from https://git.muehlberg.net
 

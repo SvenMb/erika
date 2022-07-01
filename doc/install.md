@@ -1,18 +1,26 @@
 ### Install erika service
 
-#### manual install
+#### manual installation from https://git.muehlbergnet
 
-1. clone project directory  
+1. extract certificate for git.muehlberg.net:  
+```
+echo -n \\ | openssl s_client -showcerts -connect git.muehlberg.net:443 \\
+2>/dev/null  | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' \\
+> mbnet_cert.pem
+```
+2. add the cert to your git config  
+`git config --global http."https://git.muehlberg.net:443/".sslCAInfo mbnet_cert.pem`
+3. clone project directory  
 `git clone https://git.muehlberg.net/SvenMb/erika.git`
-2. change to project directory  
+4. change to project directory  
 `cd erika`
-3.  install python-evdev  
+5.  install python-evdev  
 `sudo pip3 install evdev`
-4.  copy src to /var/lib/erika  
+6.  copy src to /var/lib/erika  
 `sudo cp -R src /var/lib/erika`
-5. copy service/erika.service to /etc/systemd/system/erika.service  
+7. copy service/erika.service to /etc/systemd/system/erika.service  
 `sudo cp service/erika.service /etc/systemd/system/erika.service`
-6. copy default/erika.service to /etc/default/erika  
+8. copy default/erika.service to /etc/default/erika  
 `sudo cp default/erika.service /etc/default/erika`
 
 ### adapt to local system

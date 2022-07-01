@@ -10,6 +10,7 @@ you need to integrate it in your system by yourself.
 #### example raspberry Erika on GPIO header
 
 ![Erika2raspberry](./S3004_lazy_con.png)
+*5v should only be connected if you like to power the raspberry from you Erika. And this should only be done with a low power raspi like Zero, Zero W maybe with Zero W 2.* 
 
 1. install raspberry
 2. take care, that serial port is enabled, but login shell on serial is off. keymap should be de for 105keys keyboard, since currently only german keymap is available. 

@@ -1,0 +1,14 @@
+diff --git a/RunCPM/cpm.h b/RunCPM/cpm.h
+index 60f894a..6bed457 100644
+--- a/RunCPM/cpm.h
++++ b/RunCPM/cpm.h
+@@ -14,7 +14,8 @@
+ char pun_file[17] = { 'A',FOLDERCHAR,'0',FOLDERCHAR,'P','U','N','.','T','X','T',0 };
+ #endif
+ #ifdef USE_LST
+-char lst_file[17] = { 'A',FOLDERCHAR,'0',FOLDERCHAR,'L','S','T','.','T','X','T',0 };
++/* char lst_file[17] = { 'A',FOLDERCHAR,'0',FOLDERCHAR,'L','S','T','.','T','X','T',0 }; */
++char lst_file[17] = { FOLDERCHAR,'d', 'e', 'v', FOLDERCHAR, 'e', 'r', 'i', 'k', 'a', FOLDERCHAR, 'e', 'r', 'i', 'k', 'a',0 };
+ #endif
+ 
+ #ifdef PROFILE

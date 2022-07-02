@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 #
-
 #  erika.py
 #  
 #  Copyright 2022  <sven@muehlberg.net>
@@ -62,15 +61,13 @@ class courier_de:
         # more punctuation
         ":": b"\x13",
         ";": b"\x3B",
+        ">": b"\xa6\x0e\x29\xa6\xfa\x2b\xa6\xf9\xee\x71",
         "=": b"\x2E",
+        "<": b"\xa6\x0e\x2b\xa6\xfa\x29\xa6\xf9\xee\x71",
         "?": b"\x35",
-        ">": None,
-        "=": None,
-        "<": None,
-        "?": None,
 
         # 0x40
-        "@": None,
+        "@": b"\xa6\xfd\xa9\x61\xa5\xfe\xa6\x06\xa9\x20\xa5\x02\xa6\xfe\xee\x71",
         # upper case letters
         "A": b"\x30",
         "B": b"\x18",
@@ -99,9 +96,9 @@ class courier_de:
         "X": b"\x26",
         "Y": b"\x31",
         "Z": b"\x38",
-        "[": None,
-        "\\": None,
-        "]": None,
+        "[": b"\xa6\xf9\x29\xa6\x2b\x2b\xa6\xde\xa5\xfd\xa9\x27\xa5\x03\xee\x71",
+        "\\": b"\xa6\x01\xa9\x17\xa6\x09\xa5\x03\xa9\x17\xa6\x09\xa5\x03\xa9\x17\xa5\xfa\xa6\xf0\xee\x71",
+        "]": b"\xa6\xf9\x2b\xa6\x2b\x29\xa6\xde\xa5\x03\xa9\x27\xa5\xfd\xee\x71",
 
         # punctuation
         "^": b"\x19\x71",
@@ -139,10 +136,10 @@ class courier_de:
         "z": b"\x54",
 
         # special chars
-        "{": None,
+        "{": b"\xa9\x1d\xa6\x06\x39\xa6\xfb\xee",
         "|": b"\x27",
-        "}": None,
-        "~": None,    # 0x7e
+        "}": b"\xa9\x1f\xa6\x06\x39\xa6\xfb\xee",
+        "~": b"\xa6\xf4\xa9\x64\xa6\x16\xa5\x03\x2b\xa5\x03\xa6\xeb\xa9\x64\xa6\x0c\xa5\xfa\xee\x71",    # 0x7e
         # 0x7f backspace
 
         ### 7-bit ascii end ###  
@@ -173,10 +170,11 @@ class courier_de:
         ### utf-8 end ###
     }
 
-    cp8502utf8 = {
+    cp8582utf8 = {
 
-        ### cp850 start ###
+        ### cp858 (cp850 with €) start ###
 
+        0x7f: b'\b',                 # Backspace
         0x81: "ü".encode('utf-8'),   # 0x81 ü
         0x82: "é".encode('utf-8'),   # 0x82 é
         0x84: "ä".encode('utf-8'),   # 0x84 ä
@@ -187,19 +185,20 @@ class courier_de:
         0x99: "Ö".encode('utf-8'),   # 0x99 Ö
         0x9a: "Ü".encode('utf-8'),   # 0x9a Ü
         0x9c: "£".encode('utf-8'),   # 0x9c £
+        0xd5: "€".encode('utf-8'),
         0xe1: "ß".encode('utf-8'),   # 0xe1 ß
         0xe6: "µ".encode('utf-8'),   # 0xe6 µ
         0xf5: "§".encode('utf-8'),   # 0xf5 §
         0xf8: "°".encode('utf-8'),   # 0xf8 °
         0xfc: "³".encode('utf-8'),   # 0xfc ³
         0xfd: "²".encode('utf-8'),   # 0xfd ²
-        # € !!!
 
-        ### cp850 end ###
+        ### cp858 end ###
     }
 
 
     def decode(self, char):
+        # print("decode 01:",char.hex())
         # read multibyte chars
         if self.co and self.co > 1:
             self.co -= 1
@@ -218,11 +217,11 @@ class courier_de:
             self.ch += char
             return b''
 
-        # replace cp850 chars with utf-8 ones
-        if char[0] in self.cp8502utf8.keys():
-            char=self.cp8502utf8[char[0]]
+        # replace cp858 chars with utf-8 ones
+        if char[0] in self.cp8582utf8.keys():
+            char=self.cp8582utf8[char[0]]
 
-        # print("deb01:",char.hex())
+        # print("decode 02:",char.hex())
 
         # find known chars and return bytes for erika
         try:

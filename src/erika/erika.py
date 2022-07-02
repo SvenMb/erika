@@ -14,7 +14,7 @@ import threading,os,stat
 
 import evdev
 from evdev import ecodes as e
-from courier_de import courier_de
+from erika.courier_de import courier_de
 
 import importlib
 
@@ -80,7 +80,7 @@ class Erika:
             if self.verbose:
                 print("start setperm:",self.lpsetperm,vs_name)
             os.system(self.lpsetperm + " " + vs_name)
-        with courier_de as cm:
+        with courier_de() as cm:
             try:
                 os.set_blocking(master,False)
                 while self.alive:
@@ -93,7 +93,7 @@ class Erika:
                             self.serial.write(cm.decode(data))
                     except OSError as e:
                         if e.errno == 11:
-                            #if self.verbose:
+                            # if self.verbose:
                             #    print('lp-tick',end='',flush=True)
                             time.sleep(1)
                         else:
@@ -101,6 +101,8 @@ class Erika:
                             break
             except serial.SerialException:
                 self.alive = False
+                if self.verbose:
+                    print("lp-thread stopped!",flush=True)
                 raise       # maybe serial device is removed
 
     ###########################

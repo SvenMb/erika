@@ -14,8 +14,10 @@ import threading,os,stat
 
 import evdev
 from evdev import ecodes as e
+from courier_de import courier_de
 
 import importlib
+
 
 class Erika:
     def __init__(self, name, serdev, baudrate, rtscts, keyboard, setperm, verbose, echo):
@@ -78,27 +80,28 @@ class Erika:
             if self.verbose:
                 print("start setperm:",self.lpsetperm,vs_name)
             os.system(self.lpsetperm + " " + vs_name)
-        try:
-            os.set_blocking(master,False)
-            while self.alive:
-                try:
-                    data = os.read(master,1)
-                    if len(data) == 0:
-                        print("Bug found: read zero bytes from pty master")
-                        time.sleep(1)
-                    else:
-                        self.serial.write(data)
-                except OSError as e:
-                    if e.errno == 11:
-                        #if self.verbose:
-                        #    print('lp-tick',end='',flush=True)
-                        time.sleep(1)
-                    else:
-                        self.alive = False
-                        break
-        except serial.SerialException:
-            self.alive = False
-            raise       # maybe serial device is removed
+        with courier_de as cm:
+            try:
+                os.set_blocking(master,False)
+                while self.alive:
+                    try:
+                        data = os.read(master,1)
+                        if len(data) == 0:
+                            print("Bug found: read zero bytes from pty master")
+                            time.sleep(1)
+                        else:
+                            self.serial.write(cm.decode(data))
+                    except OSError as e:
+                        if e.errno == 11:
+                            #if self.verbose:
+                            #    print('lp-tick',end='',flush=True)
+                            time.sleep(1)
+                        else:
+                            self.alive = False
+                            break
+            except serial.SerialException:
+                self.alive = False
+                raise       # maybe serial device is removed
 
     ###########################
 

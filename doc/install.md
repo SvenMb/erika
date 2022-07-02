@@ -1,6 +1,6 @@
 ## Install erika service
 
-### preconditon
+### Prerequisites
 
 You will need a installed linux system with working /dev/uinput and serial
 connection with hardware rts/cts flow control.

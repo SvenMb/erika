@@ -10,7 +10,12 @@ class courier_de:
     def __init__(self,charset):
         self.co = None
         self.ch = b''
-        self.charset=charset
+        if charset in ('cp858','if6000'):
+            self.charset=charset
+        else:
+            print('unknown extra charset',charset,flush=True)
+            charset = 'None'
+        print ('extra charset:',self.charset,flush=True)
 
     def __enter__(self):
         return self

@@ -107,7 +107,7 @@ class Erika:
             self.serial.write(b'\x84')
         with courier_de() as cm:
             try:
-                os.set_blocking(master,False)
+                os.set_blocking(master,True)
                 while self.alive:
                     try:
                         data = os.read(master,1)
@@ -115,58 +115,117 @@ class Erika:
                             print("Bug found: read zero bytes from pty master")
                             time.sleep(1)
                         else:
-                            # check for newline or line overflow
-                            if data == b'\n' or (self.column+self.charstep) > self.maxcolumns:
-                                self.line+=self.linestep
-                                self.column=0
-                                if self.verbose > 1:
-                                    print("line:",self.line)
-                                if not data == b'\n':
-                                   self.serial.write(b'\x77') # maybe already to far of paper, but we won't write here
-                            # backstep, shouldn't happen to often, handle anyway
-                            elif data == b'\b':
-                                self.column -= self.charstep
-                            # only carriage return
-                            elif data == b'\r':
-                                self.column = 0
-                            # tabs
-                            elif data == b'\t': # to be implemented!!!!
-                                t = int(self.tabstop-(self.column/self.charstep)%self.tabstop)
-                                self.column+=self.charstep*t
-                                if self.verbose > 1:
-                                    print ("space to next tabstop:",t)
-                                while t > 0:
-                                    self.serial.write(b'\x71')
-                                    t-=1
-                            # every printable char
+                            # check for escape, adapted from if6000
+                            if data == b'\x1b':
+                                print("escape found")
+                                data = os.read(master,1)
+                                if   data == b'M':
+                                    if self.verbose:
+                                        print("ESC M -> 10cpi")
+                                    self.serial.write(b'\x87')
+                                    self.charstep=6
+                                elif data == b'N':
+                                    if self.verbose:
+                                        print("ESC N -> 12cpi")
+                                    self.serial.write(b'\x88')
+                                    self.charstep=5
+                                elif data == b'O':
+                                    if self.verbose:
+                                        print("ESC O -> 15cpi")
+                                    self.serial.write(b'\x89')
+                                    self.charstep=4
+                                elif data == b'3':
+                                    if self.verbose:
+                                        print("ESC 3 -> 2 halflines spacing")
+                                    self.serial.write(b'\x84')
+                                    self.linestep=2
+                                elif data == b'4':
+                                    if self.verbose:
+                                        print("ESC 4 -> 3 halflines spacing")
+                                    self.serial.write(b'\x85')
+                                    self.linestep=3
+                                elif data == b'5':
+                                    if self.verbose:
+                                        print("ESC 5 -> 4 halflines spacing")
+                                    self.serial.write(b'\x86')
+                                    self.linestep=4
+                                elif data == b'U':
+                                    if self.verbose:
+                                        print("ESC U -> halfline forward")
+                                    self.serial.write(b'\x75')
+                                    self.line+=1
+                                elif data == b'U':
+                                    if self.verbose:
+                                        print("ESC D -> halfline backward")
+                                    self.serial.write(b'\x76')
+                                    self.line-=1
+                                elif data == b'U':
+                                    if self.verbose:
+                                        print("ESC T -> tabstop 4")
+                                    self.tabstop=4
+                                elif data == b't':
+                                    if self.verbose:
+                                        print("ESC t -> tabstop 8")
+                                    self.tabstop=8
+                                elif data == b'C':
+                                    if self.verbose:
+                                        print("ESC C -> charset utf-8/cp858")
+                                elif data == b'c':
+                                    if self.verbose:
+                                        print("ESC C -> charset IF6000/DIN66003")
                             else:
-                                self.column += self.charstep
-                                print('column:',self.column)
-                            # check for form feed
-                            if data == b'\x0c' or self.line > self.maxlines:
-                                # double beep
-                                self.serial.write(b'\xaa\x05')
-                                time.sleep(0.5)
-                                self.serial.write(b'\xaa\x05')
-                                # connect typewriter with keyboard
-                                self.serial.write(b'\x92')
-                                # tell kb thread to wait
-                                self.kbd_wait=True
-                                if self.verbose:
-                                    print("Form Feed, waiting for kbd")
-                                # waiting for kbd thread to message "Randloesen"
-                                while self.kbd_wait:
+                                # check for newline or line overflow
+                                if data == b'\n' or (self.column+self.charstep) > self.maxcolumns:
+                                    self.line+=self.linestep
+                                    self.column=0
+                                    if self.verbose > 1:
+                                        print("line:",self.line)
+                                    if not data == b'\n':
+                                        self.serial.write(b'\x77') # maybe already to far of paper, but we won't write here
+                                # backstep, shouldn't happen to often, handle anyway
+                                elif data == b'\b':
+                                    self.column -= self.charstep
+                                # only carriage return
+                                elif data == b'\r':
+                                    self.column = 0
+                                # tabs
+                                elif data == b'\t': # to be implemented!!!!
+                                    t = int(self.tabstop-(self.column/self.charstep)%self.tabstop)
+                                    self.column+=self.charstep*t
+                                    if self.verbose > 1:
+                                        print ("space to next tabstop:",t)
+                                    while t > 0:
+                                        self.serial.write(b'\x71')
+                                        t-=1
+                                # every printable char
+                                else:
+                                    self.column += self.charstep
+                                    print('column:',self.column)
+                                # check for form feed
+                                if data == b'\x0c' or self.line > self.maxlines:
+                                    # double beep
+                                    self.serial.write(b'\xaa\x05')
                                     time.sleep(0.5)
-                                # disconnect typewriter keyboard if wanted
-                                if not self.echo:
-                                    self.serial.write(b'\x91')
-                                # if formfeed, then also carriage return
-                                if data == b'\x0c':
-                                    data = b'\r'
-                                # reset line counter
-                                self.line=0
-                                self.column=0
-                            self.serial.write(cm.decode(data))
+                                    self.serial.write(b'\xaa\x05')
+                                    # connect typewriter with keyboard
+                                    self.serial.write(b'\x92')
+                                    # tell kb thread to wait
+                                    self.kbd_wait=True
+                                    if self.verbose:
+                                        print("Form Feed, waiting for kbd")
+                                    # waiting for kbd thread to message "Randloesen"
+                                    while self.kbd_wait:
+                                        time.sleep(0.5)
+                                    # disconnect typewriter keyboard if wanted
+                                    if not self.echo:
+                                        self.serial.write(b'\x91')
+                                    # if formfeed, then also carriage return
+                                    if data == b'\x0c':
+                                        data = b'\r'
+                                    # reset line counter
+                                    self.line=0
+                                    self.column=0
+                                self.serial.write(cm.decode(data))
                     except OSError as e:
                         if e.errno == 11:
                             if self.verbose >2 :

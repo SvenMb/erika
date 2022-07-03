@@ -7,9 +7,10 @@
 from enum import Enum
 
 class courier_de:
-    def __init__(self):
+    def __init__(self,charset):
         self.co = None
         self.ch = b''
+        self.charset=charset
 
     def __enter__(self):
         return self
@@ -165,7 +166,7 @@ class courier_de:
         "ç": b"\x45",       # 0xC3 0xA7
         "è": b"\x46",       # 0xC3 0xA8
         "é": b"\x44",       # 0xC3 0xA9
-        "μ": b"\x07",       # 0xC2 0xB5
+        b'\xc2\xb5'.decode(): b"\x07",       # 0xC2 0xB5 µ
         "ö": b"\x66",       # 0xC3 0xB6
         "ü": b"\x67",       # 0xC3 0xBC
         "`": b"\x29\x71",   # 0xE2 0x80 0xB2
@@ -200,9 +201,33 @@ class courier_de:
         ### cp858 end ###
     }
 
+    if6000 = {
+        ### if6000 start ###
+
+        0x7f: b'\b',
+        0x40: "§".encode('utf-8'),
+        0x5b: "Ä".encode('utf-8'),
+        0x5c: "Ö".encode('utf-8'),
+        0x5d: "Ü".encode('utf-8'),
+        0x7b: "ä".encode('utf-8'),
+        0x7c: "ö".encode('utf-8'),
+        0x7d: "ü".encode('utf-8'),
+        0x7e: "ß".encode('utf-8'),
+        0x82: "é".encode('utf-8'),
+        0x87: "ç".encode('utf-8'),
+        0x8a: "è".encode('utf-8'),
+        0x9c: "£".encode('utf-8'),
+        0xb0: "³".encode('utf-8'),
+        0xb3: "|".encode('utf-8'),
+        0xe6: "µ".encode('utf-8'),
+        0xf3: "`".encode('utf-8'),
+        0xf8: "°".encode('utf-8'),
+        0xfd: "²".encode('utf-8'),
+        ### if6000 end ###
+    }
+
 
     def decode(self, char):
-        # print("decode 01:",char.hex())
         # read multibyte chars
         if self.co and self.co > 1:
             self.co -= 1
@@ -222,10 +247,12 @@ class courier_de:
             return b''
 
         # replace cp858 chars with utf-8 ones
-        elif char[0] in self.cp8582utf8.keys():
-            char=self.cp8582utf8[char[0]]
+        elif self.charset == 'cp858' and char[0] in self.cp8582utf8.keys():
+            char = self.cp8582utf8[char[0]]
 
-        # print("decode 02:",char.hex())
+        # replace if6000 chars with utf-8 ones
+        elif self.charset == 'if6000' and char[0] in self.if6000.keys():
+            char = self.if6000[char[0]]
 
         # find known utf-8 chars and return bytes for erika
         try:

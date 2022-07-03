@@ -17,8 +17,8 @@ def main(argv):
     
     # comand line args
     try:
-        opts, args = getopt.getopt(argv,"hved:b:k:p:i:s:l:c:t:",
-            ["help","verbose","echo","device=","baudrate=","keyboard=",'wheel=','paper=','setperm=','cpi=','linespacing=','halflines=','columns=','tabstop='])
+        opts, args = getopt.getopt(argv,"hved:b:k:p:i:s:l:c:t:z:",
+            ["help","verbose","echo","device=","baudrate=","keyboard=",'wheel=','paper=','setperm=','cpi=','linespacing=','halflines=','columns=','tabstop=','charset='])
     except getopt.GetoptError:
         print('erika.py argument error')
         print('use erika.py -h for help')
@@ -65,6 +65,10 @@ def main(argv):
             print('\t-t, --tabstop\t\tdistance tabstops')
             print('\t\tdefault: ', e.tabstop)
             print('\t\trecommended 4 or 8')
+            print('\t-z, --charset\t\textra charset (Zeichenkodierung)')
+            print('\t\tdefault:',e.charset)
+            print('\t\tselectable from cp858 and if6000')
+            print('\t\tmain charset is always utf-8')
             sys.exit()
         elif opt in ('-e','--echo'):
             e.echo = True
@@ -109,6 +113,9 @@ def main(argv):
         elif opt in ('-v', '--verbose'):
             print('verbose arg:',arg)
             e.verbose+=1
+        elif opt in ('-z', '--charset'):
+            e.charset = arg
+
             
     # info about current options         
     if e.verbose:
@@ -124,6 +131,7 @@ def main(argv):
         print('charstep     :', e.charstep)
         print('columns pl   :', int(e.maxcolumns/e.charstep))
         print('tabstop      :', e.tabstop)
+        print('extra charset:', e.charset)
         
     with e:
         e.alive=True
@@ -136,5 +144,3 @@ def main(argv):
 
 if __name__ == "__main__":
     main(sys.argv[1:])
-    
-

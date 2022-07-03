@@ -33,6 +33,7 @@ class Erika:
         self.maxcolumns      = 84*5 # chars per line
         self.charstep        = 5    # 4 => 15 cpi, 5 => 12 cpi, 6 => 10 cpi
         self.tabstop         = 8
+        self.charset         = 'cp858'
 
         self.alive           = None
         self.threads         = []
@@ -105,7 +106,7 @@ class Erika:
             self.serial.write(b'\x85')
         else:                      # 1 line spacing
             self.serial.write(b'\x84')
-        with courier_de() as cm:
+        with courier_de(self.charset) as cm:
             try:
                 os.set_blocking(master,True)
                 while self.alive:
@@ -170,9 +171,11 @@ class Erika:
                                 elif data == b'C':
                                     if self.verbose:
                                         print("ESC C -> charset utf-8/cp858")
+                                    cm.charset='cp858'
                                 elif data == b'c':
                                     if self.verbose:
-                                        print("ESC C -> charset IF6000/DIN66003")
+                                        print("ESC c -> charset IF6000/DIN66003")
+                                    cm.charset='if6000'
                             else:
                                 # check for newline or line overflow
                                 if data == b'\n' or (self.column+self.charstep) > self.maxcolumns:

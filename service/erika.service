@@ -5,7 +5,7 @@ Description=Erika keyboard and mouse via uinput
 EnvironmentFile=-/etc/default/erika
 Type=simple
 WorkingDirectory=/var/lib/erika
-ExecStart=/var/lib/erika/erika.py $ECHO $VERBOSE $PORT $KEYBOARD $SETPERM $CPI $LINESPACING $HALFLINES $COLUMNS $TABSTOP
+ExecStart=/var/lib/erika/erika.py $ECHO $VERBOSE $PORT $KEYBOARD $SETPERM $CPI $LINESPACING $HALFLINES $COLUMNS $TABSTOP $CHARSET
 
 [Install]
 WantedBy=default.target

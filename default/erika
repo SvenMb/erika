@@ -12,3 +12,4 @@
 # HALFLINES=--halflines=120
 # COLUMNS=--columns=84
 # TABSTOP=--tabstop=8
+# CHARSET=--charset=if6000

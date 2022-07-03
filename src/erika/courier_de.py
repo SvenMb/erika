@@ -22,9 +22,11 @@ class courier_de:
         # control chars
         "\b": b"\x72", # 0x08 backspace
         "\t": b"\x79", # 0x09 tab
-        "\n": b"\x77", # 0x0a linefeed
+        "\n": b"\x77", # 0x0a linefeed and carriage return
         "\r": b"\x78", # 0x0d carriage return
-
+        # Erika interprets
+        # 0x77 as CR LF means NL
+        # 0x78 only CR
 
         # 0x20
         # punctuation
@@ -165,7 +167,7 @@ class courier_de:
         "ö": b"\x66",       # 0xC3 0xB6
         "ü": b"\x67",       # 0xC3 0xBC
         "`": b"\x29\x71",   # 0xE2 0x80 0xB2
-        "€": b"\x20\x72\x2E", # 0xE2 0x82 0xAC
+        "€": b"\xa9\x20\x2E", # 0xE2 0x82 0xAC
 
         ### utf-8 end ###
     }
@@ -218,12 +220,12 @@ class courier_de:
             return b''
 
         # replace cp858 chars with utf-8 ones
-        if char[0] in self.cp8582utf8.keys():
+        elif char[0] in self.cp8582utf8.keys():
             char=self.cp8582utf8[char[0]]
 
         # print("decode 02:",char.hex())
 
-        # find known chars and return bytes for erika
+        # find known utf-8 chars and return bytes for erika
         try:
             if char.decode() in self.utf82erika.keys():
                 return(self.utf82erika[char.decode()])

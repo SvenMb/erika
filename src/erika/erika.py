@@ -33,6 +33,8 @@ class Erika:
         self.verbose         = verbose
         self.name            = name
         self.echo            = echo
+        self.kbd_wait        = False
+        self.halfline            = 0 # half lines
  
     def open(self):
         self.serial.open()
@@ -90,6 +92,19 @@ class Erika:
                             print("Bug found: read zero bytes from pty master")
                             time.sleep(1)
                         else:
+                            if data == '\x0c':
+                                self.serial.write(b'\xaa\x05')
+                                time.sleep(0.5)
+                                self.serial.write(b'\xaa\x05')
+                                self.serial.write(b'\x92')
+                                self.kbd_wait=True
+                                if self.verbose:
+                                    print("Form Feed, waiting for kbd")
+                                while self.kbd_wait:
+                                    time.sleep(0.5)
+                                if not self.echo:
+                                    self.serial.write(b'\x91')
+                                self.halfline=0
                             self.serial.write(cm.decode(data))
                     except OSError as e:
                         if e.errno == 11:
@@ -167,7 +182,12 @@ class Erika:
                             kbd_data=data[0]
                             if self.verbose:
                                 print("erika code:",hex(kbd_data))
-                            kbd.key(kbd_data)
+                            if kbd_data == 0x80:
+                                self.kbd_wait=False
+                            elif self.kbd_wait:
+                                pass
+                            else:
+                                kbd.key(kbd_data)
                     else:
                         # no serial data, just wait a bit
                         time.sleep(0.2)

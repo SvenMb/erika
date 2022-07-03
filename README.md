@@ -12,6 +12,10 @@ I use a raspberry, because of this everything will be tested and prepared to use
 
 see [here](doc/install.md)
 
+### Printing
+
+It is possible to print with utf-8 coding and cp858 (cp850 + €) coding
+
 ### Use together with RunCPM
 
 with a very small patch you can use the erika as "lst:" in RunCPM. Printing will be done without delay, every char will be printed directly.

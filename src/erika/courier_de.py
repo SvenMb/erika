@@ -24,6 +24,7 @@ class courier_de:
         "\t": b"\x79", # 0x09 tab
         "\n": b"\x77", # 0x0a linefeed and carriage return
         "\r": b"\x78", # 0x0d carriage return
+        "\f": b"", # form feed handled extern
         # Erika interprets
         # 0x77 as CR LF means NL
         # 0x78 only CR

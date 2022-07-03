@@ -31,6 +31,7 @@ def main(argv):
             print('OPTIONS:')
             print('\t-h, --help\t\tprint help information')
             print('\t-v, --verbose\t\tbe more verbose')
+            print('\t\tcan be added multiple times to be even more verbose')
             print('\t-e, --echo\t\tconnect keyboard to typewriter')
             print('\t-d, --device <device>\tserial device to use')
             print('\t\tExample device name: /dev/ttyAMA0 or /dev/ttyUSB0')

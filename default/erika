@@ -7,3 +7,8 @@
 # PORT=--device=/dev/ttyAMA0
 # KEYBOARD=--keyboard=de
 # SETPERM=--setperm=./setperm.sh
+# CPI=--cpi=12
+# LINESPACING=--linespacing=2
+# HALFLINES=--halflines=120
+# COLUMNS=--columns=84
+# TABSTOP=--tabstop=8

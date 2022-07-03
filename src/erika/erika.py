@@ -160,8 +160,12 @@ class Erika:
                                 # disconnect typewriter keyboard if wanted
                                 if not self.echo:
                                     self.serial.write(b'\x91')
+                                # if formfeed, then also carriage return
+                                if data == b'\x0c':
+                                    data = b'\r'
                                 # reset line counter
                                 self.line=0
+                                self.column=0
                             self.serial.write(cm.decode(data))
                     except OSError as e:
                         if e.errno == 11:

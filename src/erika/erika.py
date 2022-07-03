@@ -32,7 +32,8 @@ class Erika:
         self.maxlines        = 120  # halflines per paper, 120 for normal A4
         self.maxcolumns      = 84*5 # chars per line
         self.charstep        = 5    # 4 => 15 cpi, 5 => 12 cpi, 6 => 10 cpi
-        # stats
+        self.tabstop         = 8
+
         self.alive           = None
         self.threads         = []
         self.verbose         = 0
@@ -88,7 +89,7 @@ class Erika:
             if self.verbose:
                 print("start setperm:",self.lpsetperm,vs_name)
             os.system(self.lpsetperm + " " + vs_name)
-        # wait for keyboard ...
+        # wait for keyboard init ...
         time.sleep(2)
         # set cpi
         if self.charstep == 4:   # 15 cpi
@@ -130,7 +131,13 @@ class Erika:
                                 self.column = 0
                             # tabs
                             elif data == b'\t': # to be implemented!!!!
-                                pass
+                                t = int(self.tabstop-(self.column/self.charstep)%self.tabstop)
+                                self.column+=self.charstep*t
+                                if self.verbose > 1:
+                                    print ("space to next tabstop:",t)
+                                while t > 0:
+                                    self.serial.write(b'\x71')
+                                    t-=1
                             # every printable char
                             else:
                                 self.column += self.charstep

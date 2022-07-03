@@ -21,7 +21,8 @@ class courier_de:
         ### 7-bit ascii start ###
         # control chars
         "\b": b"\x72", # 0x08 backspace
-        "\t": b"\x79", # 0x09 tab
+        # "\t": b"\x79", # 0x09 tab
+        "\t": b"",  # tab handled extern
         "\n": b"\x77", # 0x0a linefeed and carriage return
         "\r": b"\x78", # 0x0d carriage return
         "\f": b"", # form feed handled extern

@@ -34,6 +34,7 @@ class Erika:
         self.charstep        = 5    # 4 => 15 cpi, 5 => 12 cpi, 6 => 10 cpi
         self.tabstop         = 8
         self.charset         = 'cp858'
+        self.firstcol        = 10
 
         self.alive           = None
         self.threads         = []
@@ -168,14 +169,36 @@ class Erika:
                                     if self.verbose:
                                         print("ESC t -> tabstop 8")
                                     self.tabstop=8
+                                elif data == b'Z':
+                                    if self.verbose:
+                                        print("ESC Z -> charset utf-8/cp858")
+                                    cm.charset='cp858'
+                                elif data == b'z':
+                                    if self.verbose:
+                                        print("ESC z -> charset IF6000/DIN66003")
+                                    cm.charset='if6000'
+                                elif data == b'L':
+                                    if self.verbose:
+                                        print("ESC L -> max lines: ",end='',flush=True)
+                                    data = os.read(master,1)
+                                    self.maxlines = data[0]
+                                    if self.verbose:
+                                        print(self.maxlines)
                                 elif data == b'C':
                                     if self.verbose:
-                                        print("ESC C -> charset utf-8/cp858")
-                                    cm.charset='cp858'
-                                elif data == b'c':
+                                        print("ESC C -> max Columns: ",end='',flush=True)
+                                    data = os.read(master,1)
+                                    self.maxcolumns = data[0] * self.charstep
                                     if self.verbose:
-                                        print("ESC c -> charset IF6000/DIN66003")
-                                    cm.charset='if6000'
+                                        print(data[0])
+                                elif data == b'F':
+                                    if self.verbose:
+                                        print("ESC F -> first Column: ",end='',flush=True)
+                                    data = os.read(master,1)
+                                    self.firstcol = data[0]
+                                    if self.verbose:
+                                        print(data[0])
+                                        
                             else:
                                 # check for newline or line overflow
                                 if data == b'\n' or (self.column+self.charstep) > self.maxcolumns:

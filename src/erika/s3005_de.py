@@ -248,15 +248,21 @@ class s3005_de:
         ['MODE 5',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F5,1,e.KEY_F5,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-ALT-F5
         ['MODE T',[e.KEY_LEFTSHIFT,1,e.KEY_PAGEUP,1,e.KEY_PAGEUP,0,e.KEY_LEFTSHIFT,0]],                       # shift-pageup (scrolling in lxterm)
         ['MODE G',[e.KEY_LEFTSHIFT,1,e.KEY_PAGEDOWN,1,e.KEY_PAGEDOWN,0,e.KEY_LEFTSHIFT,0]],                   # shift-pagedown (scrolldown in lxterm)
-        ['MODE B'],                                                                                           # !!!!!!! free
+        # bug in 3015???? should be MODE B but is MODE M
+        # ['MODE B'],                                                                                           # !!!!!!! free
+        ['MODE M',[e.KEY_LEFTCTRL,1,e.KEY_SPACE,1,e.KEY_SPACE,0,e.KEY_LEFTCTRL,0]],                           # CTRL-Space (for emacs)
         ['MODE 6',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F6,1,e.KEY_F6,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-ALT-F6
         ['MODE Z'],                                                                                           # !!!!!!! free
         ['MODE H',[e.KEY_LEFTSHIFT,1,e.KEY_LEFT,1,e.KEY_LEFT,0,e.KEY_LEFTSHIFT,0]],                           # shift-cursor-left (for marking)
-        ['MODE N'],                                                                                           # !!!!!!! free
+        # bug in 3015???? should be MODE N but is MODE B
+        # ['MODE N'],                                                                                           # !!!!!!! free
+        ['MODE B'],                                                                                           # !!!!!!! free
         ['MODE 7',[e.KEY_LEFTCTRL,1,e.KEY_LEFTALT,1,e.KEY_F7,1,e.KEY_F7,0,e.KEY_LEFTALT,0,e.KEY_LEFTCTRL,0]], # CTRL-ALT-F7
         ['MODE U'],                                                                                           # !!!!!!! free
         ['MODE J',[e.KEY_LEFTSHIFT,1,e.KEY_DOWN,1,e.KEY_DOWN,0,e.KEY_LEFTSHIFT,0]],                           # shift-cursor-down (for marking)
-        ['MODE M'],                                                                                           # !!!!!!! free
+        # bug in 3015???? should be MODE M but is MODE N
+        # ['MODE M',[e.KEY_LEFTCTRL,1,e.KEY_SPACE,1,e.KEY_SPACE,0,e.KEY_LEFTCTRL,0]],                           # CTRL-Space (for emacs)
+        ['MODE N'],                                                                                           # !!!!!!! free
         ['MODE 8'],                                                                                           # !!!!!!! free
         ['MODE I'],                                                                                           # !!!!!!! free
         ['MODE K',[e.KEY_LEFTSHIFT,1,e.KEY_UP,1,e.KEY_UP,0,e.KEY_LEFTSHIFT,0]],                               # shift-cursor-up (for marking)

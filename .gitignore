@@ -125,3 +125,4 @@ cython_debug/
 #.idea/
 test/
 *~
+\#*\#

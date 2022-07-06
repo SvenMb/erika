@@ -17,8 +17,8 @@ def main(argv):
     
     # comand line args
     try:
-        opts, args = getopt.getopt(argv,"hved:b:k:p:i:s:l:c:t:z:",
-            ["help","verbose","echo","device=","baudrate=","keyboard=",'wheel=','paper=','setperm=','cpi=','linespacing=','halflines=','columns=','tabstop=','charset='])
+        opts, args = getopt.getopt(argv,"hved:b:k:p:i:s:l:c:f:t:z:",
+            ["help","verbose","echo","device=","baudrate=","keyboard=",'wheel=','paper=','setperm=','cpi=','linespacing=','halflines=','columns=','firstcolumn=','tabstop=','charset='])
     except getopt.GetoptError:
         print('erika.py argument error')
         print('use erika.py -h for help')
@@ -62,6 +62,10 @@ def main(argv):
             print('\t-c, --columns\t\tmax half char per line')
             print('\t\tdefault: ', int(e.maxcolumns/e.charstep))
             print('\t\tA4 - 84 columns on 12 cpi')
+            print('\t-f, --firstcolumn\t\tfirst column')
+            print('\t\tdefault: ', e.firstcol)
+            print('\t\trecommended 10 for 10cpi, 12 for 12cpi and 15 for 15cpi')
+            print('\t\tstarting with 1')
             print('\t-t, --tabstop\t\tdistance tabstops')
             print('\t\tdefault: ', e.tabstop)
             print('\t\trecommended 4 or 8')
@@ -85,31 +89,37 @@ def main(argv):
                 e.charstep=int(60/int(arg))
             else:
                 print('wrong cpi',arg,'used.')
-                sys.exit()
+                sys.exit(2)
         elif opt in ('-s', '--linespacing'):
             if arg in ('2', '3', '4'):
                 e.linestep=int(arg)
             else:
                 print('wrong linespacing ',arg,' used.')
-                sys.exit()
+                sys.exit(2)
         elif opt in ('-l', '--halflines'):
             if arg.isnumeric():
                 e.maxlines = int(arg)
             else:
                 print('wrong halflines ',arg,' used.')
-                sys.exit()
+                sys.exit(2)
         elif opt in ('-c', '--columns'):
             if arg.isnumeric():
                 e.maxcolumns = int(arg)*charstep
             else:
                 print('wrong columns ',arg,' used.')
-                sys.exit()
+                sys.exit(2)
+        elif opt in ('-f','--firstcolumn'):
+            if arg.isnumeric() and int(arg) > 0:
+                e.firstcol = int(arg)
+            else:
+                print('wrong firstcolumn',arg)
+                sys.exit(2)
         elif opt in ('-t', '--tabstop'):
             if arg.isnumeric():
                 e.tabstop = int(arg)
             else:
                 print('wrong tabstop ',arg,' used.')
-                sys.exit()
+                sys.exit(2)
         elif opt in ('-v', '--verbose'):
             print('verbose arg:',arg)
             e.verbose+=1
@@ -130,6 +140,7 @@ def main(argv):
         print('maxcolumns   :', e.maxcolumns)
         print('charstep     :', e.charstep)
         print('columns pl   :', int(e.maxcolumns/e.charstep))
+        print('firstcolumn  :', e.firstcol)
         print('tabstop      :', e.tabstop)
         print('extra charset:', e.charset)
         

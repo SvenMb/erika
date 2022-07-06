@@ -34,7 +34,7 @@ class Erika:
         self.charstep        = 5    # 4 => 15 cpi, 5 => 12 cpi, 6 => 10 cpi
         self.tabstop         = 8
         self.charset         = 'cp858'
-        self.firstcol        = 10
+        self.firstcol        = 12
 
         self.alive           = None
         self.threads         = []
@@ -93,6 +93,9 @@ class Erika:
             os.system(self.lpsetperm + " " + vs_name)
         # wait for keyboard init ...
         time.sleep(2)
+        # reset typewriter
+        # self.serial.write(b'\x95')
+
         # set cpi
         if self.charstep == 4:   # 15 cpi
             self.serial.write(b'\x89')
@@ -100,6 +103,7 @@ class Erika:
             self.serial.write(b'\x88')
         else:                    # 10 cpi
             self.serial.write(b'\x87')
+
         # set linestep
         if self.linestep == 4:   # 2 lines spacing
             self.serial.write(b'\x86')
@@ -107,6 +111,15 @@ class Erika:
             self.serial.write(b'\x85')
         else:                      # 1 line spacing
             self.serial.write(b'\x84')
+
+        # set firstcolumn
+        for i in range(1,100):
+            self.serial.write(b'\x72')
+        for i in range(1,self.firstcol):
+            self.serial.write(b'\x71')
+        self.serial.write(b'\x7e')
+        firstcol = self.firstcol
+
         with courier_de(self.charset) as cm:
             try:
                 os.set_blocking(master,True)
@@ -252,6 +265,19 @@ class Erika:
                                     self.line=0
                                     self.column=0
                                 self.serial.write(cm.decode(data))
+
+                                # adjust rand again if needed and last char was \n or \r
+                                if data in (b'\n',b'\r') and firstcol !=self.firstcol:
+                                    # set firstcolumn
+                                    for i in range(1,firstcol+10):
+                                        self.serial.write(b'\x72')
+                                    for i in range(1,self.firstcol):
+                                        self.serial.write(b'\x71')
+                                    self.serial.write(b'\x7e')
+                                    firstcol = self.firstcol
+                                    if self.verbose:
+                                        print('first column set on erika to:',firstcol)
+
                     except OSError as e:
                         if e.errno == 11:
                             if self.verbose >2 :

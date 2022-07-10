@@ -40,7 +40,7 @@ MediaSize A3
 // A4, 12 cpi = 100 chars = 211,7mm (a bit to width, but mostly it will fit)
 // A4, 15 cpi = 125 chars = 211,7mm (a bit to width, but mostly it will fit)
   Group "General/General"
-    Option "LineLength/Line Lenght in Chars (incl. Margins)" PickOne AnySetup 10.0
+    Option "LineLength/Line Length in Chars (incl. Margins)" PickOne AnySetup 10.0
       *Choice "Default/Default for media size and CPI" ""
       Choice "1/1 Chars" "1"
       Choice "2/2 Chars" "2"
@@ -193,9 +193,9 @@ MediaSize A3
       Choice "149/149 Chars" "149"
       Choice "150/150 Chars" "150 (A3, 15cpi)"
 
-// A4, 10cpi = 9 chars  = 22,9mm
-// A4, 12cpi = 11 chars = 23,3mm
-// A4, 15cpi = 14 chars = 23,7mm
+// 10cpi = 9 chars  = 22,9mm
+// 12cpi = 11 chars = 23,3mm
+// 15cpi = 14 chars = 23,7mm
   Group "General/General"
     Option "LeftMargin/Left Margin in Chars" PickOne AnySetup 10.0
       *Choice "Default/Default for media size and CPI" ""
@@ -231,9 +231,9 @@ MediaSize A3
       Choice "29/19 Spaces" "29"
       Choice "30/30 Spaces" "30"
 
-// A4, 10cpi = 8 chars  = 20,3mm
-// A4, 12cpi = 9 chars  = 19,1mm
-// A4, 15cpi = 12 chars = 20,3mm
+// 10cpi = 8 chars  = 20,3mm
+// 12cpi = 9 chars  = 19,1mm
+// 15cpi = 12 chars = 20,3mm
   Group "General/General"
     Option "RightMargin/Right Margin in Chars" PickOne AnySetup 10.0
       *Choice "Default/Default for Media Size and CPI" ""
@@ -271,8 +271,8 @@ MediaSize A3
 
   Group "General/General"
     Option "Page/Paginate Output" Boolean AnySetup 10.0
-      *Choice "Yes/Yes single sheet paper" "1"
-      Choice "No/Continuous Paper " "0"
+      *Choice "Yes/Yes, single sheet paper" "1"
+      Choice "No/No, Continuous Paper " "0"
 
 
 
@@ -280,8 +280,8 @@ MediaSize A3
 // A4 = 120
 // A3 = 178
   Group "General/General"
-    Option "PageLength/Page Lenght in half Char Heights" PickOne AnySetup 10.0
-      *Choice "Default/Default for media size and Line Height" ""
+    Option "PageLength/Page Length in half Char Heights" PickOne AnySetup 10.0
+      *Choice "Default/Default for media size" ""
       Choice "2/2 half Chars" "2"
       Choice "3/3 half Chars" "3"
       Choice "4/4 half Chars" "4"
@@ -487,17 +487,28 @@ Group "General/General"
 
 Group "General/General"
     Option "ExtraCharset/Extra Charset (UTF-8 always active)" PickOne AnySetup 10.0
-      Choice "cp858/cp858 (cp850 + Euro)" "cp858"
+      *Choice "cp858/cp858 (cp850 + Euro)" "cp858"
       Choice "if6000/if6000 (RS232C Converter Charset)" "if6000"
 
 Group "General/General"
     Option "FormFeed/Send extra Form Feed to Erika" PickOne AnySetup 10.0
-      Choice "No/No extra Form Feed" "0"
+      *Choice "No/No extra Form Feed" ""
       Choice "Begin/Send extra Form Feed before printing" "1"
       Choice "After/Send extra Form Feed after printing" "2"
       Choice "Both/Send extra Form Feed before and after printing" "3"
-      
 
+Group "General/General"
+    Option "ExtraLines/Backsteps before new Page" PickOne AnySetup 10.0
+      Choice "No/No Backsteps" ""
+      Choice "1/1 half Line" "1"
+      Choice "2/2 half Lines" "2"
+      Choice "3/3 half Lines" "3"
+      Choice "4/4 half Lines" "4"
+      Choice "5/5 half Lines" "5"
+      Choice "6/6 half Lines" "6"
+      Choice "7/7 half Lines" "7"
+      Choice "8/8 half Lines" "8"
+      Choice "9/9 half Lines" "9"
 
 //  CustomMedia "ticket2x2/Ticket 2x2in" 144.00 144.00 1.00 2.00 0.00 0.00 "<</PageSize[144 144]/ImagingBBox null>>setpagedevice" "<</PageSize[144 144]/ImagingBBox null>>setpagedevice"
 

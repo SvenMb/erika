@@ -1,0 +1,180 @@
+#!/bin/bash
+
+# Wanzen jagen :)
+DEBUGFILE="/tmp/erika_stderr"
+[ -n "$DEBUGFILE" ] && printf "<<<START>>>\n" >$DEBUGFILE
+
+eprint ()
+{
+    printf "$@" >&2
+    [ -n "$DEBUGFILE" ] && printf "$@" >>$DEBUGFILE
+}
+
+# Make sure we have enough options
+if [ $# != 5 -a $# != 6 ]; then
+  eprint "ERROR: $0 jobid user name nb options [filename]"
+  exit 1
+fi
+
+NB=$4
+OPTIONS=$5
+FILE=$6
+
+
+# Get an attribute from the ppd file
+getAttribute () {
+  ATTRIBUTE=$1
+  VALUE=`grep "^\*$ATTRIBUTE:" "$PPD" | cut -d" " -f2-`
+  VALUE=${VALUE##\"}
+  VALUE=${VALUE%%\"}
+  eprint "DEBUG: Attribute $ATTRIBUTE is '%s'\n" "$VALUE"
+  printf "%s" "$VALUE"
+}
+
+# Get an option for the document: either default ppd attribute or user-provided value
+getOption () {
+  OPTION=$1
+  VALUE=$(getAttribute Default$OPTION)
+  eprint "DEBUG: Default $OPTION is '%s'\n" "$VALUE" 
+
+  if [ -n "$OPTIONS" ]
+  then
+    # Case of the very first option
+    if [ -z "${OPTIONS/$OPTION=*}" ]
+    then
+      VALUE=${OPTIONS#$OPTION=}
+      VALUE=${VALUE%% *}
+      eprint "DEBUG: Selected $OPTION is '%s'\n" "$VALUE"
+    fi
+    # Case of other options 
+    if [ -z "${OPTIONS/* $OPTION=*}" ]
+    then
+      VALUE=${OPTIONS##* $OPTION=}
+      VALUE=${VALUE%% *}
+      eprint "DEBUG: Selected $OPTION is '%s'\n" "$VALUE"
+    fi
+
+    # Boolean options
+    if [ -z "${OPTIONS/* $OPTION *}" ]
+    then
+      VALUE=True
+      eprint "DEBUG: Selected $OPTION is '%s'\n" "$VALUE"
+    fi
+    if [ -z "${OPTIONS/* no$OPTION *}" ]
+    then
+      VALUE=False
+      eprint "DEBUG: Selected $OPTION is '%s'\n" "$VALUE"
+    fi
+  fi
+
+  printf "%s" "$VALUE"
+}
+
+# Get an option for the document and check that it is a number
+getOptionNumber () {
+  OPTION=$1
+  VALUE=$(getOption $OPTION)
+  VALUE=${VALUE#Custom.}
+  case "$VALUE" in
+    [0-9]*) ;;
+    *) eprint "ERROR: Option $OPTION must be a number, got '%s'\n" "$VALUE"
+       exit 1
+       ;;
+  esac
+  printf "%s" "$VALUE"
+}
+
+PAGESIZE=$(getOption PageSize)
+CPI=$(getOption CPI)
+# setting Margins according to CPI
+# measures left margin
+# 10cpi = 9 chars  = 22,9mm
+# 12cpi = 11 chars = 23,3mm
+# 15cpi = 14 chars = 23,7mm
+# measures right margin
+# 10cpi = 8 chars  = 20,3mm
+# 12cpi = 9 chars  = 19,1mm
+# 15cpi = 12 chars = 20,3mm
+
+case "$CPI" in
+     15)
+	LeftMargin=14
+	RigthMargin=12
+     ;;
+     12)
+	LeftMargin=11
+	RigthMargin=9
+     ;;
+     10)
+	LeftMargin=9
+	RigthMargin=8
+     ;;
+
+# setting defaults according to pagesize and CPI
+case "${PAGESIZE}_${CPI}" in
+    A3_15)
+	LineLength=150
+	PageLength=178
+    ;;
+    A3_12)
+	LineLength=120
+	PageLength=178
+    ;;
+    A3_10)
+	LineLength=100
+	PageLength=178
+    ;;
+    A4_15)
+	LineLength=125
+	PageLength=120
+    ;;
+    A4_12)
+	LineLength=100
+	PageLength=120
+    ;;
+    A4_10)
+	LineLength=83
+	PageLength=120
+    ;;
+    A5_15)
+	LineLength=125
+	PageLength=80
+    ;;
+    A5_12)
+	LineLength=100
+	PageLength=80
+    ;;
+    A5_10)
+	LineLength=83
+	PageLength=80
+    ;;
+
+# DefaultCPI   = $(getOption DefaultCPI)
+LineHeight=$(getOption LineHeight)
+LineLength=$(getOption LineLength)
+LeftMargin=$(getOption LeftMargin)
+RightMargin=$(getOption RightMargin)
+PageLength=$(getOption PageLength)
+Wrap=$(getOption Wrap)
+TabStop=$(getOption TabStop)
+ExtraCharset=$(getOption ExtraCharset)
+FormFeed=$(getOption FormFeed)
+ExtraLines=$(getOption ExtraLines)
+
+eprint "DEBUG: PAGESIZE     $PAGESIZE\n"
+eprint "DEBUG: CPI          $CPI\n"
+eprint "DEBUG: LineHeight   $LineHeight\n"
+eprint "DEBUG: LineLength   $LineLength\n"
+eprint "DEBUG: LeftMargin   $LeftMargin\n"
+eprint "DEBUG: RightMargin  $RightMargin\n"
+eprint "DEBUG: PageLength   $PageLength\n"
+eprint "DEBUG: Wrap         $Wrap\n"
+eprint "DEBUG: TabStop      $TabStop\n"
+eprint "DEBUG: ExtraCharset $ExtraCharset\n"
+eprint "DEBUG: FormFeed     $FormFeed\n"
+eprint "DEBUG: ExtraLines   $ExtraLines\n"
+# set -x
+# have the input at fd0 (stdin) in any case
+[ -n "$6" ] && exec <"$6"
+# printing
+cat /dev/stdin

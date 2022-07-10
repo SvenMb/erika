@@ -75,7 +75,7 @@
 *LineHeight 3/3 half Char Heights: "2"
 *LineHeight 4/4 half Char Heights: "2"
 *CloseUI: *LineHeight
-*OpenUI *LineLength/Line Lenght in Chars (incl. Margins): PickOne
+*OpenUI *LineLength/Line Length in Chars (incl. Margins): PickOne
 *OrderDependency: 10 AnySetup *LineLength
 *DefaultLineLength: Default
 *LineLength Default/Default for media size and CPI: ""
@@ -305,13 +305,13 @@
 *OpenUI *Page/Paginate Output: Boolean
 *OrderDependency: 10 AnySetup *Page
 *DefaultPage: Yes
-*Page Yes/Yes single sheet paper: "1"
-*Page No/Continuous Paper : "0"
+*Page Yes/Yes, single sheet paper: "1"
+*Page No/No, Continuous Paper : "0"
 *CloseUI: *Page
-*OpenUI *PageLength/Page Lenght in half Char Heights: PickOne
+*OpenUI *PageLength/Page Length in half Char Heights: PickOne
 *OrderDependency: 10 AnySetup *PageLength
 *DefaultPageLength: Default
-*PageLength Default/Default for media size and Line Height: ""
+*PageLength Default/Default for media size: ""
 *PageLength 2/2 half Chars: "2"
 *PageLength 3/3 half Chars: "3"
 *PageLength 4/4 half Chars: "4"
@@ -526,10 +526,24 @@
 *OpenUI *FormFeed/Send extra Form Feed to Erika: PickOne
 *OrderDependency: 10 AnySetup *FormFeed
 *DefaultFormFeed: No
-*FormFeed No/No extra Form Feed: "0"
+*FormFeed No/No extra Form Feed: ""
 *FormFeed Begin/Send extra Form Feed before printing: "1"
 *FormFeed After/Send extra Form Feed after printing: "2"
 *FormFeed Both/Send extra Form Feed before and after printing: "3"
 *CloseUI: *FormFeed
+*OpenUI *ExtraLines/Backsteps before new Page: PickOne
+*OrderDependency: 10 AnySetup *ExtraLines
+*DefaultExtraLines: No
+*ExtraLines No/No Backsteps: ""
+*ExtraLines 1/1 half Line: "1"
+*ExtraLines 2/2 half Lines: "2"
+*ExtraLines 3/3 half Lines: "3"
+*ExtraLines 4/4 half Lines: "4"
+*ExtraLines 5/5 half Lines: "5"
+*ExtraLines 6/6 half Lines: "6"
+*ExtraLines 7/7 half Lines: "7"
+*ExtraLines 8/8 half Lines: "8"
+*ExtraLines 9/9 half Lines: "9"
+*CloseUI: *ExtraLines
 *DefaultFont: Courier
-*% End of erika.ppd, 18428 bytes.
+*% End of erika.ppd, 18877 bytes.

@@ -122,11 +122,11 @@ def main(argv):
                 eprint('ERROR: only 0 or 1 possible here.')
                 sys.exit(2)
         elif opt in ('-t', '--tabstop'):
-            if arg in ('4','8'):
-                tabstop = arg
+            if arg.isnumeric() and int(arg) > 0 and int(arg) < 17:
+                tabstop = int(arg)
             else:
                 eprint('ERROR: wrong tabstop:',arg)
-                eprint('ERROR: only 4 or 8 possible here, use erika daemon setting for other values')
+                eprint('ERROR: tabstop should between 1 and 16 spaces')
                 sys.exit(2)
         elif opt in ('-z', '--charset'):
             if arg in ('cp858','if6000'):
@@ -219,10 +219,7 @@ def main(argv):
 
     # tabstop
     if tabstop:
-        if tabstop == '4':
-            s.write(b'\x1bT')
-        else: # should be 8
-            s.write(b'\x1bt')
+        s.write(b'\x1bT' + tabstop.to_bytes(1,'big'))
         eprint('INFO: tabstop set to:', tabstop)
 
     # charset

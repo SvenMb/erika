@@ -185,12 +185,11 @@ class Erika:
                                     self.wrap=False
                                 elif data == b'T':
                                     if self.verbose:
-                                        print("ESC T -> tabstop 4")
-                                    self.tabstop=4
-                                elif data == b't':
+                                        print("ESC T -> tabstop: ",end='',flush=True)
+                                    data = os.read(master,1)
+                                    self.tabstop = data[0]
                                     if self.verbose:
-                                        print("ESC t -> tabstop 8")
-                                    self.tabstop=8
+                                        print(self.tabstop,"spaces")
                                 elif data == b'Z':
                                     if self.verbose:
                                         print("ESC Z -> charset utf-8/cp858")
@@ -374,7 +373,7 @@ class Erika:
                             if self.verbose > 1:
                                 print("erika code:",hex(kbd_data))
                             if self.kbd_wait:
-                                if kbd_data in (0x75,0x76,0x77,0x81,0x82,0x83) && not self.echo:
+                                if kbd_data in (0x75,0x76,0x77,0x81,0x82,0x83) and not self.echo:
                                     self.serial.write(data)
                                 elif kbd_data in (0x80,0x71):
                                     self.kbd_wait=False

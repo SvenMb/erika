@@ -17,8 +17,8 @@ def main(argv):
     
     # comand line args
     try:
-        opts, args = getopt.getopt(argv,"hved:b:k:p:i:s:l:c:f:t:z:",
-            ["help","verbose","echo","device=","baudrate=","keyboard=",'wheel=','paper=','setperm=','cpi=','linespacing=','halflines=','columns=','firstcolumn=','tabstop=','charset='])
+        opts, args = getopt.getopt(argv,"hved:b:k:p:i:s:l:c:f:wt:z:",
+            ["help","verbose","echo","device=","baudrate=","keyboard=",'setperm=','cpi=','linespacing=','halflines=','columns=','firstcolumn=','wrap','tabstop=','charset='])
     except getopt.GetoptError:
         print('erika.py argument error')
         print('use erika.py -h for help')
@@ -66,6 +66,10 @@ def main(argv):
             print('\t\tdefault: ', e.firstcol)
             print('\t\trecommended 10 for 10cpi, 12 for 12cpi and 15 for 15cpi')
             print('\t\tstarting with 1')
+            print('\t-w, --wrap')
+            print('\t\tdefault: off')
+            print('\t\tIf this option is given, to long lines will be wrapped around,')
+            print('\t\tif not, they will be truncated.')
             print('\t-t, --tabstop\t\tdistance tabstops')
             print('\t\tdefault: ', e.tabstop)
             print('\t\trecommended 4 or 8')
@@ -104,7 +108,7 @@ def main(argv):
                 sys.exit(2)
         elif opt in ('-c', '--columns'):
             if arg.isnumeric():
-                e.maxcolumns = int(arg)*charstep
+                e.maxcolumns = int(arg)*charstep - 1
             else:
                 print('wrong columns ',arg,' used.')
                 sys.exit(2)
@@ -114,6 +118,8 @@ def main(argv):
             else:
                 print('wrong firstcolumn',arg)
                 sys.exit(2)
+        elif opt in ('-w','--wrap'):
+            e.wrap = True
         elif opt in ('-t', '--tabstop'):
             if arg.isnumeric():
                 e.tabstop = int(arg)
@@ -139,8 +145,9 @@ def main(argv):
         print('lines pp     :', int(e.maxlines/e.linestep))
         print('maxcolumns   :', e.maxcolumns)
         print('charstep     :', e.charstep)
-        print('columns pl   :', int(e.maxcolumns/e.charstep))
+        print('columns pl   :', int((e.maxcolumns+1)/e.charstep))
         print('firstcolumn  :', e.firstcol)
+        print('wrap         :', e.wrap)
         print('tabstop      :', e.tabstop)
         print('extra charset:', e.charset)
         

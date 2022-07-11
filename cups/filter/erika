@@ -201,10 +201,12 @@ eprint "DEBUG: CMD finish\n"
 
 eprint "DEBUG: ^L finish\n"
 
-# have the input at fd0 (stdin) in any case
-[ -n "$6" ] && exec <"$6"
-# printing
-cat /dev/stdin
+if [ -z "$FILE" ]
+then
+	cat
+else
+	cat $FILE
+fi
 
 eprint "DEBUG: cat finish\n"
 

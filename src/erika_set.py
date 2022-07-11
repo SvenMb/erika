@@ -219,6 +219,10 @@ def main(argv):
         eprint('INFO: form feed sent to erika')
         eprint('INFO: use \'margin release\' key when finished')
 
+    s.flush()
+    s.close()
+    sys.stderr.flush()
+
     
 if __name__ == "__main__":
     main(sys.argv[1:])

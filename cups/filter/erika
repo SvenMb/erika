@@ -170,15 +170,39 @@ case "${PAGESIZE}_${CPI}" in
 	PageLength=120
 	;;
     A5_15)
-	LineLength=125
+	LineLength=87
 	PageLength=80
 	;;
     A5_12)
-	LineLength=100
+	LineLength=70
 	PageLength=80
 	;;
     A5_10)
+	LineLength=59
+	PageLength=80
+	;;
+    A5Rotated_15)
+	LineLength=125
+	PageLength=51
+	;;
+    A5Rotated_12)
+	LineLength=100
+	PageLength=51
+	;;
+    A5Rotated_10)
 	LineLength=83
+	PageLength=51
+	;;
+    A4Rotated_15)
+	LineLength=150
+	PageLength=80
+	;;
+    A4Rotated_12)
+	LineLength=120
+	PageLength=80
+	;;
+    A4Rotated_10)
+	LineLength=100
 	PageLength=80
 	;;
 esac

@@ -7,6 +7,8 @@
 MediaSize A5
 *MediaSize A4
 MediaSize A3
+MediaSize A5Rotated
+MediaSize A4Rotated
 // MediaSize Letter
 // MediaSize Legal
 // MediaSize FanFoldGerman

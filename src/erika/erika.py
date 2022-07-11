@@ -239,13 +239,14 @@ class Erika:
                                 # every printable char
                                 else:
                                     self.column += self.charstep
-                                    print('column:',self.column)
+                                    if self.verbose > 1:
+                                        print('column:',self.column)
                                 # check for form feed
                                 if data == b'\x0c' or self.line > self.maxlines:
                                     # double beep
-                                    self.serial.write(b'\xaa\x05')
+                                    self.serial.write(b'\xaa\x10')
                                     time.sleep(0.5)
-                                    self.serial.write(b'\xaa\x05')
+                                    self.serial.write(b'\xaa\x10')
                                     # connect typewriter with keyboard
                                     self.serial.write(b'\x92')
                                     # tell kb thread to wait
@@ -258,6 +259,7 @@ class Erika:
                                     # disconnect typewriter keyboard if wanted
                                     if not self.echo:
                                         self.serial.write(b'\x91')
+                                    self.serial.write(b'\xaa\x20')
                                     # if formfeed, then also carriage return
                                     if data == b'\x0c':
                                         data = b'\r'

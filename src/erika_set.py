@@ -28,11 +28,12 @@ def main(argv):
     firstcol   = None
     formfeed   = False
     wrap       = None
-    
+    backsteps  = None
+
     # comand line args
     try:
-        opts, args = getopt.getopt(argv,"hvd:i:s:l:c:f:w:t:z:p",
-            ["help","verbose","device=","cpi=","linespacing=","wrap=","tabstop=","formfeed"])
+        opts, args = getopt.getopt(argv,"hvd:i:s:l:c:f:w:t:z:B:p",
+            ["help","verbose","device=","cpi=","halflines=","columns=","firstcolumn=","linespacing=","wrap=","tabstop=","charset=","backsteps=","formfeed"])
     except getopt.GetoptError:
         eprint('erika.py argument error')
         eprint('use erika_set.py -h for help')
@@ -72,6 +73,8 @@ def main(argv):
             print('\t\t1 for wrapping to long lines and 0 for truncating')
             print('\t-t, --tabstop\t\tdistance tabstops')
             print('\t\trecommended 4 or 8')
+            print('\t-B, --backsteps\t\thalf steps backward after formfeed')
+            print('\t\tpossible between 0 and 9')
             print('\t-z, --charset\t\textra charset (Zeichenkodierung)')
             print('\t\tselectable from cp858 and if6000')
             print('\t\tmain charset is always utf-8')
@@ -128,6 +131,12 @@ def main(argv):
                 eprint('ERROR: wrong tabstop:',arg)
                 eprint('ERROR: tabstop should between 1 and 16 spaces')
                 sys.exit(2)
+        elif opt in ('-B', '--backsteps'):
+            if arg.isnumeric() and int(arg) < 10:
+                backsteps = int(arg)
+            else:
+                print('wrong backsteps ',arg,' used.')
+                sys.exit(2)
         elif opt in ('-z', '--charset'):
             if arg in ('cp858','if6000'):
                 charset = arg
@@ -159,6 +168,8 @@ def main(argv):
             eprint('DEBUG: tabstop      :', tabstop)
         if charset:
             eprint('DEBUG: extra charset:', charset)
+        if backsteps:
+            eprint('DEBUG: backsteps    :', backsteps)
         if formfeed:
             eprint('DEBUG: formfeed     :', formfeed)
 
@@ -229,6 +240,11 @@ def main(argv):
         else: # should be if6000
             s.write(b'\x1bz')
         eprint('INFO: charset set to:', charset)
+
+    # backsteps
+    if backsteps:
+        s.write(b'\x1bB' + backsteps.to_bytes(1,'big'))
+        eprint('INFO: backsteps set to:', backsteps)
     
     # form feed
     if formfeed:

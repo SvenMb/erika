@@ -17,8 +17,8 @@ def main(argv):
     
     # comand line args
     try:
-        opts, args = getopt.getopt(argv,"hved:b:k:p:i:s:l:c:f:wt:z:",
-            ["help","verbose","echo","device=","baudrate=","keyboard=",'setperm=','cpi=','linespacing=','halflines=','columns=','firstcolumn=','wrap','tabstop=','charset='])
+        opts, args = getopt.getopt(argv,"hved:b:k:p:i:s:l:c:f:wt:B:z:",
+            ["help","verbose","echo","device=","baudrate=","keyboard=",'setperm=','cpi=','linespacing=','halflines=','columns=','firstcolumn=','wrap','tabstop=','backsteps=','charset='])
     except getopt.GetoptError:
         print('erika.py argument error')
         print('use erika.py -h for help')
@@ -73,6 +73,9 @@ def main(argv):
             print('\t-t, --tabstop\t\tdistance tabstops')
             print('\t\tdefault: ', e.tabstop)
             print('\t\trecommended 4 or 8')
+            print('\t-B, --backsteps\t\thalf steps backward after formfeed')
+            print('\t\tdefault: ', e.backsteps)
+            print('\t\tpossible between 0 and 9')
             print('\t-z, --charset\t\textra charset (Zeichenkodierung)')
             print('\t\tdefault:',e.charset)
             print('\t\tselectable from cp858 and if6000')
@@ -126,6 +129,12 @@ def main(argv):
             else:
                 print('wrong tabstop ',arg,' used.')
                 sys.exit(2)
+        elif opt in ('-B', '--backsteps'):
+            if arg.isnumeric() and int(arg) < 10:
+                e.backsteps = int(arg)
+            else:
+                print('wrong backsteps ',arg,' used.')
+                sys.exit(2)
         elif opt in ('-v', '--verbose'):
             print('verbose arg:',arg)
             e.verbose+=1
@@ -149,6 +158,7 @@ def main(argv):
         print('firstcolumn  :', e.firstcol)
         print('wrap         :', e.wrap)
         print('tabstop      :', e.tabstop)
+        print('backsteps    :', e.backsteps)
         print('extra charset:', e.charset)
         
     with e:

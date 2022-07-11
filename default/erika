@@ -3,14 +3,15 @@
 
 # Options to pass to erika.py
 # ECHO=--echo
-VERBOSE=--verbose
+# VERBOSE=--verbose
 # PORT=--device=/dev/ttyAMA0
 # KEYBOARD=--keyboard=de
 # SETPERM=--setperm=./setperm.sh
 # CPI=--cpi=12
 # LINESPACING=--linespacing=2
-# HALFLINES=--halflines=120
+HALFLINES=--halflines=124
 # COLUMNS=--columns=84
 WRAP=--wrap
 # TABSTOP=--tabstop=8
+BACKSTEPS=--backsteps=4
 # CHARSET=--charset=if6000

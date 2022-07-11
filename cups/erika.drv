@@ -269,10 +269,10 @@ MediaSize A3
       Choice "29/19 Spaces" ""
       Choice "30/30 Spaces" ""
 
-  Group "General/General"
-    Option "Page/Paginate Output" Boolean AnySetup 10.0
-      *Choice "Yes/Yes, single sheet paper" ""
-      Choice "No/No, Continuous Paper" ""
+//  Group "General/General"
+//    Option "Page/Paginate Output" Boolean AnySetup 10.0
+//      *Choice "Yes/Yes, single sheet paper" ""
+//      Choice "No/No, Continuous Paper" ""
 
 
 
@@ -492,10 +492,10 @@ Group "General/General"
 
 Group "General/General"
     Option "FormFeed/Send extra Form Feed to Erika" PickOne AnySetup 10.0
-      *Choice "No/No extra Form Feed" ""
+      Choice "No/No extra Form Feed" ""
       Choice "Before/Send extra Form Feed before printing" ""
       Choice "After/Send extra Form Feed after printing" ""
-      Choice "Both/Send extra Form Feed before and after printing" ""
+      *Choice "Both/Send extra Form Feed before and after printing" ""
 
 Group "General/General"
     Option "ExtraLines/Backsteps before new Page" PickOne AnySetup 10.0
@@ -512,8 +512,8 @@ Group "General/General"
 
 //  CustomMedia "ticket2x2/Ticket 2x2in" 144.00 144.00 1.00 2.00 0.00 0.00 "<</PageSize[144 144]/ImagingBBox null>>setpagedevice" "<</PageSize[144 144]/ImagingBBox null>>setpagedevice"
 
-  VariablePaperSize Yes
-  HWMargins 0.00 0.00 0.00 0.00
-  MinSize 0.00 0.00
-  MaxSize 0.00 0.00
+//  VariablePaperSize Yes
+//  HWMargins 0.00 0.00 0.00 0.00
+//  MinSize 0.00 0.00
+//  MaxSize 0.00 0.00
 }

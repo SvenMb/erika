@@ -36,6 +36,7 @@ class Erika:
         self.charset         = 'cp858'
         self.firstcol        = 12
         self.wrap            = False
+        self.backsteps       = 0
 
         self.alive           = None
         self.threads         = []
@@ -219,6 +220,13 @@ class Erika:
                                     self.firstcol = data[0]
                                     if self.verbose:
                                         print(data[0])
+                                elif data == b'B':
+                                    if self.verbose:
+                                        print("ESC B -> Backsteps: ",end='',flush=True)
+                                    data = os.read(master,1)
+                                    self.backsteps = data[0]
+                                    if self.verbose:
+                                        print(data[0])
                                         
                             else:
                                 # backstep, shouldn't happen to often, handle anyway
@@ -254,20 +262,19 @@ class Erika:
                                     self.serial.write(b'\xaa\x10')
                                     time.sleep(0.5)
                                     self.serial.write(b'\xaa\x10')
-                                    # connect typewriter with keyboard
-                                    # self.serial.write(b'\x92')
-                                    # tell kb thread to wait
                                     self.kbd_wait=True
                                     if self.verbose:
                                         print("Form Feed, waiting for kbd")
-                                    # waiting for kbd thread to message "Randloesen"
+                                    # waiting for kbd thread to message
                                     while self.kbd_wait:
                                         time.sleep(0.5)
-                                    # disconnect typewriter keyboard if wanted
-                                    # if not self.echo:
-                                    #    self.serial.write(b'\x91')
                                     self.serial.write(b'\xaa\x20')
-                                    # if formfeed, then also carriage return
+                                    # formfeed done, do backsteps
+                                    for i in range(0,self.backsteps):
+                                        self.serial.write(b'\x76')
+                                        if self.verbose:
+                                            print("Backstep...")
+                                        # if formfeed, then also carriage return
                                     if data == b'\x0c':
                                         data = b'\r'
                                     # reset line counter

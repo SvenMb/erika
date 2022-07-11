@@ -30,11 +30,13 @@ class Erika:
         self.keyboard        = 'de'
         self.linestep        = 2
         self.maxlines        = 120  # halflines per paper, 120 for normal A4
-        self.maxcolumns      = 84*5 # chars per line
+        self.maxcolumns      = 80*5 - 1 # chars per line
         self.charstep        = 5    # 4 => 15 cpi, 5 => 12 cpi, 6 => 10 cpi
         self.tabstop         = 8
         self.charset         = 'cp858'
         self.firstcol        = 12
+        self.wrap            = False
+        self.backsteps       = 0
 
         self.alive           = None
         self.threads         = []
@@ -169,19 +171,26 @@ class Erika:
                                         print("ESC U -> halfline forward")
                                     self.serial.write(b'\x75')
                                     self.line+=1
-                                elif data == b'U':
+                                elif data == b'D':
                                     if self.verbose:
                                         print("ESC D -> halfline backward")
                                     self.serial.write(b'\x76')
                                     self.line-=1
-                                elif data == b'U':
+                                elif data == b'W':
                                     if self.verbose:
-                                        print("ESC T -> tabstop 4")
-                                    self.tabstop=4
-                                elif data == b't':
+                                        print("ESC W -> LineWrap on")
+                                    self.wrap=True
+                                elif data == b'w':
                                     if self.verbose:
-                                        print("ESC t -> tabstop 8")
-                                    self.tabstop=8
+                                        print("ESC w -> LineWrap off")
+                                    self.wrap=False
+                                elif data == b'T':
+                                    if self.verbose:
+                                        print("ESC T -> tabstop: ",end='',flush=True)
+                                    data = os.read(master,1)
+                                    self.tabstop = data[0]
+                                    if self.verbose:
+                                        print(self.tabstop,"spaces")
                                 elif data == b'Z':
                                     if self.verbose:
                                         print("ESC Z -> charset utf-8/cp858")
@@ -201,7 +210,7 @@ class Erika:
                                     if self.verbose:
                                         print("ESC C -> max Columns: ",end='',flush=True)
                                     data = os.read(master,1)
-                                    self.maxcolumns = data[0] * self.charstep
+                                    self.maxcolumns = data[0] * self.charstep - 1
                                     if self.verbose:
                                         print(data[0])
                                 elif data == b'F':
@@ -211,61 +220,75 @@ class Erika:
                                     self.firstcol = data[0]
                                     if self.verbose:
                                         print(data[0])
+                                elif data == b'B':
+                                    if self.verbose:
+                                        print("ESC B -> Backsteps: ",end='',flush=True)
+                                    data = os.read(master,1)
+                                    self.backsteps = data[0]
+                                    if self.verbose:
+                                        print(data[0])
                                         
                             else:
-                                # check for newline or line overflow
-                                if data == b'\n' or (self.column+self.charstep) > self.maxcolumns:
+                                # backstep, shouldn't happen to often, handle anyway
+                                if data == b'\b':
+                                    self.column -= self.charstep
+                                    if self.column < 0:
+                                       self.column = 0 
+                                # check for newline or line overflow with wrap
+                                elif data == b'\n' or (self.wrap and (self.column > self.maxcolumns)):
                                     self.line+=self.linestep
                                     self.column=0
                                     if self.verbose > 1:
                                         print("line:",self.line)
                                     if not data == b'\n':
                                         self.serial.write(b'\x77') # maybe already to far of paper, but we won't write here
-                                # backstep, shouldn't happen to often, handle anyway
-                                elif data == b'\b':
-                                    self.column -= self.charstep
                                 # only carriage return
                                 elif data == b'\r':
                                     self.column = 0
                                 # tabs
-                                elif data == b'\t': # to be implemented!!!!
+                                elif data == b'\t':
                                     t = int(self.tabstop-(self.column/self.charstep)%self.tabstop)
                                     self.column+=self.charstep*t
+                                    if self.column > self.maxcolumns:
+                                        self.column = self.maxcolumns + self.charstep
                                     if self.verbose > 1:
                                         print ("space to next tabstop:",t)
                                     while t > 0:
                                         self.serial.write(b'\x71')
                                         t-=1
-                                # every printable char
-                                else:
-                                    self.column += self.charstep
-                                    if self.verbose > 1:
-                                        print('column:',self.column)
                                 # check for form feed
                                 if data == b'\x0c' or self.line > self.maxlines:
                                     # double beep
                                     self.serial.write(b'\xaa\x10')
                                     time.sleep(0.5)
                                     self.serial.write(b'\xaa\x10')
-                                    # connect typewriter with keyboard
-                                    self.serial.write(b'\x92')
-                                    # tell kb thread to wait
                                     self.kbd_wait=True
                                     if self.verbose:
                                         print("Form Feed, waiting for kbd")
-                                    # waiting for kbd thread to message "Randloesen"
+                                    # waiting for kbd thread to message
                                     while self.kbd_wait:
                                         time.sleep(0.5)
-                                    # disconnect typewriter keyboard if wanted
-                                    if not self.echo:
-                                        self.serial.write(b'\x91')
                                     self.serial.write(b'\xaa\x20')
-                                    # if formfeed, then also carriage return
+                                    # formfeed done, do backsteps
+                                    for i in range(0,self.backsteps):
+                                        self.serial.write(b'\x76')
+                                        if self.verbose:
+                                            print("Backstep...")
+                                        # if formfeed, then also carriage return
                                     if data == b'\x0c':
                                         data = b'\r'
                                     # reset line counter
                                     self.line=0
                                     self.column=0
+                                # don't print if outside border
+                                if self.column > self.maxcolumns:
+                                    continue
+                                # every printable char
+                                if data not in (b'\b',b'\n',b'\r',b'\x0c'):
+                                    self.column += self.charstep
+                                    if self.verbose > 1:
+                                        print('column:',self.column,flush=True)
+
                                 self.serial.write(cm.decode(data))
 
                                 # adjust rand again if needed and last char was \n or \r
@@ -356,10 +379,11 @@ class Erika:
                             kbd_data=data[0]
                             if self.verbose > 1:
                                 print("erika code:",hex(kbd_data))
-                            if kbd_data == 0x80:
-                                self.kbd_wait=False
-                            elif self.kbd_wait:
-                                pass
+                            if self.kbd_wait:
+                                if kbd_data in (0x75,0x76,0x77,0x81,0x82,0x83) and not self.echo:
+                                    self.serial.write(data)
+                                elif kbd_data in (0x80,0x71):
+                                    self.kbd_wait=False
                             else:
                                 kbd.key(kbd_data)
                     else:

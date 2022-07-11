@@ -22,6 +22,9 @@ MediaSize A3
   Attribute "ShortNickName" "" "Erika"
 
   Filter "text/plain 0 erika"
+  Filter "text/html 0 erika"
+  Filter "application/pdf 0 erika"
+  Filter "application/vnd.cups-pdf-banner 0 erika"
   ColorModel Gray/SchwarzWeiss w chunky 0
 
   Group "General/General"

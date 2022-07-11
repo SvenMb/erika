@@ -22,7 +22,6 @@ NB=$4
 OPTIONS=$5
 FILE=$6
 
-
 # Get an attribute from the ppd file
 getAttribute () {
   ATTRIBUTE=$1
@@ -85,6 +84,35 @@ getOptionNumber () {
   esac
   printf "%s" "$VALUE"
 }
+
+echo "DEBUG: Input content type: $CONTENT_TYPE" >&2
+
+# FIXME CONTENT_TYPE contains original document, not document passed as parameter ?!!
+
+setupTextRendering() {
+  # Default rendering without translation: just reformat paragraphs
+  # RENDER_CALL="fmt -$LineLength"
+
+  #  Tool to be used for the conversion
+  case $CONTENT_TYPE in
+    text/plain)
+      CONVERT="cat"
+      ;;
+    text/html)
+      CONVERT="lynx -width=$TEXTWIDTH -dump -stdin"
+      ;;
+    application/pdf|application/vnd.cups-pdf-banner)
+      CONVERT="pdftotext -raw - -"
+      ;;
+    *)
+      echo "ERROR: unsupported content type $CONTENT_TYPE" >&2
+      exit 1
+      ;;
+  esac
+}
+
+
+
 
 # PageSize and CPI from cups setting
 PAGESIZE=$(getOption PageSize)

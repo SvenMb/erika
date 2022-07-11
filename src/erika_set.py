@@ -168,7 +168,7 @@ def main(argv):
             eprint('DEBUG: tabstop      :', tabstop)
         if charset:
             eprint('DEBUG: extra charset:', charset)
-        if backsteps:
+        if backsteps!=None:
             eprint('DEBUG: backsteps    :', backsteps)
         if formfeed:
             eprint('DEBUG: formfeed     :', formfeed)
@@ -242,7 +242,7 @@ def main(argv):
         eprint('INFO: charset set to:', charset)
 
     # backsteps
-    if backsteps:
+    if backsteps!=None:
         s.write(b'\x1bB' + backsteps.to_bytes(1,'big'))
         eprint('INFO: backsteps set to:', backsteps)
     

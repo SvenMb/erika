@@ -85,7 +85,7 @@ getOptionNumber () {
   printf "%s" "$VALUE"
 }
 
-echo "DEBUG: Input content type: $CONTENT_TYPE" >&2
+eprint "DEBUG: Input content type: $CONTENT_TYPE\n"
 
 # FIXME CONTENT_TYPE contains original document, not document passed as parameter ?!!
 
@@ -229,13 +229,15 @@ eprint "DEBUG: CMD finish\n"
 
 eprint "DEBUG: ^L finish\n"
 
-setupTextRendering()
+setupTextRendering
 
 if [ -z "$FILE" ]
 then
 	$CONVERT
+	eprint "CONVERT: $CONVERT\n"
 else
 	$CONVERT < $FILE
+	eprint "CONVERT File: $CONVERT\n"
 fi
 
 eprint "DEBUG: cat finish\n"

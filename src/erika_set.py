@@ -26,15 +26,22 @@ def main(argv):
     tabstop    = None
     charset    = None
     firstcol   = None
+    formfeed   = False
     
     # comand line args
     try:
-        opts, args = getopt.getopt(argv,"hvd:i:s:l:c:f:t:z:",
-            ["help","verbose","device=","cpi=","linespacing=","tabstop="])
+        opts, args = getopt.getopt(argv,"hvd:i:s:l:c:f:t:z:p",
+            ["help","verbose","device=","cpi=","linespacing=","tabstop=","formfeed"])
     except getopt.GetoptError:
         eprint('erika.py argument error')
         eprint('use erika_set.py -h for help')
         sys.exit(2)
+
+    if len(opts) == 0:
+        eprint('erika_set.py no argument error')
+        eprint('use erika_set.py -h for help')
+        sys.exit(2)
+
     for opt, arg in opts:
         if opt in ('-h', '--help'):
             print('erika_set.py\n')
@@ -65,6 +72,8 @@ def main(argv):
             print('\t-z, --charset\t\textra charset (Zeichenkodierung)')
             print('\t\tselectable from cp858 and if6000')
             print('\t\tmain charset is always utf-8')
+            print('\t-p, --formfeed\t\tform feed to change paper')
+            print('\t\tno options')
             sys.exit()
         elif opt in ('-d', '--device'):
             s.port = arg
@@ -115,6 +124,8 @@ def main(argv):
             else:
                 eprint('ERROR: wrong extra charset',arg)
                 sys.exit(2)
+        elif opt in ('-p','--formfeed'):
+            formfeed=True
 
 
 
@@ -136,6 +147,8 @@ def main(argv):
             eprint('DEBUG: tabstop      :', tabstop)
         if charset:
             eprint('DEBUG: extra charset:', charset)
+        if formfeed:
+            eprint('DEBUG: formfeed     :', formfeed)
 
     # open erika port
     if s.port != '-':
@@ -200,7 +213,12 @@ def main(argv):
             s.write(b'\x1bz')
         eprint('INFO: charset set to:', charset)
     
-    # s.write(b'    ')
+    # form feed
+    if formfeed:
+        s.write(b'\f')
+        eprint('INFO: form feed sent to erika')
+        eprint('INFO: use \'margin release\' key when finished')
+
     
 if __name__ == "__main__":
     main(sys.argv[1:])

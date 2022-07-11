@@ -16,7 +16,7 @@ you need to integrate it in your system by yourself.
 2. take care, that serial port is enabled, but login shell on serial is off. keymap should be de for 105keys keyboard, since currently only german keymap is available. 
 (all done via raspi-config)
 3. copy the uart-cts to overlays  
-`sudo cp boot/overlays/uart-cts.dtbo /boot/overlays/`  
+`sudo cp raspberry/boot/overlays/uart-cts.dtbo /boot/overlays/`  
 4. add following lines to config.txt (first one should already be there)
 ```
 enable_uart=1

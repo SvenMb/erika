@@ -54,10 +54,16 @@ echo -n \\ | openssl s_client -showcerts -connect git.muehlberg.net:443 \\
 `sudo pip3 install evdev`
 6.  copy src to /var/lib/erika  
 `sudo cp -R src /var/lib/erika`
-7. copy service/erika.service to /etc/systemd/system/erika.service  
+7.  copy src/erika_set.py to /usr/bin/
+`sudo cp -R src/erika_set.py /usr/bin/`
+8. copy service/erika.service to /etc/systemd/system/erika.service  
 `sudo cp service/erika.service /etc/systemd/system/erika.service`
-8. copy default/erika.service to /etc/default/erika  
+9. copy default/erika.service to /etc/default/erika  
 `sudo cp default/erika /etc/default/erika`
+10. change to cups directory
+`cd cups`
+11. start cups install script
+`./create_ppd.sh`
 
 ### adapt to local system
 

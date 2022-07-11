@@ -189,7 +189,7 @@ eprint "DEBUG: ExtraLines   $ExtraLines\n"
 # building command to apply settings before printing
 CMD="${ERIKA_SET} -i $CPI -s $LineHeight -l $((${PageLength}+${ExtraLines})) \
 -c $((${LineLength}-${LeftMargin}-${RightMargin})) -f $((${LeftMargin}+1)) \
--t ${TabStop} -z ${ExtraCharset}"
+-w ${Wrap} -t ${TabStop} -z ${ExtraCharset}"
 # -b ${ExtraLines} (auto backsteps not implemented yet)
 
 eprint "DEBUG: $CMD\n"

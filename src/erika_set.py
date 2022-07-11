@@ -27,11 +27,12 @@ def main(argv):
     charset    = None
     firstcol   = None
     formfeed   = False
+    wrap       = None
     
     # comand line args
     try:
-        opts, args = getopt.getopt(argv,"hvd:i:s:l:c:f:t:z:p",
-            ["help","verbose","device=","cpi=","linespacing=","tabstop=","formfeed"])
+        opts, args = getopt.getopt(argv,"hvd:i:s:l:c:f:w:t:z:p",
+            ["help","verbose","device=","cpi=","linespacing=","wrap=","tabstop=","formfeed"])
     except getopt.GetoptError:
         eprint('erika.py argument error')
         eprint('use erika_set.py -h for help')
@@ -67,6 +68,8 @@ def main(argv):
             print('\t-f, --firstcolumn\t\tfirst column')
             print('\t\trecommended 10 for 10cpi, 12 for 12cpi and 15 for 15cpi')
             print('\t\tstarting with 1')
+            print('\t-w, --wrap\t\tLinewrapping on or off')
+            print('\t\t1 for wrapping to long lines and 0 for truncating')
             print('\t-t, --tabstop\t\tdistance tabstops')
             print('\t\trecommended 4 or 8')
             print('\t-z, --charset\t\textra charset (Zeichenkodierung)')
@@ -111,6 +114,13 @@ def main(argv):
             else:
                 eprint('ERROR: wrong firstcolumn',arg)
                 sys.exit(2)
+        elif opt in ('-w','--wrap'):
+            if arg in ('0','1'):
+                wrap = arg
+            else:
+                eprint('ERROR: wrong LineWrap:',arg)
+                eprint('ERROR: only 0 or 1 possible here.')
+                sys.exit(2)
         elif opt in ('-t', '--tabstop'):
             if arg in ('4','8'):
                 tabstop = arg
@@ -125,7 +135,7 @@ def main(argv):
                 eprint('ERROR: wrong extra charset',arg)
                 sys.exit(2)
         elif opt in ('-p','--formfeed'):
-            formfeed=True
+            formfeed = True
 
 
 
@@ -143,6 +153,8 @@ def main(argv):
             eprint('DEBUG: maxlines     :', maxlines)
         if firstcol:
             eprint('DEBUG: firstcolumn  :', firstcol)
+        if wrap:
+            eprint('DEBUG: tabstop      :', wrap)
         if tabstop:
             eprint('DEBUG: tabstop      :', tabstop)
         if charset:
@@ -196,7 +208,15 @@ def main(argv):
     if firstcol:
         s.write(b'\x1bF' + firstcol.to_bytes(1,'big'))
         eprint('INFO: firstcolumn set to:', firstcol)
-    
+
+    # wrap
+    if wrap:
+        if wrap == '0':
+            s.write(b'\x1bw')
+        else:
+            s.write(b'\x1bW')
+        eprint('INFO: wrap set to:', wrap)
+
     # tabstop
     if tabstop:
         if tabstop == '4':

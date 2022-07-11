@@ -229,11 +229,13 @@ eprint "DEBUG: CMD finish\n"
 
 eprint "DEBUG: ^L finish\n"
 
+setupTextRendering()
+
 if [ -z "$FILE" ]
 then
-	cat
+	$CONVERT
 else
-	cat $FILE
+	$CONVERT < $FILE
 fi
 
 eprint "DEBUG: cat finish\n"

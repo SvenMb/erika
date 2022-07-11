@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ERIKA_SET='erika_set.py -d -'
+
 # Wanzen jagen :)
 DEBUGFILE="/tmp/erika_stderr"
 [ -n "$DEBUGFILE" ] && printf "<<<START>>>\n" >$DEBUGFILE
@@ -84,9 +86,11 @@ getOptionNumber () {
   printf "%s" "$VALUE"
 }
 
+# PageSize and CPI from cups setting
 PAGESIZE=$(getOption PageSize)
 CPI=$(getOption CPI)
-# setting Margins according to CPI
+
+# setting default Margins according to CPI
 # measures left margin
 # 10cpi = 9 chars  = 22,9mm
 # 12cpi = 11 chars = 23,3mm
@@ -99,62 +103,65 @@ CPI=$(getOption CPI)
 case "$CPI" in
      15)
 	LeftMargin=14
-	RigthMargin=12
-     ;;
+	RightMargin=12
+	;;
      12)
 	LeftMargin=11
-	RigthMargin=9
-     ;;
+	RightMargin=9
+	;;
      10)
 	LeftMargin=9
-	RigthMargin=8
-     ;;
+	RightMargin=8
+	;;
+esac
 
 # setting defaults according to pagesize and CPI
 case "${PAGESIZE}_${CPI}" in
     A3_15)
 	LineLength=150
 	PageLength=178
-    ;;
+	;;
     A3_12)
 	LineLength=120
 	PageLength=178
-    ;;
+	;;
     A3_10)
 	LineLength=100
 	PageLength=178
-    ;;
+	;;
     A4_15)
 	LineLength=125
 	PageLength=120
-    ;;
+	;;
     A4_12)
 	LineLength=100
 	PageLength=120
-    ;;
+	;;
     A4_10)
 	LineLength=83
 	PageLength=120
-    ;;
+	;;
     A5_15)
 	LineLength=125
 	PageLength=80
-    ;;
+	;;
     A5_12)
 	LineLength=100
 	PageLength=80
-    ;;
+	;;
     A5_10)
 	LineLength=83
 	PageLength=80
-    ;;
+	;;
+esac
 
-# DefaultCPI   = $(getOption DefaultCPI)
+# replacing defaults and other settings if set in cups
 LineHeight=$(getOption LineHeight)
-LineLength=$(getOption LineLength)
-LeftMargin=$(getOption LeftMargin)
-RightMargin=$(getOption RightMargin)
-PageLength=$(getOption PageLength)
+[ $(getOption LineLength)  == 'Default' ] || LineLength=$(getOption LineLength)
+[ $(getOption LeftMargin)  == 'Default' ] || LeftMargin=$(getOption LeftMargin)
+[ $(getOption RightMargin) == 'Default' ] || RightMargin=$(getOption RightMargin)
+[ $(getOption PageLength)  == 'Default' ] || PageLength=$(getOption PageLength)
+Page=$(getOption Page)
 Wrap=$(getOption Wrap)
 TabStop=$(getOption TabStop)
 ExtraCharset=$(getOption ExtraCharset)
@@ -169,12 +176,38 @@ eprint "DEBUG: LeftMargin   $LeftMargin\n"
 eprint "DEBUG: RightMargin  $RightMargin\n"
 eprint "DEBUG: PageLength   $PageLength\n"
 eprint "DEBUG: Wrap         $Wrap\n"
+eprint "DEBUG: Page         $Page\n"
 eprint "DEBUG: TabStop      $TabStop\n"
 eprint "DEBUG: ExtraCharset $ExtraCharset\n"
 eprint "DEBUG: FormFeed     $FormFeed\n"
 eprint "DEBUG: ExtraLines   $ExtraLines\n"
-# set -x
+
+# check positive length of line
+# check free lines in page
+# (not implemented yet)
+
+# building command to apply settings before printing
+CMD="${ERIKA_SET} -i $CPI -s $LineHeight -l $((${PageLength}+${ExtraLines})) \
+-c $((${LineLength}-${LeftMargin}-${RightMargin})) -f $((${LeftMargin}+1)) \
+-t ${TabStop} -z ${ExtraCharset}"
+# -b ${ExtraLines} (auto backsteps not implemented yet)
+
+eprint "DEBUG: $CMD\n"
+$CMD
+
+eprint "DEBUG: CMD finish\n"
+
+([ $FormFeed = 'Before' ] || [ $FormFeed = 'Both' ]) && printf '\x0c'
+
+eprint "DEBUG: ^L finish\n"
+
 # have the input at fd0 (stdin) in any case
 [ -n "$6" ] && exec <"$6"
 # printing
 cat /dev/stdin
+
+eprint "DEBUG: cat finish\n"
+
+([ $FormFeed = 'After' ] || [ $FormFeed = 'Both' ]) && printf '\x0c'
+
+eprint "DEBUG: ^L finish\n"

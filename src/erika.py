@@ -169,6 +169,8 @@ def main(argv):
         # wait for threads
         for thread in e.threads:
              thread.join()
+        sys.exit(2)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])

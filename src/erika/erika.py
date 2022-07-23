@@ -348,6 +348,7 @@ class Erika:
             # print(self.kbdcl.erika2uinput[0x4f])
         # elif self.keyboard != 'none':
         else:
+            self.alive = False
             print('unknown keyboard!!!',flush=True)
             quit()
 
@@ -364,12 +365,12 @@ class Erika:
          e.EV_KEY : (e.BTN_LEFT, e.BTN_MIDDLE, e.BTN_RIGHT),
         }
         # open uinput
-        with evdev.UInput(name=self.name+' kbd') as  ui, evdev.UInput(cap,name=self.name+' mouse') as mui:
-            time.sleep(1) # wait for evdev.UInput() to settle
-            if self.verbose > 1:
-                print('Mouse cap:',mui.capabilities())
-            kbd.init(ui, mui, self.serial, self.verbose, self.echo)
-            try:
+        try:
+            with evdev.UInput(name=self.name+' kbd') as  ui, evdev.UInput(cap,name=self.name+' mouse') as mui:
+                time.sleep(1) # wait for evdev.UInput() to settle
+                if self.verbose > 1:
+                    print('Mouse cap:',mui.capabilities())
+                kbd.init(ui, mui, self.serial, self.verbose, self.echo)
                 while self.alive:
                     # read all that is there or wait for one byte
                     if (self.serial.inWaiting() > 0):
@@ -391,6 +392,7 @@ class Erika:
                         time.sleep(0.2)
                         if self.verbose > 2:
                             print('kbd-tick',end='',flush=True)
-            except serial.SerialException:
-                self.alive = False
-                raise       # maybe serial device is removed
+        except:
+            self.alive = False
+            raise       # maybe serial device is removed
+            

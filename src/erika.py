@@ -8,12 +8,16 @@
 #  
 
 from erika.erika import Erika
+import erika.vprint as V
 import sys, getopt
 
+verbose = 0
 
 def main(argv):
     
     e = Erika()
+
+    V.init()
     
     # comand line args
     try:
@@ -137,29 +141,28 @@ def main(argv):
                 sys.exit(2)
         elif opt in ('-v', '--verbose'):
             print('verbose arg:',arg)
-            e.verbose+=1
+            V.inc()
         elif opt in ('-z', '--charset'):
             e.charset = arg
 
             
     # info about current options         
-    if e.verbose:
-        print('Serial device:', e.serial.port)
-        print('Baudrate     :', e.serial.baudrate)
-        print('Keyboard     :', e.keyboard)
-        print('lpsetperm prg:', e.lpsetperm)
-        print('echo         :', e.echo)
-        print('maxlines     :', e.maxlines)
-        print('linestep     :', e.linestep)
-        print('lines pp     :', int(e.maxlines/e.linestep))
-        print('maxcolumns   :', e.maxcolumns)
-        print('charstep     :', e.charstep)
-        print('columns pl   :', int((e.maxcolumns+1)/e.charstep))
-        print('firstcolumn  :', e.firstcol)
-        print('wrap         :', e.wrap)
-        print('tabstop      :', e.tabstop)
-        print('backsteps    :', e.backsteps)
-        print('extra charset:', e.charset)
+    V.msg(1,'Serial device:', e.serial.port)
+    V.msg(1,'Baudrate     :', e.serial.baudrate)
+    V.msg(1,'Keyboard     :', e.keyboard)
+    V.msg(1,'lpsetperm prg:', e.lpsetperm)
+    V.msg(1,'echo         :', e.echo)
+    V.msg(1,'maxlines     :', e.maxlines)
+    V.msg(1,'linestep     :', e.linestep)
+    V.msg(1,'lines pp     :', int(e.maxlines/e.linestep))
+    V.msg(1,'maxcolumns   :', e.maxcolumns)
+    V.msg(1,'charstep     :', e.charstep)
+    V.msg(1,'columns pl   :', int((e.maxcolumns+1)/e.charstep))
+    V.msg(1,'firstcolumn  :', e.firstcol)
+    V.msg(1,'wrap         :', e.wrap)
+    V.msg(1,'tabstop      :', e.tabstop)
+    V.msg(1,'backsteps    :', e.backsteps)
+    V.msg(1,'extra charset:', e.charset)
         
     with e:
         e.alive=True

@@ -63,6 +63,13 @@ class Erika:
         self.close()
 
     ###########################
+
+    # print verbose messages
+    def vprint(self,lv,*args,**kwargs):
+        if self.verbose >= lv:
+            print(*args,**kwargs)
+
+    ###########################
     
     def start_lp(self):
         """Start lp thread"""
@@ -94,8 +101,7 @@ class Erika:
         for i in range(1,col):
             self.serial.write(b'\x71')
         self.serial.write(b'\x7e')
-        if self.verbose:
-            print('first column set on erika to:',col)
+        self.vprint(1,'first column set on erika to:',col)
         return col
 
     def lp(self):
@@ -103,22 +109,20 @@ class Erika:
         # create pts and print name (later link it"""
         master,vserial = os.openpty()
         vs_name = os.ttyname(vserial)
-        if self.verbose:
-            print("lp-device    :",vs_name)
+        self.vprint(1,"lp-device    :",vs_name)
         if not not self.lpsetperm: # not empty string
-            if self.verbose:
-                print("start setperm:",self.lpsetperm,vs_name)
+            self.vprint(1,"start setperm:",self.lpsetperm,vs_name)
             os.system(self.lpsetperm + " " + vs_name)
         # wait for keyboard init ...
         time.sleep(2)
         # check if printer is detected
         if self.keyboard not in ('3004_de','3005_de'):
             self.alive = False
-            print ('unknown printer')
+            self.vprint (0,'unknown printer')
             quit()
         # check if keyboard init is aborted
         elif not self.alive:
-            print ('initialization aborted')
+            self.vprint (0,'initialization aborted')
         # reset typewriter
         # self.serial.write(b'\x95')
 
@@ -147,103 +151,81 @@ class Erika:
                     # try:
                         data = os.read(master,1)
                         if len(data) == 0:
-                            print("Bug found: read zero bytes from pty master")
+                            self.vprint(0,"Bug found: read zero bytes from pty master")
                             time.sleep(1)
                         # check for escape, adapted from if6000
                         elif data == b'\x1b':
-                            print("escape found")
+                            self.vprint(1,"escape found")
                             data = os.read(master,1)
                             if   data == b'M':
-                                if self.verbose:
-                                    print("ESC M -> 10cpi")
+                                self.vprint(1,"ESC M -> 10cpi")
                                 self.serial.write(b'\x87')
                                 self.charstep=6
                             elif data == b'N':
-                                if self.verbose:
-                                    print("ESC N -> 12cpi")
+                                self.vprint(1,"ESC N -> 12cpi")
                                 self.serial.write(b'\x88')
                                 self.charstep=5
                             elif data == b'O':
-                                if self.verbose:
-                                    print("ESC O -> 15cpi")
+                                self.vprint(1,"ESC O -> 15cpi")
                                 self.serial.write(b'\x89')
                                 self.charstep=4
                             elif data == b'3':
-                                if self.verbose:
-                                    print("ESC 3 -> 2 halflines spacing")
+                                self.vprint(1,"ESC 3 -> 2 halflines spacing")
                                 self.serial.write(b'\x84')
                                 self.linestep=2
                             elif data == b'4':
-                                if self.verbose:
-                                    print("ESC 4 -> 3 halflines spacing")
+                                self.vprint(1,"ESC 4 -> 3 halflines spacing")
                                 self.serial.write(b'\x85')
                                 self.linestep=3
                             elif data == b'5':
-                                if self.verbose:
-                                    print("ESC 5 -> 4 halflines spacing")
+                                self.vprint(1,"ESC 5 -> 4 halflines spacing")
                                 self.serial.write(b'\x86')
                                 self.linestep=4
                             elif data == b'U':
-                                if self.verbose:
-                                    print("ESC U -> halfline forward")
+                                self.vprint(1,"ESC U -> halfline forward")
                                 self.serial.write(b'\x75')
                                 self.line+=1
                             elif data == b'D':
-                                if self.verbose:
-                                    print("ESC D -> halfline backward")
+                                self.vprint(1,"ESC D -> halfline backward")
                                 self.serial.write(b'\x76')
                                 self.line-=1
                             elif data == b'W':
-                                if self.verbose:
-                                    print("ESC W -> LineWrap on")
+                                self.vprint(1,"ESC W -> LineWrap on")
                                 self.wrap=True
                             elif data == b'w':
-                                if self.verbose:
-                                    print("ESC w -> LineWrap off")
+                                self.vprint(1,"ESC w -> LineWrap off")
                                 self.wrap=False
                             elif data == b'T':
-                                if self.verbose:
-                                    print("ESC T -> tabstop: ",end='',flush=True)
+                                self.vprint(1,"ESC T -> tabstop: ",end='',flush=True)
                                 data = os.read(master,1)
                                 self.tabstop = data[0]
-                                if self.verbose:
-                                    print(self.tabstop,"spaces")
+                                self.vprint(1,self.tabstop,"spaces")
                             elif data == b'Z':
-                                if self.verbose:
-                                    print("ESC Z -> charset utf-8/cp858")
+                                self.vprint(1,"ESC Z -> charset utf-8/cp858")
                                 cm.charset='cp858'
                             elif data == b'z':
-                                if self.verbose:
-                                    print("ESC z -> charset IF6000/DIN66003")
+                                self.vprint(1,"ESC z -> charset IF6000/DIN66003")
                                 cm.charset='if6000'
                             elif data == b'L':
-                                if self.verbose:
-                                    print("ESC L -> max lines: ",end='',flush=True)
+                                self.vprint(1,"ESC L -> max lines: ",end='',flush=True)
                                 data = os.read(master,1)
                                 self.maxlines = data[0]
-                                if self.verbose:
-                                    print(self.maxlines)
+                                self.vprint(1,self.maxlines)
                             elif data == b'C':
-                                if self.verbose:
-                                    print("ESC C -> max Columns: ",end='',flush=True)
+                                self.vprint(1,"ESC C -> max Columns: ",end='',flush=True)
                                 data = os.read(master,1)
                                 self.maxcolumns = data[0] * self.charstep - 1
-                                if self.verbose:
-                                    print(data[0])
+                                self.vprint(1,data[0])
                             elif data == b'F':
-                                if self.verbose:
-                                    print("ESC F -> first Column: ",end='',flush=True)
+                                self.vprint(1,"ESC F -> first Column: ",end='',flush=True)
                                 data = os.read(master,1)
                                 self.firstcol = data[0]
-                                if self.verbose:
-                                    print(data[0])
+                                self.vprint(1,data[0])
                             elif data == b'B':
-                                if self.verbose:
-                                    print("ESC B -> Backsteps: ",end='',flush=True)
+                                self.vprint(1,"ESC B -> Backsteps: ",end='',flush=True)
                                 data = os.read(master,1)
                                 self.backsteps = data[0]
-                                if self.verbose:
-                                    print(data[0])
+                                self.vprint(1,data[0])
                         else:
                             # backstep, shouldn't happen to often, handle anyway
                             if data == b'\b':
@@ -254,8 +236,7 @@ class Erika:
                             elif data == b'\n' or (self.wrap and (self.column > self.maxcolumns)):
                                 self.line+=self.linestep
                                 self.column=0
-                                if self.verbose > 1:
-                                    print("line:",self.line)
+                                self.vprint(2,"line:",self.line)
                                 if not data == b'\n':
                                     self.serial.write(b'\x77') # maybe already to far of paper, but we won't write here
                             # only carriage return
@@ -267,8 +248,7 @@ class Erika:
                                 self.column+=self.charstep*t
                                 if self.column > self.maxcolumns:
                                     self.column = self.maxcolumns + self.charstep
-                                if self.verbose > 1:
-                                    print ("space to next tabstop:",t)
+                                self.vprint (2,"space to next tabstop:",t)
                                 while t > 0:
                                     self.serial.write(b'\x71')
                                     t-=1
@@ -279,8 +259,7 @@ class Erika:
                                 time.sleep(0.5)
                                 self.serial.write(b'\xaa\x10')
                                 self.kbd_wait=True
-                                if self.verbose:
-                                    print("Form Feed, waiting for kbd")
+                                self.vprint(0,"Form Feed, waiting for kbd")
                                 # waiting for kbd thread to message
                                 while self.kbd_wait:
                                     time.sleep(0.5)
@@ -288,8 +267,7 @@ class Erika:
                                 # formfeed done, do backsteps
                                 for i in range(0,self.backsteps):
                                     self.serial.write(b'\x76')
-                                    if self.verbose:
-                                        print("Backstep...")
+                                    self.vprint(1,"Backstep...")
                                     # if formfeed, then also carriage return
                                 if data == b'\x0c':
                                     data = b'\r'
@@ -302,9 +280,9 @@ class Erika:
                             # every printable char
                             if data not in (b'\b',b'\n',b'\r',b'\x0c'):
                                 self.column += self.charstep
-                                if self.verbose > 1:
-                                    print('column:',self.column,flush=True)
+                                self.vprint(2,'column:',self.column,flush=True)
 
+                            # write the char to serial in erika code
                             self.serial.write(cm.decode(data))
 
                             # adjust rand again if needed and last char was \n or \r
@@ -322,8 +300,7 @@ class Erika:
             #except serial.SerialException:
             except:
                 self.alive = False
-                if self.verbose:
-                    print("lp-thread stopped!",flush=True)
+                self.vprint(0,"lp-thread stopped!",flush=True)
                 raise       # maybe serial device is removed
 
     ###########################
@@ -340,8 +317,7 @@ class Erika:
             for i in range(0,5):
                 if (self.serial.inWaiting() > 0):
                     data = self.serial.read()
-                    if self.verbose > 1:
-                        print("erikastart[",i,"]: ",hex(data[0]),sep='')
+                    self.vprint(1,"erikastart[",i,"]: ",hex(data[0]),sep='')
                     if data[0] in (0x84,0x85,0x86,0x87,0x88):
                         keyboard='3004'
                     elif data[0] in (0xf8,0xf9,0xfa,0xfe,0xff):
@@ -349,8 +325,7 @@ class Erika:
                 else:
                     time.sleep(0.1)
             self.keyboard=keyboard+'_'+self.keyboard
-            # if self.verbose:
-            print("Keyboard     :",self.keyboard,flush=True)
+            self.vprint(0,"Keyboard     :",self.keyboard,flush=True)
 
         if self.keyboard in ('3004_de','3005_de'):
             kbd = getattr(importlib.import_module('erika.s'+self.keyboard),'s'+self.keyboard)()
@@ -358,7 +333,7 @@ class Erika:
         # elif self.keyboard != 'none':
         else:
             self.alive = False
-            print('unknown keyboard!!!',flush=True)
+            self.vprint(0,'unknown keyboard!!!',flush=True)
             quit()
 
         # set echo on or off
@@ -377,8 +352,7 @@ class Erika:
         try:
             with evdev.UInput(name=self.name+' kbd') as  ui, evdev.UInput(cap,name=self.name+' mouse') as mui:
                 time.sleep(1) # wait for evdev.UInput() to settle
-                if self.verbose > 1:
-                    print('Mouse cap:',mui.capabilities())
+                self.vprint(2,'Mouse cap:',mui.capabilities())
                 kbd.init(ui, mui, self.serial, self.verbose, self.echo)
                 while self.alive:
                     # read all that is there or wait for one byte
@@ -387,8 +361,7 @@ class Erika:
                         if data:
                             # there is serial data
                             kbd_data=data[0]
-                            if self.verbose > 1:
-                                print("erika code:",hex(kbd_data))
+                            self.vprint(2,"erika code:",hex(kbd_data))
                             if self.kbd_wait:
                                 if kbd_data in (0x75,0x76,0x77,0x81,0x82,0x83) and not self.echo:
                                     self.serial.write(data)
@@ -399,8 +372,7 @@ class Erika:
                     else:
                         # no serial data, just wait a bit
                         time.sleep(0.2)
-                        if self.verbose > 2:
-                            print('kbd-tick',end='',flush=True)
+                        self.vprint(3,'kbd-tick',end='',flush=True)
         except:
             self.alive = False
             raise       # maybe serial device is removed

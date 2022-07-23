@@ -81,7 +81,23 @@ class Erika:
         self.threads.append(thread)
 
     ###########################
-        
+
+    # left border
+    def firstCol(self,col=None):
+        if not col:
+            col = self.firstcol
+        self.serial.write(b'\x8f') # open borders
+        self.serial.write(b'\x78') # CR, maybe not meeded
+        # move back as far as possible
+        for i in range(1,100):
+            self.serial.write(b'\x72')
+        for i in range(1,col):
+            self.serial.write(b'\x71')
+        self.serial.write(b'\x7e')
+        if self.verbose:
+            print('first column set on erika to:',col)
+        return col
+
     def lp(self):
         """loop and copy pts->serial"""
         # create pts and print name (later link it"""
@@ -95,6 +111,14 @@ class Erika:
             os.system(self.lpsetperm + " " + vs_name)
         # wait for keyboard init ...
         time.sleep(2)
+        # check if printer is detected
+        if self.keyboard not in ('3004_de','3005_de'):
+            self.alive = False
+            print ('unknown printer')
+            quit()
+        # check if keyboard init is aborted
+        elif not self.alive:
+            print ('initialization aborted')
         # reset typewriter
         # self.serial.write(b'\x95')
 
@@ -114,204 +138,189 @@ class Erika:
         else:                      # 1 line spacing
             self.serial.write(b'\x84')
 
-        # set firstcolumn
-        for i in range(1,100):
-            self.serial.write(b'\x72')
-        for i in range(1,self.firstcol):
-            self.serial.write(b'\x71')
-        self.serial.write(b'\x7e')
-        firstcol = self.firstcol
+        firstcol = self.firstCol()
 
         with courier_de(self.charset) as cm:
             try:
                 os.set_blocking(master,True)
                 while self.alive:
-                    try:
+                    # try:
                         data = os.read(master,1)
                         if len(data) == 0:
                             print("Bug found: read zero bytes from pty master")
                             time.sleep(1)
-                        else:
-                            # check for escape, adapted from if6000
-                            if data == b'\x1b':
-                                print("escape found")
+                        # check for escape, adapted from if6000
+                        elif data == b'\x1b':
+                            print("escape found")
+                            data = os.read(master,1)
+                            if   data == b'M':
+                                if self.verbose:
+                                    print("ESC M -> 10cpi")
+                                self.serial.write(b'\x87')
+                                self.charstep=6
+                            elif data == b'N':
+                                if self.verbose:
+                                    print("ESC N -> 12cpi")
+                                self.serial.write(b'\x88')
+                                self.charstep=5
+                            elif data == b'O':
+                                if self.verbose:
+                                    print("ESC O -> 15cpi")
+                                self.serial.write(b'\x89')
+                                self.charstep=4
+                            elif data == b'3':
+                                if self.verbose:
+                                    print("ESC 3 -> 2 halflines spacing")
+                                self.serial.write(b'\x84')
+                                self.linestep=2
+                            elif data == b'4':
+                                if self.verbose:
+                                    print("ESC 4 -> 3 halflines spacing")
+                                self.serial.write(b'\x85')
+                                self.linestep=3
+                            elif data == b'5':
+                                if self.verbose:
+                                    print("ESC 5 -> 4 halflines spacing")
+                                self.serial.write(b'\x86')
+                                self.linestep=4
+                            elif data == b'U':
+                                if self.verbose:
+                                    print("ESC U -> halfline forward")
+                                self.serial.write(b'\x75')
+                                self.line+=1
+                            elif data == b'D':
+                                if self.verbose:
+                                    print("ESC D -> halfline backward")
+                                self.serial.write(b'\x76')
+                                self.line-=1
+                            elif data == b'W':
+                                if self.verbose:
+                                    print("ESC W -> LineWrap on")
+                                self.wrap=True
+                            elif data == b'w':
+                                if self.verbose:
+                                    print("ESC w -> LineWrap off")
+                                self.wrap=False
+                            elif data == b'T':
+                                if self.verbose:
+                                    print("ESC T -> tabstop: ",end='',flush=True)
                                 data = os.read(master,1)
-                                if   data == b'M':
-                                    if self.verbose:
-                                        print("ESC M -> 10cpi")
-                                    self.serial.write(b'\x87')
-                                    self.charstep=6
-                                elif data == b'N':
-                                    if self.verbose:
-                                        print("ESC N -> 12cpi")
-                                    self.serial.write(b'\x88')
-                                    self.charstep=5
-                                elif data == b'O':
-                                    if self.verbose:
-                                        print("ESC O -> 15cpi")
-                                    self.serial.write(b'\x89')
-                                    self.charstep=4
-                                elif data == b'3':
-                                    if self.verbose:
-                                        print("ESC 3 -> 2 halflines spacing")
-                                    self.serial.write(b'\x84')
-                                    self.linestep=2
-                                elif data == b'4':
-                                    if self.verbose:
-                                        print("ESC 4 -> 3 halflines spacing")
-                                    self.serial.write(b'\x85')
-                                    self.linestep=3
-                                elif data == b'5':
-                                    if self.verbose:
-                                        print("ESC 5 -> 4 halflines spacing")
-                                    self.serial.write(b'\x86')
-                                    self.linestep=4
-                                elif data == b'U':
-                                    if self.verbose:
-                                        print("ESC U -> halfline forward")
-                                    self.serial.write(b'\x75')
-                                    self.line+=1
-                                elif data == b'D':
-                                    if self.verbose:
-                                        print("ESC D -> halfline backward")
-                                    self.serial.write(b'\x76')
-                                    self.line-=1
-                                elif data == b'W':
-                                    if self.verbose:
-                                        print("ESC W -> LineWrap on")
-                                    self.wrap=True
-                                elif data == b'w':
-                                    if self.verbose:
-                                        print("ESC w -> LineWrap off")
-                                    self.wrap=False
-                                elif data == b'T':
-                                    if self.verbose:
-                                        print("ESC T -> tabstop: ",end='',flush=True)
-                                    data = os.read(master,1)
-                                    self.tabstop = data[0]
-                                    if self.verbose:
-                                        print(self.tabstop,"spaces")
-                                elif data == b'Z':
-                                    if self.verbose:
-                                        print("ESC Z -> charset utf-8/cp858")
-                                    cm.charset='cp858'
-                                elif data == b'z':
-                                    if self.verbose:
-                                        print("ESC z -> charset IF6000/DIN66003")
-                                    cm.charset='if6000'
-                                elif data == b'L':
-                                    if self.verbose:
-                                        print("ESC L -> max lines: ",end='',flush=True)
-                                    data = os.read(master,1)
-                                    self.maxlines = data[0]
-                                    if self.verbose:
-                                        print(self.maxlines)
-                                elif data == b'C':
-                                    if self.verbose:
-                                        print("ESC C -> max Columns: ",end='',flush=True)
-                                    data = os.read(master,1)
-                                    self.maxcolumns = data[0] * self.charstep - 1
-                                    if self.verbose:
-                                        print(data[0])
-                                elif data == b'F':
-                                    if self.verbose:
-                                        print("ESC F -> first Column: ",end='',flush=True)
-                                    data = os.read(master,1)
-                                    self.firstcol = data[0]
-                                    if self.verbose:
-                                        print(data[0])
-                                elif data == b'B':
-                                    if self.verbose:
-                                        print("ESC B -> Backsteps: ",end='',flush=True)
-                                    data = os.read(master,1)
-                                    self.backsteps = data[0]
-                                    if self.verbose:
-                                        print(data[0])
-                                        
-                            else:
-                                # backstep, shouldn't happen to often, handle anyway
-                                if data == b'\b':
-                                    self.column -= self.charstep
-                                    if self.column < 0:
-                                       self.column = 0 
-                                # check for newline or line overflow with wrap
-                                elif data == b'\n' or (self.wrap and (self.column > self.maxcolumns)):
-                                    self.line+=self.linestep
-                                    self.column=0
-                                    if self.verbose > 1:
-                                        print("line:",self.line)
-                                    if not data == b'\n':
-                                        self.serial.write(b'\x77') # maybe already to far of paper, but we won't write here
-                                # only carriage return
-                                elif data == b'\r':
-                                    self.column = 0
-                                # tabs
-                                elif data == b'\t':
-                                    t = int(self.tabstop-(self.column/self.charstep)%self.tabstop)
-                                    self.column+=self.charstep*t
-                                    if self.column > self.maxcolumns:
-                                        self.column = self.maxcolumns + self.charstep
-                                    if self.verbose > 1:
-                                        print ("space to next tabstop:",t)
-                                    while t > 0:
-                                        self.serial.write(b'\x71')
-                                        t-=1
-                                # check for form feed
-                                if data == b'\x0c' or self.line > self.maxlines:
-                                    # double beep
-                                    self.serial.write(b'\xaa\x10')
-                                    time.sleep(0.5)
-                                    self.serial.write(b'\xaa\x10')
-                                    self.kbd_wait=True
-                                    if self.verbose:
-                                        print("Form Feed, waiting for kbd")
-                                    # waiting for kbd thread to message
-                                    while self.kbd_wait:
-                                        time.sleep(0.5)
-                                    self.serial.write(b'\xaa\x20')
-                                    # formfeed done, do backsteps
-                                    for i in range(0,self.backsteps):
-                                        self.serial.write(b'\x76')
-                                        if self.verbose:
-                                            print("Backstep...")
-                                        # if formfeed, then also carriage return
-                                    if data == b'\x0c':
-                                        data = b'\r'
-                                    # reset line counter
-                                    self.line=0
-                                    self.column=0
-                                # don't print if outside border
-                                if self.column > self.maxcolumns:
-                                    continue
-                                # every printable char
-                                if data not in (b'\b',b'\n',b'\r',b'\x0c'):
-                                    self.column += self.charstep
-                                    if self.verbose > 1:
-                                        print('column:',self.column,flush=True)
-
-                                self.serial.write(cm.decode(data))
-
-                                # adjust rand again if needed and last char was \n or \r
-                                if data in (b'\n',b'\r') and firstcol !=self.firstcol:
-                                    # set firstcolumn
-                                    for i in range(1,firstcol+10):
-                                        self.serial.write(b'\x72')
-                                    for i in range(1,self.firstcol):
-                                        self.serial.write(b'\x71')
-                                    self.serial.write(b'\x7e')
-                                    firstcol = self.firstcol
-                                    if self.verbose:
-                                        print('first column set on erika to:',firstcol)
-
-                    except OSError as e:
-                        if e.errno == 11:
-                            if self.verbose >2 :
-                                print('lp-tick',end='',flush=True)
-                            time.sleep(1)
+                                self.tabstop = data[0]
+                                if self.verbose:
+                                    print(self.tabstop,"spaces")
+                            elif data == b'Z':
+                                if self.verbose:
+                                    print("ESC Z -> charset utf-8/cp858")
+                                cm.charset='cp858'
+                            elif data == b'z':
+                                if self.verbose:
+                                    print("ESC z -> charset IF6000/DIN66003")
+                                cm.charset='if6000'
+                            elif data == b'L':
+                                if self.verbose:
+                                    print("ESC L -> max lines: ",end='',flush=True)
+                                data = os.read(master,1)
+                                self.maxlines = data[0]
+                                if self.verbose:
+                                    print(self.maxlines)
+                            elif data == b'C':
+                                if self.verbose:
+                                    print("ESC C -> max Columns: ",end='',flush=True)
+                                data = os.read(master,1)
+                                self.maxcolumns = data[0] * self.charstep - 1
+                                if self.verbose:
+                                    print(data[0])
+                            elif data == b'F':
+                                if self.verbose:
+                                    print("ESC F -> first Column: ",end='',flush=True)
+                                data = os.read(master,1)
+                                self.firstcol = data[0]
+                                if self.verbose:
+                                    print(data[0])
+                            elif data == b'B':
+                                if self.verbose:
+                                    print("ESC B -> Backsteps: ",end='',flush=True)
+                                data = os.read(master,1)
+                                self.backsteps = data[0]
+                                if self.verbose:
+                                    print(data[0])
                         else:
-                            self.alive = False
-                            break
-            except serial.SerialException:
+                            # backstep, shouldn't happen to often, handle anyway
+                            if data == b'\b':
+                                self.column -= self.charstep
+                                if self.column < 0:
+                                    self.column = 0
+                            # check for newline or line overflow with wrap
+                            elif data == b'\n' or (self.wrap and (self.column > self.maxcolumns)):
+                                self.line+=self.linestep
+                                self.column=0
+                                if self.verbose > 1:
+                                    print("line:",self.line)
+                                if not data == b'\n':
+                                    self.serial.write(b'\x77') # maybe already to far of paper, but we won't write here
+                            # only carriage return
+                            elif data == b'\r':
+                                self.column = 0
+                            # tabs
+                            elif data == b'\t':
+                                t = int(self.tabstop-(self.column/self.charstep)%self.tabstop)
+                                self.column+=self.charstep*t
+                                if self.column > self.maxcolumns:
+                                    self.column = self.maxcolumns + self.charstep
+                                if self.verbose > 1:
+                                    print ("space to next tabstop:",t)
+                                while t > 0:
+                                    self.serial.write(b'\x71')
+                                    t-=1
+                            # check for form feed
+                            if data == b'\x0c' or self.line > self.maxlines:
+                                # double beep
+                                self.serial.write(b'\xaa\x10')
+                                time.sleep(0.5)
+                                self.serial.write(b'\xaa\x10')
+                                self.kbd_wait=True
+                                if self.verbose:
+                                    print("Form Feed, waiting for kbd")
+                                # waiting for kbd thread to message
+                                while self.kbd_wait:
+                                    time.sleep(0.5)
+                                self.serial.write(b'\xaa\x20')
+                                # formfeed done, do backsteps
+                                for i in range(0,self.backsteps):
+                                    self.serial.write(b'\x76')
+                                    if self.verbose:
+                                        print("Backstep...")
+                                    # if formfeed, then also carriage return
+                                if data == b'\x0c':
+                                    data = b'\r'
+                                # reset line counter
+                                self.line=0
+                                self.column=0
+                            # don't print if outside border
+                            if self.column > self.maxcolumns:
+                                continue
+                            # every printable char
+                            if data not in (b'\b',b'\n',b'\r',b'\x0c'):
+                                self.column += self.charstep
+                                if self.verbose > 1:
+                                    print('column:',self.column,flush=True)
+
+                            self.serial.write(cm.decode(data))
+
+                            # adjust rand again if needed and last char was \n or \r
+                            if data in (b'\n',b'\r') and firstcol !=self.firstcol:
+                                firstcol = self.firstCol()
+
+                    # except OSError as e:
+                    #    if e.errno == 11:
+                    #        if self.verbose >2 :
+                    #            print('lp-tick',end='',flush=True)
+                    #        time.sleep(1)
+                    #    else:
+                    #        self.alive = False
+                    #        break
+            #except serial.SerialException:
+            except:
                 self.alive = False
                 if self.verbose:
                     print("lp-thread stopped!",flush=True)
@@ -395,4 +404,3 @@ class Erika:
         except:
             self.alive = False
             raise       # maybe serial device is removed
-            

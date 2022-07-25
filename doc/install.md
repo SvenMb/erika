@@ -38,20 +38,27 @@ A working driver for current linux kernel can be found here:
 
 ### manual installation from https://git.muehlberg.net
 
-1. extract certificate for git.muehlberg.net:  
+1. Verzeichnis erstellen
+```sh
+cd
+mkdir -pv Development/SvenMb
+cd Development/SvenMb
 ```
-echo -n \\ | openssl s_client -showcerts -connect git.muehlberg.net:443 \\
-2>/dev/null  | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' \\
+1. extract certificate for git.muehlberg.net:  
+```sh
+echo -n \\ | openssl s_client -showcerts -connect git.muehlberg.net:443 \
+2>/dev/null  | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' \
 > mbnet_cert.pem
 ```
 2. add the cert to your git config  
-`git config --global http."https://git.muehlberg.net:443/".sslCAInfo mbnet_cert.pem`
+`git config --global http."https://git.muehlberg.net:443/".sslCAInfo $(pwd)/mbnet_cert.pem`
 3. clone project directory  
 `git clone https://git.muehlberg.net/SvenMb/erika.git`
 4. change to project directory  
 `cd erika`
 5.  install python-evdev  
-`sudo pip3 install evdev`
+`sudo apt install python3-evdev` (z.Z. nur v1.4) oder 
+`sudo pip3 install evdev` (aktuell v1.6)
 6.  copy src to /var/lib/erika  
 `sudo cp -R src /var/lib/erika`
 7.  link /var/lib/erika/erika_set.py to /usr/bin/

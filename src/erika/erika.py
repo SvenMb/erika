@@ -271,13 +271,14 @@ class Erika:
                             # don't print if outside border
                             if self.column > self.maxcolumns:
                                 continue
+                            erika_char=cm.decode(data)
                             # every printable char
-                            if data not in (b'\b',b'\n',b'\r',b'\x0c'):
+                            if data not in (b'\b',b'\n',b'\r',b'\x0c') and erika_char:
                                 self.column += self.charstep
                                 V.msg(2,'column:',self.column,flush=True)
 
                             # write the char to serial in erika code
-                            self.serial.write(cm.decode(data))
+                            self.serial.write(erika_char)
 
                             # adjust rand again if needed and last char was \n or \r
                             if data in (b'\n',b'\r') and firstcol !=self.firstcol:

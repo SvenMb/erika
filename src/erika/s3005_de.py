@@ -269,10 +269,10 @@ class s3005_de:
         ['MODE ,',[e.KEY_102ND,1,e.KEY_102ND,0]],                                                             # <
         # E0
         ['MODE 9'],                                                                                           # !!!!!!! free
-        ['MODE O'],                                                                                           # !!!!!!! free
+        ['MODE O',[e.KEY_F11,1,e.KEY_F11,0]],                                                                 # F11 (fullscreen)
         ['MODE L',[e.KEY_LEFTSHIFT,1,e.KEY_RIGHT,1,e.KEY_RIGHT,0,e.KEY_LEFTSHIFT,0]],                         # shift-cursor-right (for marking)
         ['MODE .',[e.KEY_LEFTSHIFT,1,e.KEY_102ND,1,e.KEY_102ND,0,e.KEY_LEFTSHIFT,0]],                         # >
-        ['MODE 0',[e.KEY_F11,1,e.KEY_F11,0]],                                                                 # F11 (fullscreen)
+        ['MODE 0',[e.KEY_F10,1,e.KEY_F10,0]],                                                                 # F10
         ['MODE P',[e.KEY_RIGHTALT,1,e.KEY_7,1,e.KEY_7,0,e.KEY_RIGHTALT,0]],                                   # {
         ['MODE Ö',[e.KEY_RIGHTALT,1,e.KEY_8,1,e.KEY_8,0,e.KEY_RIGHTALT,0]],                                   # [
         ['MODE -',[e.KEY_LEFTCTRL,1,e.KEY_LEFTSHIFT,1,e.KEY_SLASH,1,e.KEY_SLASH,0,e.KEY_LEFTSHIFT,0,e.KEY_LEFTCTRL,0]], # CTRL-_

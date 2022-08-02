@@ -18,6 +18,7 @@ class s3005_de:
         self.serial  = serial
         self.echo    = echo
         self.step    = 1
+        self.alttab  = 0
 
     # array for erika code to label and list of keycodes 0x00-0xFF) are for native erika codes
     # from 256 (0x100-0x12A) is for 0xbb excaped codes -0xC0, these are done with code key on
@@ -290,7 +291,7 @@ class s3005_de:
         None,
         None,
         ['MODE T+'],                                                                                # special switch typewriter/computer
-        ['MODE T-',[e.KEY_LEFTALT,1,e.KEY_TAB,1,e.KEY_TAB,0,e.KEY_LEFTALT,0]],                                # ALT-Tab
+        ['MODE T-',[e.KEY_TAB,1,e.KEY_TAB,0]],                                # ALT-Tab
         None,
         ['CODE backspace',[e.KEY_LEFTSHIFT,1,e.KEY_DELETE,1,e.KEY_DELETE,0,e.KEY_LEFTSHIFT,0]],               # shift-Delete
         ['2 zeilig (stat)'],
@@ -360,6 +361,16 @@ class s3005_de:
         if self.erika2uinput[kbd_data]:
             # Jetzt ist die richtige Taste gefunden
             V.msg(2," =>",self.erika2uinput[kbd_data][0],flush=True)
+            # ALT-Tab Handling
+            if kbd_data == 0xf5:
+                self.alttab = 4
+                self.ui.write(e.EV_KEY,e.KEY_LEFTALT,1 )
+                V.msg(2,"ALT-TAB-Pressed")
+            # was pressed. then release when different key
+            elif self.alttab:
+                self.alttab=0
+                self.ui.write(e.EV_KEY,e.KEY_LEFTALT,0)
+                V.msg(2,"ALT-TAB-KEYRELEASE")
             if len(self.erika2uinput[kbd_data])>1:
                 # there are ecodes defined
                 if self.echo:

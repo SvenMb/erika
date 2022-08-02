@@ -88,7 +88,7 @@ class Erika:
         if not col:
             col = self.firstcol
         self.serial.write(b'\x8f') # open borders
-        self.serial.write(b'\x78') # CR, maybe not meeded
+        self.serial.write(b'\x78') # CR, maybe not needed
         # move back as far as possible
         for i in range(1,100):
             self.serial.write(b'\x72')
@@ -367,7 +367,15 @@ class Erika:
                     else:
                         # no serial data, just wait a bit
                         time.sleep(0.2)
+                        if kbd.alttab>0:
+                            kbd.alttab-=1
+                            # release ALT-key when self.alttab reached 0
+                            if kbd.alttab==0:
+                                ui.write(e.EV_KEY,e.KEY_LEFTALT,0)
+                                ui.syn()
+                                V.msg(2,'ALT-TAB-Timeout')
                         V.msg(3,'kbd-tick',end='',flush=True)
         except:
             self.alive = False
             raise       # maybe serial device is removed
+ 

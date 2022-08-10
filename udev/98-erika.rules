@@ -1,0 +1,2 @@
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", ATTRS{bcdDevice}=="0264", SYMLINK+="erika_raw"\
+TAG+="systemd", ENV{SYSTEMD_WANTS}="erika"

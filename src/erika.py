@@ -170,8 +170,10 @@ def main(argv):
             e.start_kbd()
         e.start_lp()
         # wait for threads
-        for thread in e.threads:
-             thread.join()
+        # for thread in e.threads:
+        #     thread.join()
+        t=e.threads[0]
+        t.join()
         sys.exit(2)
 
 

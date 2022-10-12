@@ -25,10 +25,11 @@ class Erika:
     def __init__(self):
         self.serial          = serial.Serial()
         # defaults
-        self.serial.port     = '/dev/ttyAMA0'
+        # self.serial.port     = '/dev/ttyAMA0'
+        self.serial.port     = '/dev/ttyUSB0'
         self.serial.baudrate = 1200
         self.serial.rtscts   = True
-        self.lpsetperm       = './setperm.sh'
+        self.lpsetperm       = '/var/lib/erika/setperm.sh'
         self.keyboard        = 'de'
         self.linestep        = 2
         self.maxlines        = 120  # halflines per paper, 120 for normal A4

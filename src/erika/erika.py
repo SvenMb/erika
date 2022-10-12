@@ -64,6 +64,13 @@ class Erika:
     def __exit__(self, *args):
         self.close()
 
+    def swrite(self, erika_char=None):
+        # wait until cts is activ, begin with wait, since else cts may be to late inactive to stop current char
+        while not time.sleep(0.05) and not self.serial.cts:
+            V.msg(2,'CTS inactive')
+        self.serial.write(erika_char)
+
+
     ###########################
     
     def start_lp(self):
@@ -88,14 +95,14 @@ class Erika:
     def firstCol(self,col=None):
         if not col:
             col = self.firstcol
-        self.serial.write(b'\x8f') # open borders
-        self.serial.write(b'\x78') # CR, maybe not needed
+        self.swrite(b'\x8f') # open borders
+        self.swrite(b'\x78') # CR, maybe not needed
         # move back as far as possible
         for i in range(1,100):
-            self.serial.write(b'\x72')
+            self.swrite(b'\x72')
         for i in range(1,col):
-            self.serial.write(b'\x71')
-        self.serial.write(b'\x7e')
+            self.swrite(b'\x71')
+        self.swrite(b'\x7e')
         V.msg(1,'first column set on erika to:',col)
         return col
 
@@ -119,23 +126,23 @@ class Erika:
         elif not self.alive:
             V.msg (0,'initialization aborted')
         # reset typewriter
-        # self.serial.write(b'\x95')
+        # self.swrite(b'\x95')
 
         # set cpi
         if self.charstep == 4:   # 15 cpi
-            self.serial.write(b'\x89')
+            self.swrite(b'\x89')
         elif self.charstep == 5: # 12 cpi
-            self.serial.write(b'\x88')
+            self.swrite(b'\x88')
         else:                    # 10 cpi
-            self.serial.write(b'\x87')
+            self.swrite(b'\x87')
 
         # set linestep
         if self.linestep == 4:   # 2 lines spacing
-            self.serial.write(b'\x86')
+            self.swrite(b'\x86')
         elif self.linestep == 3: # 1.5 lines spacing
-            self.serial.write(b'\x85')
+            self.swrite(b'\x85')
         else:                      # 1 line spacing
-            self.serial.write(b'\x84')
+            self.swrite(b'\x84')
 
         firstcol = self.firstCol()
 
@@ -154,35 +161,35 @@ class Erika:
                             data = os.read(master,1)
                             if   data == b'M':
                                 V.msg(1,"ESC M -> 10cpi")
-                                self.serial.write(b'\x87')
+                                self.swrite(b'\x87')
                                 self.charstep=6
                             elif data == b'N':
                                 V.msg(1,"ESC N -> 12cpi")
-                                self.serial.write(b'\x88')
+                                self.swrite(b'\x88')
                                 self.charstep=5
                             elif data == b'O':
                                 V.msg(1,"ESC O -> 15cpi")
-                                self.serial.write(b'\x89')
+                                self.swrite(b'\x89')
                                 self.charstep=4
                             elif data == b'3':
                                 V.msg(1,"ESC 3 -> 2 halflines spacing")
-                                self.serial.write(b'\x84')
+                                self.swrite(b'\x84')
                                 self.linestep=2
                             elif data == b'4':
                                 V.msg(1,"ESC 4 -> 3 halflines spacing")
-                                self.serial.write(b'\x85')
+                                self.swrite(b'\x85')
                                 self.linestep=3
                             elif data == b'5':
                                 V.msg(1,"ESC 5 -> 4 halflines spacing")
-                                self.serial.write(b'\x86')
+                                self.swrite(b'\x86')
                                 self.linestep=4
                             elif data == b'U':
                                 V.msg(1,"ESC U -> halfline forward")
-                                self.serial.write(b'\x75')
+                                self.swrite(b'\x75')
                                 self.line+=1
                             elif data == b'D':
                                 V.msg(1,"ESC D -> halfline backward")
-                                self.serial.write(b'\x76')
+                                self.swrite(b'\x76')
                                 self.line-=1
                             elif data == b'W':
                                 V.msg(1,"ESC W -> LineWrap on")
@@ -233,7 +240,7 @@ class Erika:
                                 self.column=0
                                 V.msg(2,"line:",self.line)
                                 if not data == b'\n':
-                                    self.serial.write(b'\x77') # maybe already to far of paper, but we won't write here
+                                    self.swrite(b'\x77') # maybe already to far of paper, but we won't write here
                             # only carriage return
                             elif data == b'\r':
                                 self.column = 0
@@ -245,23 +252,23 @@ class Erika:
                                     self.column = self.maxcolumns + self.charstep
                                 V.msg (2,"space to next tabstop:",t)
                                 while t > 0:
-                                    self.serial.write(b'\x71')
+                                    self.swrite(b'\x71')
                                     t-=1
                             # check for form feed
                             if data == b'\x0c' or self.line > self.maxlines:
                                 # double beep
-                                self.serial.write(b'\xaa\x10')
+                                self.swrite(b'\xaa\x10')
                                 time.sleep(0.5)
-                                self.serial.write(b'\xaa\x10')
+                                self.swrite(b'\xaa\x10')
                                 self.kbd_wait=True
                                 V.msg(0,"Form Feed, waiting for kbd")
                                 # waiting for kbd thread to message
                                 while self.kbd_wait:
                                     time.sleep(0.5)
-                                self.serial.write(b'\xaa\x20')
+                                self.swrite(b'\xaa\x20')
                                 # formfeed done, do backsteps
                                 for i in range(0,self.backsteps):
-                                    self.serial.write(b'\x76')
+                                    self.swrite(b'\x76')
                                     V.msg(1,"Backstep...")
                                     # if formfeed, then also carriage return
                                 if data == b'\x0c':
@@ -279,7 +286,7 @@ class Erika:
                                 V.msg(2,'column:',self.column,flush=True)
 
                             # write the char to serial in erika code
-                            self.serial.write(erika_char)
+                            self.swrite(erika_char)
 
                             # adjust rand again if needed and last char was \n or \r
                             if data in (b'\n',b'\r') and firstcol !=self.firstcol:
@@ -308,7 +315,7 @@ class Erika:
         if self.keyboard in ('de'):
             keyboard='unknown'
             # switch echo print off, this also starts infos from erika about stat and keys
-            self.serial.write(b'\x91')
+            self.swrite(b'\x91')
 	        # read max 6 bytes or 0,6s wait
             for i in range(0,5):
                 if (self.serial.inWaiting() > 0):
@@ -334,9 +341,9 @@ class Erika:
 
         # set echo on or off
         if self.echo:
-            self.serial.write(b'\x92')
+            self.swrite(b'\x92')
         else:
-            self.serial.write(b'\x91')
+            self.swrite(b'\x91')
  
         # define mouse capabilities
         # have to use two input device, since I could not get a merged one going 
@@ -360,7 +367,7 @@ class Erika:
                             V.msg(2,"erika code:",hex(kbd_data))
                             if self.kbd_wait:
                                 if kbd_data in (0x75,0x76,0x77,0x81,0x82,0x83) and not self.echo:
-                                    self.serial.write(data)
+                                    self.swrite(data)
                                 elif kbd_data in (0x80,0x71):
                                     self.kbd_wait=False
                             else:

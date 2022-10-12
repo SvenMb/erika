@@ -95,7 +95,7 @@ setupTextRendering() {
 
   #  Tool to be used for the conversion
   case $CONTENT_TYPE in
-    text/plain)
+    text/plain | application/x-shell)
       CONVERT="cat"
       ;;
     text/html)

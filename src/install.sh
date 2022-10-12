@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -x
+
 sudo mkdir /var/lib/erika
 sudo cp -R erika /var/lib/erika/
 sudo cp -R setperm.sh /var/lib/erika/

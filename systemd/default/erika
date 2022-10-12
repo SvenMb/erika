@@ -5,6 +5,7 @@
 # ECHO=--echo
 # VERBOSE=--verbose
 # PORT=--device=/dev/ttyAMA0
+PORT=--device=/dev/ttyUSB0
 # KEYBOARD=--keyboard=de
 # SETPERM=--setperm=./setperm.sh
 # CPI=--cpi=12

@@ -64,11 +64,12 @@ class Erika:
     def __exit__(self, *args):
         self.close()
 
-    def swrite(self, erika_char=None):
+    def swrite(self, erika_chars):
+        for c in erika_chars:
         # wait until cts is activ, begin with wait, since else cts may be to late inactive to stop current char
-        while not time.sleep(0.05) and not self.serial.cts:
+          while not time.sleep(0.02) and not self.serial.cts:
             V.msg(2,'CTS inactive')
-        self.serial.write(erika_char)
+          self.serial.write(bytes([c]))
 
 
     ###########################

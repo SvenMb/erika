@@ -1,0 +1,12 @@
+[Unit]
+Description=pipes port9100 to /dev/erika/erika
+
+[Service]
+EnvironmentFile=/etc/default/erika
+Type=simple
+WorkingDirectory=/var/lib/erika
+ExecStart=socat TCP-LISTEN:9100 GOPEN:/dev/erika/erika
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

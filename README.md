@@ -24,5 +24,9 @@ Patch file: [RunCPM.patch](doc/RunCPM.patch)
 
 orig Repository: [https://github.com/MockbaTheBorg/RunCPM.git](https://github.com/MockbaTheBorg/RunCPM.git)
 
+#### Addendum
 
-
+- serial printing doesnẗ work on DEBIAN sid via cups, use lpd or this hack until I implemented it directly:
+~~~
+socat TCP-LISTEN:9100 GOPEN:/dev/erika/erika
+~~~
